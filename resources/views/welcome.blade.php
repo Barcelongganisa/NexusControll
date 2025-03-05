@@ -124,7 +124,7 @@
 
     <!-- About Section -->
 <section id="about" class="parallax-section">
-    <div class="container text-white text-center">
+    <div class="about-container text-white text-center">
         <h2 class="fw-bold">About Us</h2>
         <p>Learn more about our mission to provide efficient PC monitoring.</p>
     </div>
@@ -193,9 +193,57 @@
     <!-- Contact Section -->
     <section id="contact" class="section">
         <div class="container">
-            <h2 class="fw-bold">Contact Us</h2>
-            <p>Get in touch with our team for support and inquiries.</p>
+            <!-- <h2 class="fw-bold">Contact Us</h2>
+            <p>Get in touch with our team for support and inquiries.</p> -->
+            <div class="contact-container">
+            <div class="contact-info">
+    <h2>Contact Information</h2>
+    <p>Reach Out Anytime – We’re Ready to Assist!</p>
+    <div>
+        <img src="/images/phone.png" alt="Phone" width="18">
+        092544358435
+    </div>
+    <div>
+        <img src="/images/email.png" alt="Email" width="18">
+        demo@gmail.com
+    </div>
+    <div>
+        <img src="/images/location.png" alt="Location" width="18">
+        132 Dartmouth Street Boston, MA 02156
+    </div>
+</div>
+        <div class="divider"></div> <!-- Thin Black Divider -->
+
+        <div class="contact-form">
+            <div class="input-group">
+                <div>
+                    <label>First Name</label>
+                    <input type="text" placeholder="Enter your first name">
+                </div>
+                <div>
+                    <label>Last Name</label>
+                    <input type="text" placeholder="Enter your last name">
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <div>
+                    <label>Email</label>
+                    <input type="email" placeholder="Enter your email">
+                </div>
+                <div>
+                    <label>Phone Number</label>
+                    <input type="tel" placeholder="Enter your phone number">
+                </div>
+            </div>
+            
+            <label>Message</label>
+            <textarea placeholder="Write your message.."></textarea>
+
+            <button class="send-btn">Send Message</button>
         </div>
+    </div>
+        </div> 
     </section>
 
 <footer class="glass-container">
