@@ -58,16 +58,25 @@
     </div>
 
     <!-- Modal Popup for Monitoring-->
-    <div id="pcModal" class="modal">
+        <div id="pcModal" class="modal">    
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <h2 id="pcTitle">PC Name: </h2>
-
             <img id="pcImage" src="" alt="PC Image" class="modal-img">
-
             <div class="modal-options">
                 <button id="chatToggle"><i class="fas fa-comment"></i></button>
             </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
+    <script>
+        const socket = io("http://192.168.1.17:3000");
+
+        socket.on("updateScreen", (data) => {
+            document.getElementById("pcImage").src = data; // Update modal image
+        });
+    </script>
 
             <!-- Chat Box (Initially Hidden) -->
             <div id="chatModal" class="chat-modal" style="display: none;">

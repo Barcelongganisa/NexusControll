@@ -17,6 +17,10 @@
     },
     "dependencies": {
         "@popperjs/core": "^2.11.8",
-        "bootstrap": "^5.3.3"
+        "bootstrap": "^5.3.3",
+        "express": "^4.21.2",
+        "html2canvas": "^1.4.1",
+        "socket.io": "^4.8.1",
+        "ws": "^8.18.1"
     }
 }
