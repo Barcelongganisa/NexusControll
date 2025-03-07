@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PCController;
 
 
 /*
@@ -15,6 +16,8 @@ use App\Http\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::post('/send-command', [PCController::class, 'sendCommand']);
 
 Route::get('/', function () {
     return view('welcome');

@@ -18,9 +18,28 @@
     "dependencies": {
         "@popperjs/core": "^2.11.8",
         "bootstrap": "^5.3.3",
+        "cors": "^2.8.5",
         "express": "^4.21.2",
         "html2canvas": "^1.4.1",
         "socket.io": "^4.8.1",
         "ws": "^8.18.1"
-    }
+    },
+    "name": "nexuscontroll",
+    "version": "1.0.0",
+    "description": "<p align=\"center\"><a href=\"https://laravel.com\" target=\"_blank\"><img src=\"https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg\" width=\"400\" alt=\"Laravel Logo\"></a></p>",
+    "main": "postcss.config.js",
+    "directories": {
+        "test": "tests"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Barcelongganisa/NexusControll.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Barcelongganisa/NexusControll/issues"
+    },
+    "homepage": "https://github.com/Barcelongganisa/NexusControll#readme"
 }
