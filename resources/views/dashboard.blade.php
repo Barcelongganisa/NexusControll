@@ -58,16 +58,25 @@
     </div>
 
     <!-- Modal Popup for Monitoring-->
-    <div id="pcModal" class="modal">
+        <div id="pcModal" class="modal">    
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <h2 id="pcTitle">PC Name: </h2>
-
             <img id="pcImage" src="" alt="PC Image" class="modal-img">
-
             <div class="modal-options">
                 <button id="chatToggle"><i class="fas fa-comment"></i></button>
             </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
+    <script>
+        const socket = io("http://192.168.1.17:3000");
+
+        socket.on("updateScreen", (data) => {
+            document.getElementById("pcImage").src = data; // Update modal image
+        });
+    </script>
 
             <!-- Chat Box (Initially Hidden) -->
             <div id="chatModal" class="chat-modal" style="display: none;">
@@ -86,10 +95,10 @@
         </div>
     </div>
 
-    <!-- Control Section -->
+<!-- Control Section -->
 <div class="control-container max-w-7xl mx-auto sm:px-6 lg:px-8 mt-10" id="control-section">
     <h2 class="text-xl font-semibold mb-4">Controls</h2>
-        <button id="selectAll"><i class="fa-solid fa-check"></i></button>
+    <button id="selectAll"><i class="fa-solid fa-check"></i></button>
 
     <div class="pc-grid">
         @foreach(range(1, 10) as $i)
@@ -99,10 +108,10 @@
                 <p>PC Name: PC {{ $i }}</p>
                 <p>Status: Online</p>
             </div>
-            <div class="pc-controls" style="none">
+            <div class="pc-controls">
                 <button class="shutdown" title="Shutdown"><i class="fas fa-power-off"></i></button>
                 <button class="restart" title="Restart"><i class="fas fa-sync-alt"></i></button>
-                <button class="startup" title="Startup"><i class="fas fa-play"></i></button>
+                <button class="lock" title="Lock"><i class="fas fa-lock"></i></button>
                 <button class="file-transfer" title="File Transfer"><i class="fas fa-file-upload"></i></button>
                 <button class="adv-opt" title="Advanced Options"><i class="fas fa-toolbox"></i></button>
             </div>
@@ -110,6 +119,53 @@
         @endforeach
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const ws = new WebSocket("ws://192.168.1.17:8080");
+
+        ws.onopen = () => console.log("✅ Connected to WebSocket server");
+        ws.onclose = () => console.log("🔌 WebSocket disconnected");
+        ws.onerror = (error) => console.error("❌ WebSocket error:", error);
+
+        function sendCommand(pcId, command) {
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ pc_id: pcId, command: command }));
+                console.log(`📩 Sent command "${command}" to PC ${pcId}`);
+            } else {
+                console.warn("⚠️ WebSocket not connected!");
+            }
+        }
+
+        // Check if "selectAll" button exists before adding an event listener
+        const selectAllBtn = document.getElementById("selectAll");
+        if (selectAllBtn) {
+            selectAllBtn.addEventListener("click", () => {
+                document.querySelectorAll(".pc-item").forEach((pc, index) => {
+                    const pcId = index + 1;
+                    sendCommand(pcId, "shutdown"); // Change this if needed
+                });
+            });
+        } else {
+            console.error("❌ selectAll button not found!");
+        }
+
+        document.querySelectorAll(".pc-item").forEach((pc, index) => {
+            const pcId = index + 1;
+
+            // Check if elements exist before attaching event listeners
+            pc.querySelector(".shutdown")?.addEventListener("click", () => sendCommand(pcId, "shutdown"));
+            pc.querySelector(".restart")?.addEventListener("click", () => sendCommand(pcId, "restart"));
+            pc.querySelector(".lock")?.addEventListener("click", () => sendCommand(pcId, "lock"));
+            pc.querySelector(".file-transfer")?.addEventListener("click", () => sendCommand(pcId, "file-transfer"));
+            pc.querySelector(".adv-opt")?.addEventListener("click", () => sendCommand(pcId, "adv-opt"));
+        });
+    });
+</script>
+
+
+
+
 
 <!-- Small Modal for Advanced Options -->
 <div class="modal fade" id="advOptionsModal" tabindex="-1" aria-labelledby="advOptionsLabel" aria-hidden="true">
