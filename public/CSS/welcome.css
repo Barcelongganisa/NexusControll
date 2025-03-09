@@ -636,11 +636,10 @@ body {
   transform: translateY(0) !important;
 }
 
-<<<<<<< Updated upstream
+
 /* Contact Section */
 #contact {
   background-image: url('/images/contact.jpg');
-=======
 /* LOGIN MODAL */
 .modal-backdrop {
     background-color: rgba(0, 0, 0, 0.5) !important; /* Adjust transparency */
@@ -649,7 +648,10 @@ body {
 
 .form-check{
   padding-left: 1.7em !important;
->>>>>>> Stashed changes
+}
+
+.form-check{
+  padding-left: 1.7em !important;
 }
 
 #contact .container{
@@ -782,7 +784,7 @@ body {
 
 .send-btn:hover {
   background: rgb(160, 160, 160);
-}
+}}
 /* footer */
 .glass-container{
     background-image: url('/images/computer1.jpg');
