@@ -435,12 +435,3 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // ito yung sa controls pag nag n notif 
 
-
-<<<<<<< HEAD
-
-
-
-=======
-=======
->>>>>>> Stashed changes
->>>>>>> b557a8d52e0bd39767275021f8f392641d78a27d
