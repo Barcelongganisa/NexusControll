@@ -66,6 +66,3 @@ document.addEventListener("scroll", function () {
         teamSection.classList.add("show");
     }
 });
-
-
-

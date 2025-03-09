@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexusControl Dashboard</title>
+    <title>NexusControl</title>
 
     <!-- Bootstrap CSS via Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -137,56 +137,78 @@
         <div class="row">
             <div class="col-md-4 person">
                 <div class="container-inner">
-                    <img src="/images/COLENDRES.jpg" class="circle" alt="Sherwin">
-                    <h3>Sherwin Colendres</h3>
-                    <p>Main Programmer</p>
+                    <img src="/images/COLENDRES.png" class="circle" alt="Sherwin">
+                    <img src="/images/background-circle.jpg" class="background-circle" alt="Background">
+                    <div class="text-container">
+                        <h3>Sherwin Colendres</h3>
+                        <p>Main Programmer</p>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4 person">
                 <div class="container-inner">
-                    <img src="/images/BARCELON.jpg" class="circle" alt="Justine">
-                    <h3>Justine Benedict Barcelon</h3>
-                    <p>Frontend Developer</p>
+                    <img src="/images/BARCELON.png" class="circle" alt="Justine">
+                    <img src="/images/background-circle.jpg" class="background-circle" alt="Background">
+                    <div class="text-container">
+                        <h3>Justine Barcelon</h3>
+                        <p>Frontend Developer</p>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4 person">
                 <div class="container-inner">
-                    <img src="/images/VERGARA.jpg" class="circle" alt="Kurt">
-                    <h3>Kurt Vergara</h3>
-                    <p>Backend Developer</p>
+                    <img src="/images/VERGARA.png" class="circle" alt="Kurt">
+                    <img src="/images/background-circle.jpg" class="background-circle" alt="Background">
+                    <div class="text-container">
+                        <h3>Kurt Vergara</h3>
+                        <p>Backend Developer</p>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4 person">
                 <div class="container-inner">
-                    <img src="/images/SIWA.jpg" class="circle" alt="Jason">
-                    <h3>Jason Siwa</h3>
-                    <p>Programmer</p>
+                    <img src="/images/SIWA.png" class="circle" alt="Jason">
+                    <img src="/images/background-circle.jpg" class="background-circle" alt="Background">
+                    <div class="text-container">
+                        <h3>Jason Siwa</h3>
+                        <p>Programmer</p>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4 person">
                 <div class="container-inner">
-                    <img src="/images/RAMIREZ.jpg" class="circle" alt="Clarence">
-                    <h3>Clarence Ramirez </h3>
-                    <p>UX</p>
+                    <img src="/images/RAMIREZ.png" class="circle" alt="Clarence">
+                    <img src="/images/background-circle.jpg" class="background-circle" alt="Background">
+                    <div class="text-container">
+                        <h3>Clarence Ramirez</h3>
+                        <p>UX</p>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4 person">
                 <div class="container-inner">
-                    <img src="/images/PUNLA.jpg" class="circle" alt="Joyce">
-                    <h3>Joyce Ann Punla</h3>
-                    <p>Documentator/UX</p>
+                    <img src="/images/PUNLA.png" class="circle" alt="Joyce">
+                    <img src="/images/background-circle.jpg" class="background-circle" alt="Background">
+                    <div class="text-container">
+                        <h3>Joyce Ann Punla</h3>
+                        <p>Documentation/UX & CX</p>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4 person">
                 <div class="container-inner">
-                    <img src="/images/GAB.jpg" class="circle" alt="Gab">
-                    <h3>Gabriel Domingo</h3>
-                    <p>Member</p>
+                    <img src="/images/GAB.png" class="circle" alt="Gab">
+                    <img src="/images/background-circle.jpg" class="background-circle" alt="Background">
+                    <div class="text-container">
+                        <h3>Gabriel Domingo</h3>
+                        <p>Member</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
 
 
 

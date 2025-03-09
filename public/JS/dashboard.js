@@ -121,6 +121,35 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const switchBtn = document.getElementById("switchBtn");
+    const body = document.body;
+    const icon = switchBtn.querySelector("i"); // Get the moon/sun icon
+
+    // Check local storage for saved theme
+    if (localStorage.getItem("theme") === "dark") {
+        body.setAttribute("data-theme", "dark");
+        icon.classList.remove("fa-moon");
+        icon.classList.add("fa-sun");
+    }
+
+    // Theme switch button click event
+    switchBtn.addEventListener("click", function () {
+        if (body.getAttribute("data-theme") === "dark") {
+            body.setAttribute("data-theme", "light");
+            localStorage.setItem("theme", "light");
+            icon.classList.remove("fa-sun");
+            icon.classList.add("fa-moon");
+        } else {
+            body.setAttribute("data-theme", "dark");
+            localStorage.setItem("theme", "dark");
+            icon.classList.remove("fa-moon");
+            icon.classList.add("fa-sun");
+        }
+    });
+});
+
+
 
 // PANG OPEN NG SELECTION SA MGA PC
 document.addEventListener("DOMContentLoaded", function () {
@@ -407,6 +436,11 @@ document.addEventListener("DOMContentLoaded", function () {
 // ito yung sa controls pag nag n notif 
 
 
+<<<<<<< HEAD
 
 
 
+=======
+=======
+>>>>>>> Stashed changes
+>>>>>>> b557a8d52e0bd39767275021f8f392641d78a27d

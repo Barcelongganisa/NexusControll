@@ -1,3 +1,4 @@
+<title>NexusControl Admin</title>
 <x-app-layout>
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -89,7 +90,7 @@
         document.getElementById("pcImage").src = imageSrc || "{{ asset('images/pc.png') }}";
         document.getElementById("pcModal").style.display = "block";
     }
-
+    
     function closeModal() {
         selectedPcId = null;
         document.getElementById("pcModal").style.display = "none";
