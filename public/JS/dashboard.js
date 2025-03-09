@@ -433,7 +433,3 @@ document.addEventListener("DOMContentLoaded", function () {
     observer.observe(document.querySelector(".pc-grid"), { childList: true });
 });
 
-// ito yung sa controls pag nag n notif 
-
-
-

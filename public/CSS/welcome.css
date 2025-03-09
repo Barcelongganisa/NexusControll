@@ -636,6 +636,15 @@ body {
   transform: translateY(0) !important;
 }
 
+/* LOGIN MODAL */
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5) !important; /* Adjust transparency */
+    backdrop-filter: blur(5px); /* Optional: Add blur effect */
+}
+
+.form-check{
+  padding-left: 1.7em !important;
+}
 
 /* Contact Section */
 #contact {
