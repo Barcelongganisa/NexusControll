@@ -13,7 +13,6 @@ body {
     height: 100vh;
     width: 100vw;
     background-color: whitesmoke;
-    /* background-image: url('/images/computer3.jpg'); Ensure correct path */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -23,12 +22,16 @@ body {
 
 /* for nightmode */
 body.light{
-  background-color: white;
-  color: black;
+    background-color: white;
+    background-image: url('/images/light-background.jpg');
+    transition: background 0.3s ease-in-out, transform 0.1s ease-in-out;
+    color: black;
 }
 
 body.dark{
-  background-color:black;
+    background-color:black;
+    background-image: url('/images/computer3.jpg');
+    transition: background 0.3s ease-in-out, transform 0.1s ease-in-out;
 }
 
 body.dark h2{
@@ -109,13 +112,32 @@ nav {
     left: 25px;
     width: 350px; /* Sidebar width */
     height: 95vh; /* Full height */
-    background-color: #333;
+    background: var(--nav-bg-light);
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    border: 1px solid var(--nav-border-light);
     padding-top: 20px;
-    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     transition: transform 0.3s ease-in-out;
     border-radius: 10px;
 }
+
+
+:root {
+    --nav-bg-light: rgba(51, 51, 51, 0.692); 
+    --nav-bg-dark: rgba(56, 56, 56, 0.473); 
+    --nav-border-light: rgba(255, 255, 255, 0.068);
+    --nav-border-dark: rgba(0, 0, 0, 0.2);
+}
+
+
+/* Dark Mode */
+[data-theme="dark"] nav {
+    background: var(--nav-bg-dark);
+    border: 1px solid var(--nav-border-dark);
+}
+
 
 /* Move nav off-screen when hidden */
 .nav-hidden {
@@ -157,6 +179,7 @@ ul{
     position: relative;
     top: 4vh;
     padding-left: 0;
+    padding-top: 10px;
 }
 
 
