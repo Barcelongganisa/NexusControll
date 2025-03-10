@@ -56,7 +56,8 @@
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
         <h2 id="pcTitle">PC Name: </h2>
-        <img id="pcImage" src="" alt="PC Image" class="modal-img">
+        <img id="pcImage" src="" alt="PC Image" class="modal-img" onclick="sendClick(event)">
+
         <div class="modal-options">
             <button id="chatToggle" onclick="toggleChatModal()"><i class="fas fa-comment"></i></button>
         </div>
@@ -78,8 +79,9 @@
     </div>
 </div>
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
-<script>
+{{-- <script>
     // Keep track of the currently selected PC
     let selectedPcId = null;
     
@@ -162,7 +164,7 @@
         
         try {
             // Connect to Socket.IO server
-            const socket = io("http://192.168.1.7:3000");
+            const socket = io("http://192.168.1.15:3000");
             
             socket.on("connect", () => {
                 console.log("✅ Connected to Socket.IO server");
@@ -247,7 +249,9 @@
             connectedPcsContainer.innerHTML = '<p class="text-center p-4 text-red-500">Error initializing connection</p>';
         }
     });
-</script>
+</script> --}}
+
+
 <!-- Control Section -->
 <div class="control-container max-w-7xl mx-auto sm:px-6 lg:px-8 mt-10" id="control-section">
     <h2 class="text-xl font-semibold mb-4">Controls</h2>
@@ -273,9 +277,10 @@
     </div>
 </div>
 
+
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const ws = new WebSocket("ws://192.168.1.7:8080");
+        const ws = new WebSocket("ws://192.168.1.15:8080");
 
         ws.onopen = () => console.log("✅ Connected to WebSocket server");
         ws.onclose = () => console.log("🔌 WebSocket disconnected");
@@ -318,8 +323,6 @@
 
 
 
-
-
 <!-- Small Modal for Advanced Options -->
 <div class="modal fade" id="advOptionsModal" tabindex="-1" aria-labelledby="advOptionsLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm"> <!-- Small modal -->
@@ -335,6 +338,8 @@
         </div>
     </div>
 </div>
+
+
 
 <!-- Logs Section -->
 <div class="logs-container max-w-7xl mx-auto sm:px-6 lg:px-8 mt-10" id="logs-section">

@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (screenWidth >= 769) {
             nav.classList.remove("nav-hidden");
             nav.classList.add("nav-open");
-            menuToggle.classList.remove("menuToggle-move");
+            menuToggleopen.classList.remove("menuToggle-move");
             topNavbar.classList.remove("navtopbar-move"); 
         } else {
             nav.classList.add("nav-hidden");
@@ -306,20 +306,196 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // JS PARA SA FADE-IN NG MODAL SA MONITORING
 
+   // Keep track of the currently selected PC
+   let selectedPcId = null;
+    
 
-function openModal(pcName, imgSrc) {
+
+   // Modal functions
+   function openModal(pcId, pcName, imageSrc) {
     const modal = document.getElementById("pcModal");
-
-    // Set content
-    document.getElementById("pcTitle").innerText = "PC Name: " + pcName;
-    document.getElementById("pcImage").src = imgSrc;
-
-    // Reset visibility before applying the fade-in effect
-    modal.style.visibility = "visible";
+       selectedPcId = pcId;
+       document.getElementById("pcTitle").textContent = "PC Name: " + pcName;
+       document.getElementById("pcImage").src = imageSrc || "{{ asset('/images/pc.png') }}";
+       document.getElementById("pcModal").style.display = "block";
+       modal.style.visibility = "visible";
 
     // Show modal with fade-in effect
     modal.classList.add("show");
-}
+   }
+   
+   function closeModal() {
+       selectedPcId = null;
+       document.getElementById("pcModal").style.display = "none";
+   }
+
+   function toggleChatModal() {
+       const chatModal = document.getElementById("chatModal");
+       chatModal.style.display = chatModal.style.display === "none" ? "block" : "none";
+   }
+
+   function closeChatModal() {
+       document.getElementById("chatModal").style.display = "none";
+   }
+
+   function sendMessage(event) {
+       if (event.key === "Enter") {
+           const input = document.getElementById("chatInput");
+           const message = input.value.trim();
+           
+           if (message) {
+               const messagesDiv = document.getElementById("chatMessages");
+               const messageElement = document.createElement("div");
+               messageElement.className = "message sent";
+               messageElement.textContent = message;
+               messagesDiv.appendChild(messageElement);
+               
+               input.value = "";
+               messagesDiv.scrollTop = messagesDiv.scrollHeight;
+           }
+       }
+   }
+
+   function sendMessageBtn() {
+       const input = document.getElementById("chatInput");
+       const message = input.value.trim();
+       
+       if (message) {
+           const messagesDiv = document.getElementById("chatMessages");
+           const messageElement = document.createElement("div");
+           messageElement.className = "message sent";
+           messageElement.textContent = message;
+           messagesDiv.appendChild(messageElement);
+           
+           input.value = "";
+           messagesDiv.scrollTop = messagesDiv.scrollHeight;
+       }
+   }
+
+   document.addEventListener("DOMContentLoaded", () => {
+       const connectedPcsContainer = document.getElementById("connected-pcs");
+       
+       // Function to render a PC item
+       function renderPcItem(pc) {
+           const pcDiv = document.createElement("div");
+           pcDiv.className = "pc-item";
+           pcDiv.setAttribute("data-pc-id", pc.id);
+           pcDiv.onclick = () => openModal(pc.id, pc.name, pc.imageUrl);
+           
+           pcDiv.innerHTML = `
+               <img src="{{ asset('images/pc.png') }}" alt="${pc.name}">
+               <div class="pc-info">
+                   <p>PC Name: ${pc.name}</p>
+                   <p>Status: ${pc.status}</p>
+               </div>
+           `;
+           
+           return pcDiv;
+       }
+       
+       try {
+           // Connect to Socket.IO server
+           const socket = io("http://192.168.1.15:3000");
+           
+           socket.on("connect", () => {
+               console.log("✅ Connected to Socket.IO server");
+           });
+           
+           // Initial connected PCs load
+           socket.on("initialConnectedPCs", (connectedPCs) => {
+               // Clear loading message
+               connectedPcsContainer.innerHTML = '';
+               
+               // If no PCs are connected, show a message
+               if (!connectedPCs || connectedPCs.length === 0) {
+                   connectedPcsContainer.innerHTML = '<p class="text-center p-4">No PCs currently connected</p>';
+                   return;
+               }
+               
+               // Add each connected PC to the grid
+               connectedPCs.forEach(pc => {
+                   connectedPcsContainer.appendChild(renderPcItem(pc));
+               });
+           });
+           
+           // PC connection event
+           socket.on("pcConnected", (pc) => {
+               // Remove "no PCs" message if it exists
+               const noItemsMsg = connectedPcsContainer.querySelector("p.text-center");
+               if (noItemsMsg) {
+                   connectedPcsContainer.innerHTML = '';
+               }
+               
+               // Check if we already have this PC
+               const existingPc = document.querySelector(`.pc-item[data-pc-id="${pc.id}"]`);
+               if (!existingPc) {
+                   connectedPcsContainer.appendChild(renderPcItem(pc));
+               }
+           });
+           
+           // PC disconnection event
+           socket.on("pcDisconnected", (pcId) => {
+               const pcElement = document.querySelector(`.pc-item[data-pc-id="${pcId}"]`);
+               if (pcElement) {
+                   pcElement.remove();
+                   
+                   // If no PCs are left, show the message
+                   if (connectedPcsContainer.children.length === 0) {
+                       connectedPcsContainer.innerHTML = '<p class="text-center p-4">No PCs currently connected</p>';
+                   }
+                   
+                   // If the modal for this PC is open, close it
+                   if (selectedPcId === pcId) {
+                       closeModal();
+                   }
+               }
+           });
+           
+           // Update PC status
+           socket.on("pcStatusUpdate", (pc) => {
+               const pcElement = document.querySelector(`.pc-item[data-pc-id="${pc.id}"]`);
+               if (pcElement) {
+                   const statusElement = pcElement.querySelector('.pc-info p:nth-child(2)');
+                   if (statusElement) {
+                       statusElement.textContent = `Status: ${pc.status}`;
+                   }
+               }
+           });
+           
+           // Handle screen updates for the currently open modal
+           socket.on("updateScreen", (data) => {
+               // Only update the image if this is the selected PC or no PC ID was provided
+               if (!selectedPcId || data.pcId === selectedPcId) {
+                   document.getElementById("pcImage").src = data.imageUrl;
+               }
+           });
+           
+           socket.on("connect_error", (error) => {
+               console.error("❌ Socket.IO connection error:", error);
+               connectedPcsContainer.innerHTML = '<p class="text-center p-4 text-red-500">Error connecting to server</p>';
+           });
+           
+       } catch (error) {
+           console.error("❌ Error initializing Socket.IO:", error);
+           connectedPcsContainer.innerHTML = '<p class="text-center p-4 text-red-500">Error initializing connection</p>';
+       }
+   });
+
+   
+
+//    function openModal(pcName, imgSrc) {
+//     const modal = document.getElementById("pcModal");
+
+//     // Set content
+//     document.getElementById("pcTitle").innerText = "PC Name: " + pcName;
+//     document.getElementById("pcImage").src = imgSrc;
+
+//     // Reset visibility before applying the fade-in effect
+//     modal.style.visibility = "visible";
+
+//     // Show modal with fade-in effect
+//     modal.classList.add("show");
+// }
 
 function closeModal() {
     const modal = document.getElementById("pcModal");
