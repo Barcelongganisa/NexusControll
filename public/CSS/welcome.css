@@ -54,24 +54,25 @@ html, body {
 /* 12 */
 .homeBtn{
   position: relative;
+  font-size: 1.5em;
   right: 20px;
   bottom: 20px;
   border:none;
   box-shadow: none;
-  width: 130px;
-  height: 40px;
-  line-height: 42px;
+  width: 250px;
+  height: 100px;
+  line-height: 55px;
   -webkit-perspective: 230px;
   perspective: 230px;
   color: black !important;
 }
 .homeBtn span {
-  background: rgb(0,172,238);
-background: white;
+  background: white;
   display: block;
   position: absolute;
-  width: 130px;
-  height: 40px;
+  width: 230px;
+  height: 60px;
+  line-height: 55px;
   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
    7px 7px 20px 0px rgba(0,0,0,.1),
    4px 4px 5px 0px rgba(0,0,0,.1);
@@ -90,7 +91,7 @@ background: white;
   transform: rotateX(90deg);
   -webkit-transform-origin: 50% 50% -20px;
   -moz-transform-origin: 50% 50% -20px;
-  transform-origin: 50% 50% -20px;
+  transform-origin: 50% 50% -30px;
 }
 .homeBtn span:nth-child(2) {
   -webkit-transform: rotateX(0deg);
@@ -98,7 +99,7 @@ background: white;
   transform: rotateX(0deg);
   -webkit-transform-origin: 50% 50% -20px;
   -moz-transform-origin: 50% 50% -20px;
-  transform-origin: 50% 50% -20px;
+  transform-origin: 50% 50% -30px;
 }
 .homeBtn:hover span:nth-child(1) {
   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
@@ -144,6 +145,7 @@ background: white;
 
 .welcome p{
   font-size: 2em;
+  padding-bottom: 10px;  
 }
 
 .welcome {
@@ -250,14 +252,6 @@ background: white;
 /* Assign Background Images to Sections */
 #features{
   width: 100vw;
-}
-
-#about {
-    background-image: url('/images/client-server.jpg');
-}
-
-#contact {
-    background-image: url('/images/contact.jpg');
 }
 
 /* Responsive Navbar */
@@ -449,35 +443,40 @@ body {
 
 /* About Section */
 
-#about h2, #contact h2{
+#about h2{
   font-size: 6em !important;
 }
 
-#about p, #contact p{
+#about p{
   font-size: 2em;
 }
 
 /* Parallax About Section */
 .parallax-section {
-    background-image: url('background.jpg'); /* Replace with actual image */
-    height: 100vh;
-    width: 100vw;
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    text-align: center;
+  position: relative;
+  background-image: url('/images/client-server.jpg');
+  height: 100vh;
+  width: 100vw;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  z-index: 1;
 }
 
-/* About Section */
-.parallax-section {
-  background: url('/images/about-bg.jpg') center/cover fixed;
-  padding: 80px 20px;
-  text-align: center;
-  color: white;
+.parallax-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Adjust the darkness level */
+  z-index: -1; /* Keeps it behind the content */
 }
 
 .parallax-section h2 {
@@ -637,19 +636,8 @@ body {
   transform: translateY(0) !important;
 }
 
-/* LOGIN MODAL */
-.modal-backdrop {
-    background-color: rgba(0, 0, 0, 0.5) !important; /* Adjust transparency */
-    backdrop-filter: blur(5px); /* Optional: Add blur effect */
-}
-
-.form-check{
-  padding-left: 1.7em !important;
-}
 
 /* footer */
-
-/* Footer Glassmorphism */
 .glass-container{
     background-image: url('/images/computer1.jpg');
 }
@@ -659,8 +647,10 @@ body {
     backdrop-filter: blur(15px); /* Glass effect */
     -webkit-backdrop-filter: blur(15px);
     border-top: 1px solid rgba(255, 255, 255, 0.2); /* Soft border */
-    color: white;
+    color: rgb(0, 0, 0);
     position: relative;
+    font-size: 24px;
+    font-style: bold;
     bottom: 0;
     left: 0;
     width: 100vw;
