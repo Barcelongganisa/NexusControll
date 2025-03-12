@@ -120,20 +120,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 icon.classList.add('fa-moon');    // Add moon icon
             }
         });
-
+// palit ng theme
 document.addEventListener("DOMContentLoaded", function () {
     const switchBtn = document.getElementById("switchBtn");
     const body = document.body;
-    const icon = switchBtn.querySelector("i"); // Get the moon/sun icon
+    const icon = switchBtn.querySelector("i");
 
-    // Check local storage for saved theme
+    // Apply the saved theme from local storage
     if (localStorage.getItem("theme") === "dark") {
         body.setAttribute("data-theme", "dark");
         icon.classList.remove("fa-moon");
         icon.classList.add("fa-sun");
+    } else {
+        body.setAttribute("data-theme", "light");
+        icon.classList.remove("fa-sun");
+        icon.classList.add("fa-moon");
     }
 
-    // Theme switch button click event
+    // Theme toggle button
     switchBtn.addEventListener("click", function () {
         if (body.getAttribute("data-theme") === "dark") {
             body.setAttribute("data-theme", "light");
@@ -148,6 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
 
 
 

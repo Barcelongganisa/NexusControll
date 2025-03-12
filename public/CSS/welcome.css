@@ -3,7 +3,7 @@ html, body {
     margin: 0;
     padding: 0;
     scroll-behavior: smooth;
-    overflow-x: hidden;
+    overflow-x: hidden !important;
 }
 
 /* Fullscreen Background Image */
@@ -145,7 +145,7 @@ html, body {
 
 .welcome p{
   font-size: 2em;
-  padding-bottom: 10px;  
+  padding-bottom: 10px;
 }
 
 .welcome {
@@ -249,10 +249,6 @@ html, body {
     z-index: 2;
 }
 
-/* Assign Background Images to Sections */
-#features{
-  width: 100vw;
-}
 
 /* Responsive Navbar */
 @media (max-width: 768px) {
@@ -266,6 +262,75 @@ html, body {
         flex-direction: column;
         text-align: center;
     }
+}
+
+br {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#features{
+  width: 100vw;
+}
+
+/* General styling for hidden content (modals) */
+.hidden-content {
+    visibility: hidden;
+    opacity: 0;
+    position: fixed;
+    top: 150px;
+    height: 70%;
+    left: 600px;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: rgba(26, 25, 25, 0.452);
+    backdrop-filter: blur(15px);
+    padding: 30px;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+    z-index: 1001; 
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    align-content: center;
+    justify-items: center;
+  }
+
+/* Show modal */
+.hidden-content.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.blur {
+    filter: blur(5px); /* Reduced intensity to avoid over-blurring */
+    pointer-events: none; /* Prevents interactions with blurred background */
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.3); /* Darker to reduce white glow */
+    transition: all 0.3s ease-in-out;
+}
+
+
+
+/* Close button styling */
+.close-btn {
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.5);
+    transform: scale(1.1);
 }
 
 
@@ -443,7 +508,11 @@ body {
 
 /* About Section */
 
-#about h2{
+#about{
+  background-image: url('/images/client-server.jpg');
+}
+
+#about h2 {
   font-size: 6em !important;
 }
 
@@ -454,7 +523,6 @@ body {
 /* Parallax About Section */
 .parallax-section {
   position: relative;
-  background-image: url('/images/client-server.jpg');
   height: 100vh;
   width: 100vw;
   background-attachment: fixed;
@@ -477,6 +545,13 @@ body {
   height: 100%;
   background: rgba(0, 0, 0, 0.5); /* Adjust the darkness level */
   z-index: -1; /* Keeps it behind the content */
+}
+/* About Section */
+.parallax-section {
+  background: url('/images/about-bg.jpg') center/cover fixed;
+  padding: 80px 20px;
+  text-align: center;
+  color: white;
 }
 
 .parallax-section h2 {
@@ -634,10 +709,257 @@ body {
 .show {
   opacity: 1 !important;
   transform: translateY(0) !important;
+  background: transparent;
 }
 
 
-/* footer */
+
+/* Contact Section */
+#contact {
+    background-image: url('/images/male-call.jpeg');
+    background-size: cover; /* Ensures the image covers the entire section */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+}
+
+
+#contact .container{
+  position: relative;
+  justify-items: center;
+}
+.contact-container {
+  display: flex;
+  width: 1000px;
+  height: 600px;
+  background: rgba(255, 255, 255, 0.2); /* Transparent white */
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Glass-like border */
+  backdrop-filter: blur(15px); /* Blur effect */
+  -webkit-backdrop-filter: blur(15px); /* For Safari */
+}
+
+.contact-info {
+  padding: 30px;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: solid 5px rgb(168, 168, 168) ;
+}
+
+.contact-info h2 {
+  margin-bottom: 10px;
+  font-size: 3em;
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+}
+
+.contact-info p {
+  font-size: 1.3em;
+  color: rgb(226, 226, 226);
+  margin-bottom: 20px;
+}
+
+.contact-info div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  font-size: 24px;
+  color: rgb(255, 255, 255);
+}
+
+.contact-info div img {
+  width: 40px;
+  margin-right: 10px;
+  color: rgb(255, 255, 255);
+}
+.contact-info img {
+  width: 35px;
+  height: auto;
+}
+
+/* Thin Black Divider */
+.divider {
+  width: 4px;
+  min-height: 75%;
+  position: absolute;
+  left: 565px;
+  top: 102px;
+}
+
+.contact-form {
+  flex: 1;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.input-group {
+  display: flex;
+  gap: 65px;
+  /* justify-content: space-between; */
+}
+
+.contact-form label {
+  font-size: 24px;
+  font-weight: 500;
+  text-align: left;
+  display: block;
+  width: 100%;
+  display: block;
+  color: rgb(255, 255, 255);
+}
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid rgb(255, 255, 255);
+  outline: none;
+  padding: 10px;
+  font-size: 1em; /* Responsive font size */
+  margin-bottom: 15px;
+  background-color: transparent;
+  color: white !important;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7); /* Slightly improved contrast */
+  font-size: 0.9em; /* Keep placeholder text subtle */
+}
+
+.contact-form textarea {
+  resize: none;
+  height: 100px; /* Slightly larger for better usability */
+}
+
+.send-btn {
+  background: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  padding: 14px;
+  border: none;
+  border-radius: 8px; /* Softer edges */
+  cursor: pointer;
+  transition: 0.3s;
+  width: 80%;
+  font-size: 1.1em; /* Make the button text slightly larger */
+  align-self: center;
+}
+
+.send-btn:hover {
+  background: rgb(160, 160, 160);
+}
+
+/* login modal CSS */
+.modal-content {
+    background: rgba(255, 255, 255, 0.1); /* Transparent white */
+    backdrop-filter: blur(10px); /* Blur effect */
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+/* Modal Header */
+.modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Modal Title */
+.modal-title {
+    color: white !important;
+    font-weight: bold;
+    font-size: 1.9em;
+}
+
+/* Modal Body */
+.modal-body {
+    color: white;
+}
+
+.modal-body label{
+    font-size: 1.2em;
+}
+
+#remember_me{
+  margin-right: 10px;
+}
+
+/* Input Fields */
+.modal-body input {
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.modal-body input::placeholder {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+
+/* Buttons */
+.btn-primary {
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Close Button */
+.btn-close {
+    filter: invert(1);
+}
+
+.g-recaptcha {
+    opacity: 0.8; 
+    filter: brightness(0.9); 
+    padding-bottom: 13px;
+    /* justify-items: center; */
+}
+/* Enlarge Modal by 15% */
+.modal-dialog {
+    transform: scale(1.15); /* Scale up by 15% */
+}
+
+/* Ensure proper centering after scaling */
+.modal.show .modal-dialog {
+    margin: auto;
+}
+
+/* Forgot Password related CSS */
+.text-center a {
+    color: rgba(255, 255, 255, 1);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.text-center{
+  color: rgba(255, 255, 255, 1) !important;
+}
+
+.text-center a:hover {
+    color: rgb(185, 185, 185);
+}
+
+#forgotPasswordModal .modal-content{
+  position: relative;
+  top: 250px;
+}
+
+
+
+/* Footer Glassmorphism */
 .glass-container{
     background-image: url('/images/computer1.jpg');
 }

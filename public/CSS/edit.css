@@ -82,6 +82,12 @@
     display: none;
 }
 
+.card-title, .text-muted{
+    justify-self: center !important;
+}
+
+/* wag gagalawin ang mga nasa */
+
 /* img container nung sa edit profile */
 body > div > main > div > div > div > div:nth-child(2) > div > div > div > section > div > form > div.mb-3.text-center > div > img{
     width: 120px;   /* Fixed width */
@@ -120,4 +126,19 @@ svg{
 #card-body{
     border: 3px solid gray;
     margin-bottom: 15px;
+    border-radius: 10px;
+    width: 40vw;
+    align-self: center;
+}
+
+.form-control{
+    width: 70%;
+}
+
+.mb-3{
+    justify-items: center !important;
+}
+
+.form-label{
+    align-items: baseline;
 }

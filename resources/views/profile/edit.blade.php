@@ -35,8 +35,8 @@
                 </div>
 
                 <!-- Profile Info, Update Password, Delete Account (Side by Side) -->
-                <div class="col-md-4">
-                    <div class="card h-100 min-vh-50 d-flex flex-column">
+                <div class="col-md-12">
+                    <div class="card h-100 min-vh-50 max-vw-50 d-flex flex-column">
                         <div class="card-body d-flex flex-column" id="card-body">
                             <div class="flex-grow-1">
                                 @include('profile.partials.update-profile-information-form')
@@ -45,9 +45,9 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-12 mt-3">
                     <div class="card h-100 min-vh-30 d-flex flex-column">
-                        <div class="card-body  d-flex flex-column" id="card-body">
+                        <div class="card-body d-flex flex-column" id="card-body">
                             <div class="flex-grow-1">
                                 @include('profile.partials.update-password-form')
                             </div>
@@ -55,21 +55,22 @@
                     </div>
                 </div>
 
-                <div class="col-md-4 d-flex flex-column">
-                    <!-- Create User Section -->
-                    <div class="card h-50 mb-3">
+                <div class="col-md-12 mt-3">
+                    <div class="card h-100">
                         <div class="card-body" id="card-body">
                             @include('profile.partials.create-user-form')
                         </div>
                     </div>
+                </div>
 
-                    <!-- Delete User Section -->
-                    <div class="card h-50">
+                <div class="col-md-12 mt-3">
+                    <div class="card h-100">
                         <div class="card-body" id="card-body">
                             @include('profile.partials.delete-user-form')
                         </div>
                     </div>
                 </div>
+
             </div> 
         </div>
     </div>

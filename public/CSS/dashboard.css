@@ -17,13 +17,13 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     transition: background 0.5s;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 /* for nightmode */
 body.light{
     background-color: white;
-    background-image: url('/images/light-background.jpg');
+    background-image: url('/images/computer2.jpg');
     transition: background 0.3s ease-in-out, transform 0.1s ease-in-out;
     color: black;
 }
@@ -55,8 +55,8 @@ body.light h2{
     transition: background 0.3s ease-in-out, transform 0.1s ease-in-out;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
-    top: -60px;
-    left: 150px;
+    top: -70px;
+    left: 200px;
 }
 
 #selectAll:hover {
@@ -123,7 +123,7 @@ nav {
     border-radius: 10px;
 }
 
-
+/* root for nav */
 :root {
     --nav-bg-light: rgba(51, 51, 51, 0.692); 
     --nav-bg-dark: rgba(56, 56, 56, 0.473); 
@@ -272,7 +272,7 @@ ul{
 }
 
 #dashCards h2{
-    font-size: 2em;
+    font-size: 3em;
     padding-bottom: 10px;
 }
 
@@ -288,28 +288,99 @@ ul{
 .dashboard-cards h3{
     font-size: 1.5em;
 }
+/* root for dashboard */
+:root {
+    --card-bg-light: rgba(51, 51, 51, 0.692);
+    --card-bg-dark: rgba(56, 56, 56, 0.473);
+    --border-light: rgba(5, 1, 1, 0.3);
+    --border-dark: rgba(255, 255, 255, 0.1);
+    --text-light: rgb(255, 255, 255);
+    --text-dark: white;
+}
 
+/* Default (Light Mode) */
 .card {
-    background: #fff;
+    background: var(--card-bg-light);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     padding: 95px;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+    border: 1px solid var(--border-light);
+    color: var(--text-light);
+    font-size: 1.5em;
 }
 
 .card:hover {
-    transform: scale(1.05); /* Slight zoom effect on hover */
+    transform: scale(1.05);
+    background: rgba(56, 56, 56, 0.673);
+    color: var(--text-light);
 }
 
+/* Alert Card */
 .alert-card {
-    background: #90c6ff;
+    background: var(--card-bg-light);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     padding: 15px;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
-    grid-column: span 3; /* Makes the alert card full width */
+    grid-column: span 3;
+    border: 1px solid var(--border-light);
+    color: var(--text-light);
+    font-size: 1.3em;
+    
+    /* 👇 Default Collapsed State */
+    max-height: 110px;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    overflow-y: scroll;
 }
+
+.alert-card:hover {
+    max-height: 320px; /* Enough space to expand */
+    padding: 20px; /* Optional smooth padding change */
+}
+
+/* Width of the scrollbar */
+::-webkit-scrollbar {
+    width: 8px; /* Change to desired width */
+}
+
+/* Track (background of the scrollbar) */
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1); /* Light transparent track */
+    border-radius: 10px;
+}
+
+/* Scrollbar handle (draggable part) */
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.4); /* Semi-transparent white */
+    border-radius: 10px; /* Rounded edges */
+}
+
+/* Hover effect on the handle */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+
+/* Dark Mode Overrides */
+[data-theme="dark"] .card,
+[data-theme="dark"] .alert-card {
+    background: var(--card-bg-dark);
+    border: 1px solid var(--border-dark);
+    color: var(--text-dark);
+}
+
+[data-theme="dark"] .card:hover {
+    background: rgba(56, 56, 56, 0.673);
+}
+
+
 
 /* MONITORING SECTION */
 
@@ -326,7 +397,7 @@ ul{
 }
 
 #monitoring-section h2{
-    font-size: 2em;
+    font-size: 3em;
 }
 
 .monitoring-container {
@@ -348,29 +419,91 @@ ul{
 #pcTitle{
     font-size: 2em;
 }
+/* root for monitor and control */
+:root {
+    /* Light Mode Variables For Pc-item */
+    --glass-bg-light: rgba(51, 51, 51, 0.692);
+    --glass-border-light: rgba(255, 255, 255, 0.3);
+    --glass-text-light: black;
+    --glass-hover-light: rgba(122, 122, 122, 0.863);
+
+    /* Dark Mode Variables for PC item */
+    --glass-bg-dark: rgba(56, 56, 56, 0.473);
+    --glass-border-dark: rgba(255, 255, 255, 0.1);
+    --glass-text-dark: white;
+    --glass-hover-dark: rgba(122, 122, 122, 0.863);
+}
+
+/* When Dark Mode is Activated */
+[data-theme="dark"] {
+    --glass-bg-light: var(--glass-bg-dark); 
+    --glass-border-light: var(--glass-border-dark);
+    --glass-text-light: var(--glass-text-dark);
+    --glass-hover-light: var(--glass-hover-dark);
+}
 
 .pc-item {
     position: relative;
-    background: #f4f4f4;
+    background: var(--glass-bg-light); /* Uses theme-based variable */
     padding: 15px;
     border-radius: 10px;
     text-align: center;
     justify-items: center;
-    transition: 0.3s;
-    position: relative;
+    transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
     cursor: pointer;
+    
+    backdrop-filter: blur(15px); /* Glassmorphism blur */
+    -webkit-backdrop-filter: blur(15px); /* Safari support */
+    border: 1px solid var(--glass-border-light); /* Subtle border */
+    color: var(--glass-text-light);
+}
+
+.pc-item:hover {
+    background: var(--glass-hover-light); /* Slight transparency increase */
+    transform: scale(1.03); /* Slight zoom on hover */
 }
 
 .pc-item img {
     width: 100%;
     max-width: 130px;
     margin-bottom: 10px;
+    filter: invert(100%);
 }
 
 .pc-info {
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
+    color: white !important;
+}
+:root {
+
+    /* 🆕 Namespaced Glass Variables (Specific to .pc-controls) */
+    --pc-controls-bg-light: rgba(255, 255, 255, 0.15);
+    --pc-controls-border-light: rgba(255, 255, 255, 0.3);
+    --pc-controls-shadow-light: rgba(0, 0, 0, 0.08);
+
+    --pc-controls-bg-dark: rgba(0, 0, 0, 0.25);
+    --pc-controls-border-dark: rgba(255, 255, 255, 0.15);
+    --pc-controls-shadow-dark: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] {
+    /* Keep existing global styles */
+    
+    /* 🆕 Apply namespaced styles for .pc-controls */
+    --pc-controls-bg: var(--pc-controls-bg-light);
+    --pc-controls-border: var(--pc-controls-border-light);
+    --pc-controls-shadow: var(--pc-controls-shadow-light);
+}
+
+[data-theme="dark"] {
+    /* Keep existing global styles */
+    
+    /* 🆕 Apply namespaced styles for .pc-controls */
+    --pc-controls-bg: var(--pc-controls-bg-dark);
+    --pc-controls-border: var(--pc-controls-border-dark);
+    --pc-controls-shadow: var(--pc-controls-shadow-dark);
 }
 
 .pc-controls {
@@ -378,22 +511,53 @@ ul{
     bottom: -50px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(255, 255, 255, 0.8);
+    
+    background: var(--pc-controls-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    
     padding: 5px 10px;
-    border-radius: 5px;
+    border-radius: 10px;
+    border: 1px solid var(--pc-controls-border);
+    box-shadow: 0 4px 10px var(--pc-controls-shadow);
+    
     visibility: visible !important;
     opacity: 1 !important;
     pointer-events: all !important;
+    
     z-index: 9999 !important;
     gap: 3px;
+    transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .pc-controls i {
     margin: 5px;
     cursor: pointer;
     font-size: 16px;
-    color: #555;
-    transition: color 0.3s;
+    transition: color 0.3s ease-in-out;
+}
+
+
+/* Add smooth transition */
+:root {
+    --button-bg-light: transparent; /* ✅ Fixed */
+    --button-text-light: rgb(0, 0, 0);
+    --button-bg-dark: rgba(51, 51, 51, 0.692);
+    --button-text-dark: white;
+}
+
+/* Default Light Mode */
+.pc-controls button {
+    background-color: var(--button-bg-light); /* Now correctly transparent */
+    color: var(--button-text-light);
+    border: none !important;  
+    transition: all 0.3s ease-in-out;
+}
+
+/* Dark Mode - Fix Background & Text */
+[data-theme="dark"] .pc-controls button {
+    background-color: var(--button-bg-dark) !important;
+    color: var(--button-text-dark) !important;
 }
 
 
@@ -690,7 +854,7 @@ ul{
 }
 
 #control-section h2{
-    font-size: 2em;
+    font-size: 3em;
 }
 
 .control-container {
@@ -720,6 +884,10 @@ ul{
     border-radius: 8px;
     /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
     transition: margin-left 0.3s ease-in-out;
+}
+
+.logs-container h2{
+    font-size: 3em;
 }
 
 .dark .logs-container {
