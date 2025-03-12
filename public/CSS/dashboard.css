@@ -602,11 +602,12 @@ ul{
     padding: 20px;
     border-radius: 8px;
     text-align: center;
-    width: 900px;
-    height: 900px;
+    width: fit-content;
+    height: fit-content;
     position: relative;
     transform: translateY(-20px); /* Start slightly above */
     transition: transform 0.4s ease-in-out;
+    justify-self: center;
 }
 
 /* Move content to its final position */

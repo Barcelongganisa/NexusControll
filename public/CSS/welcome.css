@@ -712,6 +712,152 @@ body {
   background: transparent;
 }
 
+/* LOGIN MODAL */
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5) !important; /* Adjust transparency */
+  backdrop-filter: blur(5px); /* Optional: Add blur effect */
+}
+
+.form-check{
+padding-left: 1.7em !important;
+}
+
+/* Contact Section */
+#contact {
+  background-image: url('/images/contact.jpg');
+}
+
+#contact .container{
+  position: relative;
+  /* top: -25vh; */
+  justify-items: center;
+}
+.contact-container {
+  display: flex;
+  width: 1000px;
+  height: 600px;
+  background: rgba(255, 255, 255, 0.2); /* Transparent white */
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Glass-like border */
+  backdrop-filter: blur(15px); /* Blur effect */
+  -webkit-backdrop-filter: blur(15px); /* For Safari */
+}
+
+.contact-info {
+  padding: 30px;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: solid 5px rgb(168, 168, 168) ;
+}
+
+.contact-info h2 {
+  margin-bottom: 10px;
+  font-size: 3em;
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+}
+
+.contact-info p {
+  font-size: 1.3em;
+  color: rgb(226, 226, 226);
+  margin-bottom: 20px;
+}
+
+.contact-info div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  font-size: 24px;
+  color: rgb(255, 255, 255);
+}
+
+.contact-info div img {
+  width: 40px;
+  margin-right: 10px;
+  color: rgb(255, 255, 255);
+}
+.contact-info img {
+  width: 35px;
+  height: auto;
+}
+
+/* Thin Black Divider */
+.divider {
+  width: 4px;
+  /* background: black; */
+  min-height: 75%;
+  position: absolute;
+  left: 565px;
+  top: 102px;
+}
+
+.contact-form {
+  flex: 1;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.input-group {
+  display: flex;
+  gap: 65px;
+  /* justify-content: space-between; */
+}
+
+.contact-form label {
+  font-size: 24px;
+  font-weight: 500;
+  text-align: left;
+  display: block;
+  width: 100%;
+  display: block;
+  color: rgb(255, 255, 255);
+}
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid rgb(255, 255, 255);
+  outline: none;
+  padding: 10px;
+  font-size: 1em; /* Responsive font size */
+  margin-bottom: 15px;
+  background-color: transparent;
+  color: white !important;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7); /* Slightly improved contrast */
+  font-size: 0.9em; /* Keep placeholder text subtle */
+}
+
+.contact-form textarea {
+  resize: none;
+  height: 100px; /* Slightly larger for better usability */
+}
+
+.send-btn {
+  background: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  padding: 14px;
+  border: none;
+  border-radius: 8px; /* Softer edges */
+  cursor: pointer;
+  transition: 0.3s;
+  width: 80%;
+  font-size: 1.1em; /* Make the button text slightly larger */
+  align-self: center;
+}
+
+.send-btn:hover {
+  background: rgb(160, 160, 160);
+}
 
 
 /* Contact Section */
