@@ -175,7 +175,7 @@ nav a {
 }
 
 ul{
-    font-size: 1.1em;
+    font-size: 1.5em;
     position: relative;
     top: 4vh;
     padding-left: 0;
@@ -409,11 +409,13 @@ ul{
 
 .pc-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: var(--dynamic-gap, 120px); /* Default gap is 120px */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Creates responsive columns */
+    gap: var(--dynamic-gap, 120px); /* Default gap */
     justify-content: center;
     padding: 10px;
-    transition: gap 0.3s ease-in-out; /* Smooth transition */
+    transition: gap 0.3s ease-in-out;
+    overflow-y: auto;
+    height: 680px;
 }
 
 #pcTitle{
@@ -456,6 +458,10 @@ ul{
     -webkit-backdrop-filter: blur(15px); /* Safari support */
     border: 1px solid var(--glass-border-light); /* Subtle border */
     color: var(--glass-text-light);
+
+    height: fit-content;
+    width: fit-content;
+    justify-self: anchor-center;
 }
 
 .pc-item:hover {
@@ -537,6 +543,9 @@ ul{
     transition: color 0.3s ease-in-out;
 }
 
+.pc-controls button{
+    color: white;
+}
 
 /* Add smooth transition */
 :root {
@@ -549,7 +558,7 @@ ul{
 /* Default Light Mode */
 .pc-controls button {
     background-color: var(--button-bg-light); /* Now correctly transparent */
-    color: var(--button-text-light);
+    /* color: var(--button-text-light); */
     border: none !important;  
     transition: all 0.3s ease-in-out;
 }
@@ -557,10 +566,8 @@ ul{
 /* Dark Mode - Fix Background & Text */
 [data-theme="dark"] .pc-controls button {
     background-color: var(--button-bg-dark) !important;
-    color: var(--button-text-dark) !important;
+    /* color: var(--button-text-dark) !important; */
 }
-
-
 
 .pc-controls i:hover {
     color: #007bff;
@@ -585,6 +592,7 @@ ul{
     display: flex;
     justify-content: center;
     align-items: center;
+    align-content: center;
     z-index: 999999;
     transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
 }
@@ -865,7 +873,6 @@ ul{
 }
 
 /* FOR LOGS SECTION */
-/* Logs Section Styling */
 
 #logs-section{
     position: relative;
@@ -879,11 +886,9 @@ ul{
     transform: translateX(-185px); /* Adjust based on sidebar width */
 }
 .logs-container {
-    /* background-color: #ffffff; */
     color: #333;
     padding: 20px;
     border-radius: 8px;
-    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
     transition: margin-left 0.3s ease-in-out;
 }
 
@@ -897,69 +902,117 @@ ul{
 }
 
 /* Search & Filter Bar */
+/* Global styles for filters */
 .logs-filters {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+/* Input and Select Styling */
 .logs-filters input,
 .logs-filters select {
+    background: rgba(51, 51, 51, 0.7);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid black;
+    color: white;
     padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    outline: none;
-    transition: border-color 0.2s ease-in-out;
+    border-radius: 5px;
 }
 
-.logs-filters input:focus,
-.logs-filters select:focus {
-    border-color: #3182ce;
-}
-
+/* Dark mode input and select */
 .dark .logs-filters input,
 .dark .logs-filters select {
-    background-color: #4a5568;
-    color: #e2e8f0;
-    border-color: #718096;
+    background: rgba(56, 56, 56, 0.5);
+    border: 1px solid white;
+    color: white;
+}
+
+/* Input focus styles */
+.logs-filters input:focus,
+.logs-filters select:focus {
+    border-color: #3e4042;
+    outline: none;
+}
+
+/* Placeholder styling */
+#logSearch::placeholder {
+    color: white;
+}
+
+.dark #logSearch::placeholder {
+    color: white;
+}
+
+/* Filter dropdown options */
+#logFilter option {
+    color: black;
+    background-color: white;
+}
+
+.dark #logFilter option {
+    color: white;
+    background-color: rgba(56, 56, 56, 0.5);
 }
 
 /* Logs Table */
 table {
     width: 100%;
     border-collapse: collapse;
-    text-align: left;
+    text-align: center;
+    font-size: 20px;
+    border: 1px solid white !important;
 }
 
+.logs-container table {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 5px;
+}
+
+/* Table header */
 th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
+    /* padding: 10px; */
+    border: 1px solid white !important;
 }
 
 th {
-    background-color: #edf2f7;
     font-weight: bold;
+    border: 1px solid white !important;
 }
 
-.dark th {
-    background-color: #4a5568;
+
+/* Dark mode table header */
+.logs-container th {
+    background: rgba(51, 51, 51, 0.7);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
 
-tr:nth-child(even) {
-    background-color: #f9f9f9;
+/* Table rows */
+.logs-container tr:nth-child(even),
+.logs-container tr:nth-child(odd) {
+    background: rgba(51, 51, 51, 0.7);
+    color: white;
 }
 
-.dark tr:nth-child(odd){
-    color: black;
-
-}
-.dark th{
-    background-color: #2d3748; /* Set your header color */
-    color: #f9f9f9; /* Adjust text color if needed */
+/* Dark mode table */
+.dark .logs-container table {
+    background: rgba(56, 56, 56, 0.5);
 }
 
-.dark tr:nth-child(even) {
-    background-color: #2d3748;
+/* Dark mode table header */
+.dark .logs-container th {
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+}
+
+/* Dark mode table rows */
+.dark .logs-container tr:nth-child(even),
+.dark .logs-container tr:nth-child(odd) {
+    background: rgba(56, 56, 56, 0.5);
+    color: white;
 }
 
 /* Status Colors */
@@ -1129,4 +1182,30 @@ body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidd
 /* topNavbar profile picture */
 #navtop > div > img{
     display: none !important;
+}
+
+/* for scrollbar */
+::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Light grey background */
+    border-radius: 10px; /* Rounded track */
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(120deg, #070707, #C0C0C0, #808080); /* Gold to silver gradient */
+    border-radius: 10px; /* Rounded corners for a smooth look */
+    transition: all 3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(120deg, #C0C0C0, #070707); /* Reverse gradient on hover */
+}
+
+/* for loading (monitor/control) */
+
+.loading-message{
+    font-size: 3em;
 }
