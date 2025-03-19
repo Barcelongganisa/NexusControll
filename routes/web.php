@@ -4,8 +4,6 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PCController;
-use App\Http\Controllers\DeviceController;
-
 
 
 /*
@@ -19,7 +17,6 @@ use App\Http\Controllers\DeviceController;
 |
 */
 
-Route::get('/api/connected-devices', [DeviceController::class, 'getConnectedDevices']);
 Route::post('/send-command', [PCController::class, 'sendCommand']);
 
 Route::get('/', function () {

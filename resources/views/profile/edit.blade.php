@@ -1,4 +1,3 @@
-<title>Profile</title>
 <x-app-layout>
     <link rel="stylesheet" href="{{ asset('css/edit.css') }}">
     

@@ -24,29 +24,13 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      */
     public function store(LoginRequest $request): RedirectResponse
-{
-    // Verify reCAPTCHA
-    $request->validate([
-        'g-recaptcha-response' => 'required',
-    ]);
+    {
+        $request->authenticate();
 
-    $recaptchaResponse = $request->input('g-recaptcha-response');
-    $recaptchaSecret = env('RECAPTCHA_SECRET_KEY'); // Make sure this is set in .env
+        $request->session()->regenerate();
 
-    $verifyResponse = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$recaptchaSecret}&response={$recaptchaResponse}");
-    $responseData = json_decode($verifyResponse);
-
-    if (!$responseData->success) {
-        return back()->withErrors(['g-recaptcha-response' => 'reCAPTCHA verification failed. Please try again.']);
+        return redirect()->intended(RouteServiceProvider::HOME);
     }
-
-    // If reCAPTCHA is valid, proceed with authentication
-    $request->authenticate();
-    $request->session()->regenerate();
-
-    return redirect()->intended(RouteServiceProvider::HOME);
-}
-
 
     /**
      * Destroy an authenticated session.

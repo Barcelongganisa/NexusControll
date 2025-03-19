@@ -7,28 +7,17 @@
             @csrf
             @method('patch')
 
-            <!-- Profile Picture Upload (Clickable with Edit Icon) -->
-            <div class="mb-3 text-center position-relative">
-                <label for="profile_picture" class="form-label d-block">Profile Picture</label>
-
-                <!-- Clickable Profile Image with Edit Icon -->
-                <div class="profile-image-wrapper">
-                    <label for="profile_picture" style="cursor: pointer;">
-                        <img id="profile-preview" 
-                            src="{{ Auth::user()->profile_picture ? asset('storage/' . Auth::user()->profile_picture) : asset('/images/user.png') }}" 
-                            class="rounded-circle mb-2 profile-img" 
-                            width="120" 
-                            alt="User Image">
-                        
-                        <!-- Edit Icon (Shown on Hover) -->
-                        <div class="edit-icon">
-                            <i class="fas fa-edit"></i> <!-- Font Awesome Edit Icon -->
-                        </div>
-                    </label>
+            <!-- Profile Picture Upload -->
+            <div class="mb-3 text-center">
+                <label for="profile_picture" class="form-label">Profile Picture</label>
+                <div>
+                    <img id="profile-preview" 
+                         src="{{ Auth::user()->profile_picture ? asset('storage/' . Auth::user()->profile_picture) : asset('/images/user.png') }}" 
+                         class="rounded-circle mb-2" 
+                         width="120" 
+                         alt="User Image">
                 </div>
-
-                <!-- Hidden File Input -->
-                <input type="file" class="form-control d-none" name="profile_picture" id="profile_picture" accept="image/*">
+                <input type="file" class="form-control" name="profile_picture" id="profile_picture" accept="image/*">
                 @error('profile_picture') <small class="text-danger">{{ $message }}</small> @enderror
             </div>
 

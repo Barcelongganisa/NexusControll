@@ -3,8 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\PC;
-use App\Http\Controllers\DeviceController;
-
 
 
 
@@ -19,7 +17,6 @@ use App\Http\Controllers\DeviceController;
 |
 */
 
-Route::get('/device-stats', [DeviceController::class, 'getDeviceStats']);
 
 Route::get('/connected-pcs', function () {
     return response()->json(PC::where('status', 'Online')->get(['id', 'name', 'image_url', 'status']));

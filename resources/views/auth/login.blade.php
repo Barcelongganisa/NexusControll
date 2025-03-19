@@ -2,65 +2,70 @@
 <x-guest-layout>
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%;">
+    <!-- Button to Open Login Modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+        Login
+    </button>
 
-            <a href="/" class="close-btn position-absolute">&times;</a>
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="loginModalLabel">Login</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Session Status -->
+                    <x-auth-session-status class="alert alert-info" :status="session('status')" />
 
-            <div class="card-body">
-                <h3 class="text-center mb-4">Login</h3>
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
 
-                <!-- Session Status -->
-                <x-auth-session-status class="alert alert-info" :status="session('status')" />
+                        <!-- Email Address -->
+                        <div class="mb-3">
+                            <x-input-label for="email" :value="__('Email')" class="form-label" />
+                            <x-text-input id="email" class="form-control" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+                            <x-input-error :messages="$errors->get('email')" class="text-danger small" />
+                        </div>
 
-                <form id="login-form">
-    @csrf
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <x-input-label for="password" :value="__('Password')" class="form-label" />
+                            <x-text-input id="password" class="form-control" type="password" name="password" required autocomplete="current-password" />
+                            <x-input-error :messages="$errors->get('password')" class="text-danger small" />
+                        </div>
 
-    <!-- Email Address -->
-    <div class="mb-3">
-        <x-input-label for="email" :value="__('Email')" class="form-label" />
-        <x-text-input id="email" class="form-control" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-        <x-input-error :messages="$errors->get('email')" class="text-danger small" />
-    </div>
+                        <!-- Google reCAPTCHA -->
+                        <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                        @error('g-recaptcha-response')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
 
-    <!-- Password -->
-    <div class="mb-3">
-        <x-input-label for="password" :value="__('Password')" class="form-label" />
-        <x-text-input id="password" class="form-control" type="password" name="password" required autocomplete="current-password" />
-        <x-input-error :messages="$errors->get('password')" class="text-danger small" />
-    </div>
+                        <!-- Remember Me -->
+                        <div class="mb-3 form-check">
+                            <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
+                            <label for="remember_me" class="form-check-label">{{ __('Remember me') }}</label>
+                        </div>
 
-    <!-- reCAPTCHA -->
-    <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
-    <span id="recaptcha-error" class="text-danger small"></span>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <!-- Forgot Password Link (Triggers Another Modal) -->
+                            <a href="#" class="text-decoration-none small" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">
+                                {{ __('Forgot your password?') }}
+                            </a>
 
-    <!-- Remember Me -->
-    <div class="mb-3 form-check">
-        <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
-        <label for="remember_me" class="form-check-label">{{ __('Remember me') }}</label>
-    </div>
-
-    <div class="d-flex justify-content-between align-items-center">
-        <!-- Forgot Password Link -->
-        <a href="#" class="text-decoration-none small" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">
-            {{ __('Forgot your password?') }}
-        </a>
-
-        <x-primary-button class="btn btn-primary">
-            {{ __('Log in') }}
-        </x-primary-button>
-    </div>
-</form>
-
-<!-- Success/Error Messages -->
-<div id="login-alert" class="mt-3 d-none"></div>
-
+                            <x-primary-button class="btn btn-primary">
+                                {{ __('Log in') }}
+                            </x-primary-button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Forgot Password Modal -->
-    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -96,15 +101,6 @@
         </div>
     </div>
 
-    <script>
-        document.getElementById('forgotPasswordModal').addEventListener('shown.bs.modal', function () {
-            this.removeAttribute('aria-hidden');
-        });
-
-        document.getElementById('forgotPasswordModal').addEventListener('hidden.bs.modal', function () {
-            this.setAttribute('aria-hidden', 'true');
-        });
-    </script>
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 </x-guest-layout>
