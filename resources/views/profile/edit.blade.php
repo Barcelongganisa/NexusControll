@@ -1,3 +1,4 @@
+<title>Profile</title>
 <x-app-layout>
     <link rel="stylesheet" href="{{ asset('css/edit.css') }}">
     
@@ -55,6 +56,7 @@
                     </div>
                 </div>
 
+                
                 <div class="col-md-12 mt-3">
                     <div class="card h-100">
                         <div class="card-body" id="card-body">

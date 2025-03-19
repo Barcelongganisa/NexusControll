@@ -134,85 +134,53 @@
         <button class="close-btn">Close</button>
     </div>
     <div id="live-monitoring-content" class="hidden-content">
-        <h3>Live Screen Monitoring</h3>
-        <p>NexusControl Live Screen Monitoring allows the, administrator to take control and having visibility of
-            multiple PC's from central system without disturbing the users. This promotes security, compliance, and
-            productivity in the environment of the workplace, school, or similar networked environments.
-            <br><br>
-            With real-time monitoring, administrators can keep track of user activities, discover unauthorized acts, and
-            take immediate actions whenever is needed be it an Internet café, school lab, or office network. This is a
-            true ticket for keeping order and ensuring security.
-            <br><br>
-            Besides just screen viewing, administrators can also provide remote control of PCs, log out unauthorized
-            users, or assist when required. Live Screen Monitoring contributes to a safer, better-managed, and more
-            efficient digital workspace for every organization.
-        </p>
-        <button class="close-btn">Close</button>
+    <h3>Live Screen Monitoring</h3>
+    <p>NexusControl Live Screen Monitoring allows administrators to oversee multiple PCs from a central system without disrupting users. This enhances security, compliance, and productivity in workplaces, schools, or similar environments.  
+        <br><br>
+        With real-time monitoring, administrators can track activities, detect unauthorized actions, and take immediate action. Beyond screen viewing, they can remotely control PCs, log out users, and provide assistance when needed. This feature ensures a secure, well-managed, and efficient digital workspace.
+    </p>
+    <button class="close-btn">Close</button>
     </div>
 
     <div id="performance-content" class="hidden-content">
         <h3>Performance Monitoring</h3>
-        The monitoring of performance in a large enterprise comprises a host of various ways for collecting data about
-        various states of computer systems. Performance Monitoring by NexusControl enables the administrator to monitor
-        the systems for real-time health status and catch the potential problems before they actually become ones.
-        <br><br>
-        From one central PC, administrators can monitor CPU usage, RAM consumption, disk activity, and network
-        performance across all the devices that are connected. This assists with spotting bottlenecks, preventing
-        slowdowns, and providing for complete, efficient running throughout.
-        <br><br>
-        With real-time information, administrators can respond by taking preventive action and resolving issues before
-        they become serious and ensure that all PCs are running optimally. It's useful for an office network, a school
-        lab, or corporate IT. Performance Monitoring assures a stable, secure, and efficient computing environment. <br>
+        <p>NexusControl’s Performance Monitoring allows administrators to track system health in real time, preventing potential issues before they arise.  
+            <br><br>
+            From a central PC, they can monitor CPU, RAM, disk activity, and network performance across connected devices. This helps identify bottlenecks, prevent slowdowns, and ensure smooth operations.  
+            <br><br>
+            With real-time insights, administrators can take preventive measures, keeping systems optimized and ensuring a stable computing environment.
+        </p>
         <button class="close-btn">Close</button>
     </div>
 
     <div id="shutdown-content" class="hidden-content">
         <h3>Shutdown/Startup</h3>
-        <p>Turning on or off multiple PCs will always add to the workload for any administrator managing a network. But
-            with NexusControl's Automated Shutdown & Startup feature, it is possible to send a single command for
-            powering on, restarting, or shutting down numerous PCs. Therefore, a huge amount of time and effort is freed
-            up.
+        <p>Manually turning multiple PCs on/off is time-consuming, but NexusControl’s Automated Shutdown & Startup simplifies this by allowing administrators to send a single command to power on, restart, or shut down multiple PCs.  
             <br><br>
-            This software is applicable for an Internet café, a computer lab, an office, and a training center for the
-            reasons of energy savings, security improvement, and operational streamlining. By using this solution, the
-            administrator will create a schedule for booting PCs up before work and shutting them down after work so
-            that energy will not be wasted nor anyone else will be allowed to log in to the working PCs.
+            This feature improves energy efficiency, security, and operations, making it ideal for offices, labs, and training centers. Administrators can schedule automatic PC startup/shutdowns, reducing energy waste and unauthorized access.  
             <br><br>
-            Through automated power management, NexusControl enables reduction in manual work, lower energy costs, and
-            efficiency in systems. No more turning PCs on or off one by one; we just need centralized control for a
-            smarter, more economical network.
+            With automated power management, NexusControl enhances efficiency, lowers energy costs, and streamlines operations.
         </p>
         <button class="close-btn">Close</button>
     </div>
 
     <div id="pc-locking-content" class="hidden-content">
         <h3>PC Locking</h3>
-        <p>With PC Locking by NexusControl, administrators are able to lock one or multiple computers from a distance,
-            thus forbidding access to unauthorized users and sustains the workstation secured. Thus the computers are
-            only used for their various intended purposes, and that is in schools, offices, or training centers.
+        <p>NexusControl’s PC Locking allows administrators to lock one or multiple PCs remotely, preventing unauthorized access and ensuring computers are used for their intended purposes in schools, offices, and training centers.  
             <br><br>
-            Administrators can freeze activity just by a click; put a custom lock screen and, when needed, unlock any
-            PCs. When a computer is not being attended to, or when certain limitations are required, it is locked right
-            away for preventing any security threat or other misuse. With NexusControl’s PC Locking, access will become
-            manageable, focus enhanced, and system protection made very simple—totally from a central control point.
+            With a click, administrators can freeze activity, display a custom lock screen, and unlock PCs when needed. This feature enhances security, prevents misuse, and ensures controlled access from a central system.
         </p>
         <button class="close-btn">Close</button>
     </div>
 
     <div id="file-handling-content" class="hidden-content">
         <h3>File Handling</h3>
-        <p>Managing files across a network of multiple computers can be challenging, more so when faced with massive
-            quantities of data, security barriers, and the needs for seamless transfer of files. With NexusControl’s
-            File Handling features, the administrator will be easy enough to send, receive, organize, and manage files
-            across all connected sub-PCs from one central workstation.
+        <p>NexusControl’s File Handling simplifies file management across multiple networked PCs. Administrators can seamlessly send, receive, organize, and manage files from a central workstation.  
             <br><br>
-            NexusControl combines centralized file management capability with its broader PC monitoring and management
-            system, ensuring that file handling is a piece of cake for any organization allowing them to focus on
-            productivity without worrying about file access, security risks, or productivity inefficiencies.
+            Integrated with NexusControl’s monitoring system, this feature ensures secure, efficient file handling, minimizing security risks and improving productivity.
         </p>
         <button class="close-btn">Close</button>
     </div>
-
 
     <!-- About Section -->
     <section id="about" class="parallax-section">
@@ -361,6 +329,7 @@
         </div> 
     </section>
 
+    {{-- login modal --}}
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -374,11 +343,11 @@
                     @csrf
                     <div class="mb-3">
                         <label for="email" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" autocomplete="off" required>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" autocomplete="off" required>
                     </div>
 
                     <!-- Remember Me Checkbox -->
@@ -406,7 +375,7 @@
     </div>
 </div>
 
-<!-- Forgot Password Modal -->
+{{-- forgot-password modal --}}
 <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel">
     <div class="modal-dialog">
         <div class="modal-content">

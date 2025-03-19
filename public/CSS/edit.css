@@ -1,5 +1,5 @@
 #userDropdown{
-    left: 90vw;
+    left: 89vw;
     top: 10px;
 }
 
@@ -51,6 +51,111 @@
     z-index: 1;
     color: white;
 }
+
+
+.col-md-12:nth-child(1) .card-body {
+    background-image: url("/images/profile-picture.jpg") !important;
+    z-index: 1050;
+}
+
+.col-md-12:nth-child(2) .card-body {
+    background-image: url("/images/update-password.jpg");
+}
+
+.col-md-12:nth-child(3) .card-body {
+    background-image: url("/images/create-user.jpg");
+}
+
+.col-md-12:nth-child(4) .card-body {
+    background-image: url("/images/delete.jpg");
+}
+
+/* Ensure card body doesn't override the card background */
+.card-body {
+    background: none !important;
+}
+
+/* Ensure the card body doesn’t override the card’s background */
+#card-body {
+    background: none !important;
+}
+
+
+/* profile-edit */
+
+/* Profile Image Wrapper */
+.profile-image-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Edit Icon Styling */
+.edit-icon {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 110px;
+    height: 110px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Show the Edit Icon When Hovered */
+.profile-image-wrapper:hover .edit-icon {
+    opacity: 1;
+    z-index: 99999;
+}
+
+/* modal ng create new user */
+/* Glassmorphism Effect */
+.glassmorph {
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+    backdrop-filter: blur(10px); /* Blur effect */
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: white; /* Ensures readability */
+}
+
+/* Buttons with glass effect */
+.glassmorph .btn {
+    backdrop-filter: blur(5px);
+}
+
+/* Input fields styling */
+.glassmorph input, .glassmorph select {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+}
+
+/* Make labels more visible */
+.glassmorph label {
+    color: white;
+}
+
+/* Close button color fix */
+.glassmorph .btn-close {
+    filter: invert(1);
+}
+
+.modal-header{
+    color: white !important;
+}
+.text-end{
+    text-align: center !important;
+}
+
 /* ------------------------------ */
 /* PARA TO SA NEXUSCONTROL */
 /* ------------------------------ */
@@ -125,7 +230,7 @@ svg{
 
 #card-body{
     border: 3px solid gray;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     border-radius: 10px;
     width: 40vw;
     align-self: center;
@@ -142,3 +247,7 @@ svg{
 .form-label{
     align-items: baseline;
 }
+
+/* body > div > main > div > div > div > div:nth-child(5) > div{
+    margin-bottom: 20px;
+} */
