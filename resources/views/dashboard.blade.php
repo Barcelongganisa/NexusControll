@@ -2,6 +2,17 @@
 <x-app-layout>
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .vnc-container {
+            margin-bottom: 20px;
+        }
+        iframe {
+            border: 1px solid #ccc;
+            width: 100%;
+            height: 600px;
+        }
+    </style>
+
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -50,26 +61,35 @@
 
 
     <!-- Monitoring Section -->
-   <div class="monitoring-container max-w-7xl mx-auto sm:px-6 lg:px-8 mt-10" id="monitoring-section">
+<div class="monitoring-container max-w-7xl mx-auto sm:px-6 lg:px-8 mt-10" id="monitoring-section">
     <h2 class="text-xl font-semibold mb-4">Monitoring</h2>
     <div class="pc-grid" id="connected-pcs">
-        <!-- This will be populated dynamically -->
-        <div class="loading-message text-center p-4">Loading connected devices...</div>
+        @foreach ($subPcs as $subPc)
+        <div class="pc-item" onclick="openModal('{{ $subPc->ip_address }}', '{{ $subPc->vnc_port }}')">
+            <img src="{{ asset('images/pc.png') }}" alt="PC {{ $subPc->ip_address }}">
+            <div class="pc-info">
+                <p>PC Name: {{ $subPc->ip_address }} </p>
+                <p>Port: {{ $subPc->vnc_port }}</p>
+            </div>
+        </div>
+        @endforeach
     </div>
 </div>
 
-<!-- Modal Popup for Monitoring-->
+<!-- Modal Popup for Monitoring -->
 <div id="pcModal" class="modal">    
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
         <h2 id="pcTitle">PC Name: </h2>
-        <img id="pcImage" src="" alt="PC Image" class="modal-img" onclick="sendClick(event)">
-
+        <div class="vnc-container">
+            <iframe id="vnc" src="" frameborder="0"></iframe>
+        </div>
         <div class="modal-options">
             <button id="chatToggle" onclick="toggleChatModal()"><i class="fas fa-comment"></i></button>
         </div>
     </div>
 </div>
+
 
 <!-- Chat Box (Initially Hidden) -->
 <div id="chatModal" class="chat-modal" style="display: none;">

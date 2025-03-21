@@ -176,40 +176,40 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// document.addEventListener("DOMContentLoaded", function () {
-//     const advOptButton = document.querySelectorAll(".adv-opt");
-//     const advModal = document.getElementById("advOptionsModal");
+document.addEventListener("DOMContentLoaded", function () {
+    const advOptButton = document.querySelectorAll(".adv-opt");
+    const advModal = document.getElementById("advOptionsModal");
 
-//     document.querySelectorAll(".pc-controls button").forEach(button => {
-//         button.addEventListener("click", function (event) {
-//             event.stopPropagation(); // Prevents the pc-item from closing when clicking a button
+    document.querySelectorAll(".pc-controls button").forEach(button => {
+        button.addEventListener("click", function (event) {
+            event.stopPropagation(); // Prevents the pc-item from closing when clicking a button
 
-//             let action = this.getAttribute("title");
+            let action = this.getAttribute("title");
 
-//             if (action === "Advanced Options") {
-//                 // Disable button to prevent multiple clicks
-//                 this.disabled = true;
+            if (action === "Advanced Options") {
+                // Disable button to prevent multiple clicks
+                this.disabled = true;
 
-//                 // Open the modal
-//                 let modal = new bootstrap.Modal(advModal);
-//                 modal.show();
+                // Open the modal
+                let modal = new bootstrap.Modal(advModal);
+                modal.show();
 
-//                 // Enable button again when modal is hidden
-//                 advModal.addEventListener("hidden.bs.modal", () => {
-//                     this.disabled = false;
-//                 }, { once: true }); // { once: true } ensures the event runs only once
-//             } else {
-//                 // Show confirm alert for other actions
-//                 let confirmAction = confirm(`Do you wish to ${action.toLowerCase()} this PC?`);
-//                 if (confirmAction) {
-//                     alert(`${action} command sent.`);
-//                 } else {
-//                     alert(`${action} canceled.`);
-//                 }
-//             }
-//         });
-//     });
-// });
+                // Enable button again when modal is hidden
+                advModal.addEventListener("hidden.bs.modal", () => {
+                    this.disabled = false;
+                }, { once: true }); // { once: true } ensures the event runs only once
+            } else {
+                // Show confirm alert for other actions
+                let confirmAction = confirm(`Do you wish to ${action.toLowerCase()} this PC?`);
+                if (confirmAction) {
+                    alert(`${action} command sent.`);
+                } else {
+                    alert(`${action} canceled.`);
+                }
+            }
+        });
+    });
+});
 
 
 // PARA SA LOGS
@@ -347,12 +347,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// Function to handle opening advanced options
-function openAdvancedModal(pcId) {
-    console.log(`Opening advanced options for PC: ${pcId}`);
-    let advModal = new bootstrap.Modal(document.getElementById("advOptionsModal"));
-    advModal.show();
-}
+// // Function to handle opening advanced options
+// function openAdvancedModal(pcId) {
+//     console.log(`Opening advanced options for PC: ${pcId}`);
+//     let advModal = new bootstrap.Modal(document.getElementById("advOptionsModal"));
+//     advModal.show();
+// }
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -381,69 +381,68 @@ function updateDashboard() {
 /**
  * Function to set up real-time monitoring for dashboard updates
  */
-function setupDashboardUpdater() {
-    const container = document.querySelector("#pc-container");
+// function setupDashboardUpdater() {
+//     const container = document.querySelector("#pc-container");
 
-    if (!container) {
-        console.warn("PC container not found. Dashboard update not set.");
-        return;
-    }
+//     if (!container) {
+//         console.warn("PC container not found. Dashboard update not set.");
+//         return;
+//     }
 
-    // MutationObserver to detect changes in PC list
-    const observer = new MutationObserver(() => updateDashboard());
-    observer.observe(container, { childList: true, subtree: true });
+//     // MutationObserver to detect changes in PC list
+//     const observer = new MutationObserver(() => updateDashboard());
+//     observer.observe(container, { childList: true, subtree: true });
 
-    console.log("Dashboard update observer initialized.");
+//     console.log("Dashboard update observer initialized.");
 
-    // Initial update on page load
-    updateDashboard();
-}
+//     // Initial update on page load
+//     updateDashboard();
+// }
 
 /**
  * WebSocket Event Listener (Example)
  * Listens for PC status updates and updates the dashboard
  */
-if (typeof socket !== "undefined") {
-    socket.on("pc-status-update", (data) => {
-        console.log("Received WebSocket Update:", data);
-        updateDashboard();
-    });
-}
+// if (typeof socket !== "undefined") {
+//     socket.on("pc-status-update", (data) => {
+//         console.log("Received WebSocket Update:", data);
+//         updateDashboard();
+//     });
+// }
 
-// Combined script for both monitoring and control sections
-   document.addEventListener("DOMContentLoaded", () => {
-    // Shared WebSocket connection
-    const ws = new WebSocket("ws://192.168.1.14:8080");
-    let selectedPcId = null;
+// // Combined script for both monitoring and control sections
+//    document.addEventListener("DOMContentLoaded", () => {
+//     // Shared WebSocket connection
+//     const ws = new WebSocket("ws://192.168.1.14:8080");
+//     let selectedPcId = null;
     
-    // WebSocket Connection Handling
-    ws.onopen = () => console.log("✅ Connected to WebSocket server");
-    ws.onclose = () => console.log("🔌 WebSocket disconnected");
-    ws.onerror = (error) => console.error("❌ WebSocket error:", error);
+//     // WebSocket Connection Handling
+//     ws.onopen = () => console.log("✅ Connected to WebSocket server");
+//     ws.onclose = () => console.log("🔌 WebSocket disconnected");
+//     ws.onerror = (error) => console.error("❌ WebSocket error:", error);
     
-    // Get DOM elements
-    const connectedPcsContainer = document.getElementById("connected-pcs");
-    const controlPcsContainer = document.getElementById("control-pcs");
+//     // Get DOM elements
+//     const connectedPcsContainer = document.getElementById("connected-pcs");
+//     const controlPcsContainer = document.getElementById("control-pcs");
     
-    // Function to send command to a PC
-    function sendCommand(pcId, command) {
-        if (ws.readyState === WebSocket.OPEN) {
-            ws.send(JSON.stringify({ pc_id: pcId, command: command }));
-            console.log(`📩 Sent command "${command}" to PC ${pcId}`);
-        } else {
-            console.warn("⚠️ WebSocket not connected!");
-        }
-    }
+//     // Function to send command to a PC
+//     function sendCommand(pcId, command) {
+//         if (ws.readyState === WebSocket.OPEN) {
+//             ws.send(JSON.stringify({ pc_id: pcId, command: command }));
+//             console.log(`📩 Sent command "${command}" to PC ${pcId}`);
+//         } else {
+//             console.warn("⚠️ WebSocket not connected!");
+//         }
+//     }
     
     // Modal functions
-    function openModal(pcId, pcName, imageSrc) {
+    function openModal(pcName, vncPort) {
         const modal = document.getElementById("pcModal");
-        selectedPcId = pcId;
         document.getElementById("pcTitle").textContent = "PC Name: " + pcName;
-        document.getElementById("pcImage").src = imageSrc || "{{ asset('/images/pc.png') }}";
+        document.getElementById("vnc").src = "http://localhost:" + vncPort + "/vnc.html";
         modal.style.display = "block";
-        modal.style.visibility = "visible";
         modal.classList.add("show");
+        modal.style.visibility = "visible";
     }
     
     function closeModal() {
@@ -451,286 +450,287 @@ if (typeof socket !== "undefined") {
         const modal = document.getElementById("pcModal");
         modal.style.display = "none";
         modal.classList.remove("show");
+        document.getElementById("vnc").src = "";
     }
       
-    // Function to render a PC item for monitoring
-    function renderPcItem(pc) {
-        const pcDiv = document.createElement("div");
-        pcDiv.className = "pc-item";
-        pcDiv.setAttribute("data-pc-id", pc.id);
-        pcDiv.onclick = () => openModal(pc.id, pc.name, pc.imageUrl);
+//     // Function to render a PC item for monitoring
+//     function renderPcItem(pc) {
+//         const pcDiv = document.createElement("div");
+//         pcDiv.className = "pc-item";
+//         pcDiv.setAttribute("data-pc-id", pc.id);
+//         pcDiv.onclick = () => openModal(pc.id, pc.name, pc.imageUrl);
         
-        pcDiv.innerHTML = `
-            <img src="${pc.imageUrl || '{{ asset("images/pc.png") }}'}" alt="${pc.name}">
-            <div class="pc-info">
-                <p>PC Name: ${pc.name}</p>
-                <p>Status: ${pc.status}</p>
-            </div>
-        `;
-        return pcDiv;
-    }
+//         pcDiv.innerHTML = `
+//             <img src="${pc.imageUrl || '{{ asset("images/pc.png") }}'}" alt="${pc.name}">
+//             <div class="pc-info">
+//                 <p>PC Name: ${pc.name}</p>
+//                 <p>Status: ${pc.status}</p>
+//             </div>
+//         `;
+//         return pcDiv;
+//     }
     
-   // Function to render a PC control item
-function renderPcControlItem(pc) {
-    const pcDiv = document.createElement("div");
-    pcDiv.className = "pc-item";
-    pcDiv.setAttribute("data-pc-id", pc.id);
+//    // Function to render a PC control item
+// function renderPcControlItem(pc) {
+//     const pcDiv = document.createElement("div");
+//     pcDiv.className = "pc-item";
+//     pcDiv.setAttribute("data-pc-id", pc.id);
     
-    pcDiv.innerHTML = `
-        <img src="${pc.imageUrl || '/images/pc.png'}" alt="${pc.name}">
-        <div class="pc-info">
-            <p>PC Name: ${pc.name}</p>
-            <p>Status: ${pc.status}</p>
-        </div>
-        <div class="pc-controls" style="display: none;">
-            <button class="shutdown" title="Shutdown"><i class="fas fa-power-off"></i></button>
-            <button class="restart" title="Restart"><i class="fas fa-sync-alt"></i></button>
-            <button class="lock" title="Lock"><i class="fas fa-lock"></i></button>
-            <button class="file-transfer" title="File Transfer"><i class="fas fa-file-upload"></i></button>
-            <button class="adv-opt" title="Advanced Options"><i class="fas fa-toolbox"></i></button>
-        </div>
-    `;
+//     pcDiv.innerHTML = `
+//         <img src="${pc.imageUrl || '/images/pc.png'}" alt="${pc.name}">
+//         <div class="pc-info">
+//             <p>PC Name: ${pc.name}</p>
+//             <p>Status: ${pc.status}</p>
+//         </div>
+//         <div class="pc-controls" style="display: none;">
+//             <button class="shutdown" title="Shutdown"><i class="fas fa-power-off"></i></button>
+//             <button class="restart" title="Restart"><i class="fas fa-sync-alt"></i></button>
+//             <button class="lock" title="Lock"><i class="fas fa-lock"></i></button>
+//             <button class="file-transfer" title="File Transfer"><i class="fas fa-file-upload"></i></button>
+//             <button class="adv-opt" title="Advanced Options"><i class="fas fa-toolbox"></i></button>
+//         </div>
+//     `;
 
-    // Add click event to toggle controls
-    pcDiv.addEventListener("click", function (event) {
-        let controls = this.querySelector(".pc-controls");
+//     // Add click event to toggle controls
+//     pcDiv.addEventListener("click", function (event) {
+//         let controls = this.querySelector(".pc-controls");
 
-        // Ignore clicks inside .pc-controls
-        if (event.target.closest(".pc-controls")) return;
+//         // Ignore clicks inside .pc-controls
+//         if (event.target.closest(".pc-controls")) return;
 
-        // Toggle visibility of controls
-        if (controls.style.display === "none" || controls.style.display === "") {
-            controls.style.display = "flex"; // Show controls
-        } else {
-            controls.style.display = "none"; // Hide controls
-        }
-    });
+//         // Toggle visibility of controls
+//         if (controls.style.display === "none" || controls.style.display === "") {
+//             controls.style.display = "flex"; // Show controls
+//         } else {
+//             controls.style.display = "none"; // Hide controls
+//         }
+//     });
 
 
-      function handleAction(action, pcId) {
-        const userConfirmed = confirm(`Are you sure you want to ${action} this PC?`);
-        if (userConfirmed) {
-            sendCommand(pcId, action);
-        } else {
-            alert(`${action} action canceled.`);
-        }
-    }
+//       function handleAction(action, pcId) {
+//         const userConfirmed = confirm(`Are you sure you want to ${action} this PC?`);
+//         if (userConfirmed) {
+//             sendCommand(pcId, action);
+//         } else {
+//             alert(`${action} action canceled.`);
+//         }
+//     }
 
-        pcDiv.querySelector(".shutdown").addEventListener("click", (e) => {
-            e.stopPropagation();
-            handleAction("shutdown", pc.id);
-        });
+//         pcDiv.querySelector(".shutdown").addEventListener("click", (e) => {
+//             e.stopPropagation();
+//             handleAction("shutdown", pc.id);
+//         });
 
-        pcDiv.querySelector(".restart").addEventListener("click", (e) => {
-            e.stopPropagation();
-            handleAction("restart", pc.id);
-        });
+//         pcDiv.querySelector(".restart").addEventListener("click", (e) => {
+//             e.stopPropagation();
+//             handleAction("restart", pc.id);
+//         });
 
-        pcDiv.querySelector(".lock").addEventListener("click", (e) => {
-            e.stopPropagation();
-            handleAction("lock", pc.id);
-        });
+//         pcDiv.querySelector(".lock").addEventListener("click", (e) => {
+//             e.stopPropagation();
+//             handleAction("lock", pc.id);
+//         });
 
-        pcDiv.querySelector(".file-transfer").addEventListener("click", (e) => {
-            e.stopPropagation();
-            handleAction("file-transfer", pc.id);
-        });
+//         pcDiv.querySelector(".file-transfer").addEventListener("click", (e) => {
+//             e.stopPropagation();
+//             handleAction("file-transfer", pc.id);
+//         });
 
-        pcDiv.querySelector(".adv-opt").addEventListener("click", (e) => {
-            e.stopPropagation();
-            alert("Opening advanced options...");
-            openAdvancedModal(pc.id);
-        });
+//         pcDiv.querySelector(".adv-opt").addEventListener("click", (e) => {
+//             e.stopPropagation();
+//             alert("Opening advanced options...");
+//             openAdvancedModal(pc.id);
+//         });
 
-        return pcDiv;
-}
+//         return pcDiv;
+// }
 
     
-    try {
-        // Connect to Socket.IO server for real-time updates
-        const socket = io("http://192.168.1.14:3000");
+//     try {
+//         // Connect to Socket.IO server for real-time updates
+//         const socket = io("http://192.168.1.14:3000");
         
-        socket.on("connect", () => {
-            console.log("✅ Connected to Socket.IO server");
-        });
+//         socket.on("connect", () => {
+//             console.log("✅ Connected to Socket.IO server");
+//         });
         
-        // Initial connected PCs load
-        socket.on("initialConnectedPCs", (connectedPCs) => {
-            // Handle monitoring section
-            if (connectedPcsContainer) {
-                connectedPcsContainer.innerHTML = '';
+//         // Initial connected PCs load
+//         socket.on("initialConnectedPCs", (connectedPCs) => {
+//             // Handle monitoring section
+//             if (connectedPcsContainer) {
+//                 connectedPcsContainer.innerHTML = '';
                 
-                // If no PCs are connected, show a message
-                if (!connectedPCs || connectedPCs.length === 0) {
-                    connectedPcsContainer.innerHTML = '<p class="text-center p-4">No PCs currently connected</p>';
-                } else {
-                    // Add each connected PC to the monitoring grid
-                    connectedPCs.forEach(pc => {
-                        connectedPcsContainer.appendChild(renderPcItem(pc));
-                    });
-                }
-            }
+//                 // If no PCs are connected, show a message
+//                 if (!connectedPCs || connectedPCs.length === 0) {
+//                     connectedPcsContainer.innerHTML = '<p class="text-center p-4">No PCs currently connected</p>';
+//                 } else {
+//                     // Add each connected PC to the monitoring grid
+//                     connectedPCs.forEach(pc => {
+//                         connectedPcsContainer.appendChild(renderPcItem(pc));
+//                     });
+//                 }
+//             }
             
-            // Handle control section
-            if (controlPcsContainer) {
-                controlPcsContainer.innerHTML = '';
+//             // Handle control section
+//             if (controlPcsContainer) {
+//                 controlPcsContainer.innerHTML = '';
                 
-                // If no PCs are connected, show a message
-                if (!connectedPCs || connectedPCs.length === 0) {
-                    controlPcsContainer.innerHTML = '<p class="text-center p-4">No PCs currently connected</p>';
-                } else {
-                    // Add each connected PC to the control grid
-                    connectedPCs.forEach(pc => {
-                        controlPcsContainer.appendChild(renderPcControlItem(pc));
-                    });
-                }
-            }
-        });
+//                 // If no PCs are connected, show a message
+//                 if (!connectedPCs || connectedPCs.length === 0) {
+//                     controlPcsContainer.innerHTML = '<p class="text-center p-4">No PCs currently connected</p>';
+//                 } else {
+//                     // Add each connected PC to the control grid
+//                     connectedPCs.forEach(pc => {
+//                         controlPcsContainer.appendChild(renderPcControlItem(pc));
+//                     });
+//                 }
+//             }
+//         });
         
-        // PC connection event
-        socket.on("pcConnected", (pc) => {
-            console.log("PC Connected event received:", pc);
+//         // PC connection event
+//         socket.on("pcConnected", (pc) => {
+//             console.log("PC Connected event received:", pc);
             
-            // Update monitoring section
-            if (connectedPcsContainer) {
-                // Remove "no PCs" message if it exists
-                const monitoringNoItemsMsg = connectedPcsContainer.querySelector("p.text-center");
-                if (monitoringNoItemsMsg) {
-                    connectedPcsContainer.innerHTML = '';
-                }
+//             // Update monitoring section
+//             if (connectedPcsContainer) {
+//                 // Remove "no PCs" message if it exists
+//                 const monitoringNoItemsMsg = connectedPcsContainer.querySelector("p.text-center");
+//                 if (monitoringNoItemsMsg) {
+//                     connectedPcsContainer.innerHTML = '';
+//                 }
                 
-                // Check if we already have this PC in monitoring
-                const existingMonitoringPc = connectedPcsContainer.querySelector(`.pc-item[data-pc-id="${pc.id}"]`);
-                if (!existingMonitoringPc) {
-                    connectedPcsContainer.appendChild(renderPcItem(pc));
-                }
-            }
+//                 // Check if we already have this PC in monitoring
+//                 const existingMonitoringPc = connectedPcsContainer.querySelector(`.pc-item[data-pc-id="${pc.id}"]`);
+//                 if (!existingMonitoringPc) {
+//                     connectedPcsContainer.appendChild(renderPcItem(pc));
+//                 }
+//             }
             
-            // Update control section
-            if (controlPcsContainer) {
-                // Remove "no PCs" message if it exists
-                const controlNoItemsMsg = controlPcsContainer.querySelector("p.text-center");
-                if (controlNoItemsMsg) {
-                    controlPcsContainer.innerHTML = '';
-                }
+//             // Update control section
+//             if (controlPcsContainer) {
+//                 // Remove "no PCs" message if it exists
+//                 const controlNoItemsMsg = controlPcsContainer.querySelector("p.text-center");
+//                 if (controlNoItemsMsg) {
+//                     controlPcsContainer.innerHTML = '';
+//                 }
                 
-                // Check if we already have this PC in controls
-                const existingControlPc = controlPcsContainer.querySelector(`.pc-item[data-pc-id="${pc.id}"]`);
-                if (!existingControlPc) {
-                    controlPcsContainer.appendChild(renderPcControlItem(pc));
-                }
-            }
-        });
+//                 // Check if we already have this PC in controls
+//                 const existingControlPc = controlPcsContainer.querySelector(`.pc-item[data-pc-id="${pc.id}"]`);
+//                 if (!existingControlPc) {
+//                     controlPcsContainer.appendChild(renderPcControlItem(pc));
+//                 }
+//             }
+//         });
         
-        // PC disconnection event
-        socket.on("pcDisconnected", (pcId) => {
-            console.log("PC Disconnected event received:", pcId);
+//         // PC disconnection event
+//         socket.on("pcDisconnected", (pcId) => {
+//             console.log("PC Disconnected event received:", pcId);
             
-            // Update monitoring section
-            if (connectedPcsContainer) {
-                const monitoringPcElement = connectedPcsContainer.querySelector(`.pc-item[data-pc-id="${pcId}"]`);
-                if (monitoringPcElement) {
-                    monitoringPcElement.remove();
+//             // Update monitoring section
+//             if (connectedPcsContainer) {
+//                 const monitoringPcElement = connectedPcsContainer.querySelector(`.pc-item[data-pc-id="${pcId}"]`);
+//                 if (monitoringPcElement) {
+//                     monitoringPcElement.remove();
                     
-                    // If no PCs are left in monitoring, show the message
-                    if (connectedPcsContainer.children.length === 0) {
-                        connectedPcsContainer.innerHTML = '<p class="text-center p-4">No PCs currently connected</p>';
-                    }
-                }
-            }
+//                     // If no PCs are left in monitoring, show the message
+//                     if (connectedPcsContainer.children.length === 0) {
+//                         connectedPcsContainer.innerHTML = '<p class="text-center p-4">No PCs currently connected</p>';
+//                     }
+//                 }
+//             }
             
-            // Update control section
-            if (controlPcsContainer) {
-                const controlPcElement = controlPcsContainer.querySelector(`.pc-item[data-pc-id="${pcId}"]`);
-                if (controlPcElement) {
-                    controlPcElement.remove();
+//             // Update control section
+//             if (controlPcsContainer) {
+//                 const controlPcElement = controlPcsContainer.querySelector(`.pc-item[data-pc-id="${pcId}"]`);
+//                 if (controlPcElement) {
+//                     controlPcElement.remove();
                     
-                    // If no PCs are left in controls, show the message
-                    if (controlPcsContainer.children.length === 0) {
-                        controlPcsContainer.innerHTML = '<p class="text-center p-4">No PCs currently connected</p>';
-                    }
-                }
-            }
+//                     // If no PCs are left in controls, show the message
+//                     if (controlPcsContainer.children.length === 0) {
+//                         controlPcsContainer.innerHTML = '<p class="text-center p-4">No PCs currently connected</p>';
+//                     }
+//                 }
+//             }
             
-            // If the modal for this PC is open, close it
-            if (selectedPcId === pcId) {
-                closeModal();
-            }
-        });
+//             // If the modal for this PC is open, close it
+//             if (selectedPcId === pcId) {
+//                 closeModal();
+//             }
+//         });
         
-        // Update PC status
-        socket.on("pcStatusUpdate", (pc) => {
-            // Update in monitoring section
-            if (connectedPcsContainer) {
-                const monitoringPcElement = connectedPcsContainer.querySelector(`.pc-item[data-pc-id="${pc.id}"]`);
-                if (monitoringPcElement) {
-                    const statusElement = monitoringPcElement.querySelector('.pc-info p:nth-child(2)');
-                    if (statusElement) {
-                        statusElement.textContent = `Status: ${pc.status}`;
-                    }
-                }
-            }
+//         // Update PC status
+//         socket.on("pcStatusUpdate", (pc) => {
+//             // Update in monitoring section
+//             if (connectedPcsContainer) {
+//                 const monitoringPcElement = connectedPcsContainer.querySelector(`.pc-item[data-pc-id="${pc.id}"]`);
+//                 if (monitoringPcElement) {
+//                     const statusElement = monitoringPcElement.querySelector('.pc-info p:nth-child(2)');
+//                     if (statusElement) {
+//                         statusElement.textContent = `Status: ${pc.status}`;
+//                     }
+//                 }
+//             }
             
-            // Update in control section
-            if (controlPcsContainer) {
-                const controlPcElement = controlPcsContainer.querySelector(`.pc-item[data-pc-id="${pc.id}"]`);
-                if (controlPcElement) {
-                    const statusElement = controlPcElement.querySelector('.pc-info p:nth-child(2)');
-                    if (statusElement) {
-                        statusElement.textContent = `Status: ${pc.status}`;
-                    }
-                }
-            }
-        });
+//             // Update in control section
+//             if (controlPcsContainer) {
+//                 const controlPcElement = controlPcsContainer.querySelector(`.pc-item[data-pc-id="${pc.id}"]`);
+//                 if (controlPcElement) {
+//                     const statusElement = controlPcElement.querySelector('.pc-info p:nth-child(2)');
+//                     if (statusElement) {
+//                         statusElement.textContent = `Status: ${pc.status}`;
+//                     }
+//                 }
+//             }
+//         });
         
-        // Handle screen updates for the currently open modal
-        socket.on("updateScreen", (data) => {
-            // Only update the image if this is the selected PC or no PC ID was provided
-            if (!selectedPcId || data.pcId === selectedPcId) {
-                document.getElementById("pcImage").src = data.imageUrl;
-            }
-        });
+//         // Handle screen updates for the currently open modal
+//         socket.on("updateScreen", (data) => {
+//             // Only update the image if this is the selected PC or no PC ID was provided
+//             if (!selectedPcId || data.pcId === selectedPcId) {
+//                 document.getElementById("pcImage").src = data.imageUrl;
+//             }
+//         });
         
-        // Handle incoming chat messages
-        socket.on("chatMessage", (data) => {
-            if (data.pcId === selectedPcId) {
-                const messagesDiv = document.getElementById("chatMessages");
-                const messageElement = document.createElement("div");
-                messageElement.className = "message received";
-                messageElement.textContent = data.message;
-                messagesDiv.appendChild(messageElement);
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            }
-        });
+//         // Handle incoming chat messages
+//         socket.on("chatMessage", (data) => {
+//             if (data.pcId === selectedPcId) {
+//                 const messagesDiv = document.getElementById("chatMessages");
+//                 const messageElement = document.createElement("div");
+//                 messageElement.className = "message received";
+//                 messageElement.textContent = data.message;
+//                 messagesDiv.appendChild(messageElement);
+//                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
+//             }
+//         });
         
-        socket.on("connect_error", (error) => {
-            console.error("❌ Socket.IO connection error:", error);
-            if (connectedPcsContainer) {
-                connectedPcsContainer.innerHTML = '<p class="text-center p-4 text-red-500">Error connecting to server</p>';
-            }
-            if (controlPcsContainer) {
-                controlPcsContainer.innerHTML = '<p class="text-center p-4 text-red-500">Error connecting to server</p>';
-            }
-        });
+//         socket.on("connect_error", (error) => {
+//             console.error("❌ Socket.IO connection error:", error);
+//             if (connectedPcsContainer) {
+//                 connectedPcsContainer.innerHTML = '<p class="text-center p-4 text-red-500">Error connecting to server</p>';
+//             }
+//             if (controlPcsContainer) {
+//                 controlPcsContainer.innerHTML = '<p class="text-center p-4 text-red-500">Error connecting to server</p>';
+//             }
+//         });
 
         
-    } catch (error) {
-        console.error("❌ Error initializing Socket.IO:", error);
-        if (connectedPcsContainer) {
-            connectedPcsContainer.innerHTML = '<p class="text-center p-4 text-red-500">Error initializing connection</p>';
-        }
-        if (controlPcsContainer) {
-            controlPcsContainer.innerHTML = '<p class="text-center p-4 text-red-500">Error initializing connection</p>';
-        }
-    }
-});
+//     } catch (error) {
+//         console.error("❌ Error initializing Socket.IO:", error);
+//         if (connectedPcsContainer) {
+//             connectedPcsContainer.innerHTML = '<p class="text-center p-4 text-red-500">Error initializing connection</p>';
+//         }
+//         if (controlPcsContainer) {
+//             controlPcsContainer.innerHTML = '<p class="text-center p-4 text-red-500">Error initializing connection</p>';
+//         }
+//     }
+// });
    
 
 //    function openModal(pcName, imgSrc) {
 //     const modal = document.getElementById("pcModal");
 
 //     // Set content
-//     document.getElementById("pcTitle").innerText = "PC Name: " + pcName;
+//     document.getElementById("pcTitle").innerText = "";
 //     document.getElementById("pcImage").src = imgSrc;
 
 //     // Reset visibility before applying the fade-in effect
@@ -740,17 +740,17 @@ function renderPcControlItem(pc) {
 //     modal.classList.add("show");
 // }
 
-function closeModal() {
-    const modal = document.getElementById("pcModal");
+// function closeModal() {
+//     const modal = document.getElementById("pcModal");
 
-    // Remove 'show' class for fade-out
-    modal.classList.remove("show");
+//     // Remove 'show' class for fade-out
+//     modal.classList.remove("show");
 
-    // Wait for the transition to finish before hiding completely
-    setTimeout(() => {
-        modal.style.visibility = "hidden";
-    }, 400); // Match this with your CSS transition duration
-}
+//     // Wait for the transition to finish before hiding completely
+//     setTimeout(() => {
+//         modal.style.visibility = "hidden";
+//     }, 400); // Match this with your CSS transition duration
+// }
 
 // Close when clicking outside
 document.getElementById("pcModal").addEventListener("click", closeModal);
@@ -852,25 +852,3 @@ document.addEventListener("DOMContentLoaded", function () {
     observer.observe(document.querySelector(".pc-grid"), { childList: true });
 });
 
-// total connected device dynamic
-
-// document.addEventListener("DOMContentLoaded", function () {
-//     fetch("http://127.0.0.1:8000/api/device-stats")
-//         .then(response => {
-//             if (!response.ok) {
-//                 throw new Error(`HTTP error! Status: ${response.status}`);
-//             }
-//             return response.json();
-//         })
-//         .then(data => {
-//             document.getElementById("connectedDevices").textContent = data.connected;
-//             document.getElementById("onlineDevices").textContent = data.online;
-//             document.getElementById("totalDevices").textContent = data.total;
-//         })
-//         .catch(error => {
-//             console.error("Error fetching device stats:", error);
-//             document.getElementById("connectedDevices").textContent = "Error";
-//             document.getElementById("onlineDevices").textContent = "Error";
-//             document.getElementById("totalDevices").textContent = "Error";
-//         });
-// });
