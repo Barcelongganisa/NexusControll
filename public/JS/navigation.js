@@ -15,20 +15,20 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Simulated Notifications (replace with real backend notifications)
-    const notifList = document.getElementById("notifList");
-    const notifBadge = document.getElementById("notifBadge");
+    // // Simulated Notifications (replace with real backend notifications)
+    // const notifList = document.getElementById("notifList");
+    // const notifBadge = document.getElementById("notifBadge");
 
-    let notifications = [
-        "PC 3 Shuts down",
-        "PC 1 Starts up",
-        "PC 2 File Transferred"
-    ];
+    // let notifications = [
+    //     "PC 3 Shuts down",
+    //     "PC 1 Starts up",
+    //     "PC 2 File Transferred"
+    // ];
 
-    if (notifications.length > 0) {
-        notifBadge.classList.remove("d-none"); // Show badge
-        notifBadge.innerText = notifications.length; // Update count
-        notifList.innerHTML = notifications.map(notif => `<p class="small text-dark">${notif}</p>`).join("");
-    }
+    // if (notifications.length > 0) {
+    //     notifBadge.classList.remove("d-none"); // Show badge
+    //     notifBadge.innerText = notifications.length; // Update count
+    //     notifList.innerHTML = notifications.map(notif => `<p class="small text-dark">${notif}</p>`).join("");
+    // }
 });
 

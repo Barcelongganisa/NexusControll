@@ -10,5 +10,5 @@ class SubPc extends Model
     use HasFactory;
 
     protected $table = 'sub_pcs';
-    protected $fillable = ['ip_address', 'vnc_port'];
+    protected $fillable = ['ip_address', 'vnc_port', 'pc_name', 'device_status'];
 }

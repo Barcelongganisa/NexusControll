@@ -20,8 +20,10 @@ use App\Http\Controllers\VncController;
 |
 */
 
-Route::get('/api/connected-devices', [DeviceController::class, 'getConnectedDevices']);
-Route::post('/send-command', [PCController::class, 'sendCommand']);
+Route::post('/pcs/control', [PCController::class, 'controlPC']);
+Route::get('/pcs/device-counts', [PCController::class, 'getDeviceCounts']);
+Route::get('/pcs/update-status', [PCController::class, 'updateDeviceStatus']);
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,6 +32,7 @@ Route::get('/', function () {
 Route::get('/dashboard', [VncController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+    
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -482,13 +482,13 @@ function updateDashboard() {
 //             <p>PC Name: ${pc.name}</p>
 //             <p>Status: ${pc.status}</p>
 //         </div>
-//         <div class="pc-controls" style="display: none;">
-//             <button class="shutdown" title="Shutdown"><i class="fas fa-power-off"></i></button>
-//             <button class="restart" title="Restart"><i class="fas fa-sync-alt"></i></button>
-//             <button class="lock" title="Lock"><i class="fas fa-lock"></i></button>
+    //         <div class="pc-controls" style="display: none;">
+    //             <button class="shutdown" title="Shutdown"><i class="fas fa-power-off"></i></button>
+    //             <button class="restart" title="Restart"><i class="fas fa-sync-alt"></i></button>
+    //             <button class="lock" title="Lock"><i class="fas fa-lock"></i></button>
 //             <button class="file-transfer" title="File Transfer"><i class="fas fa-file-upload"></i></button>
 //             <button class="adv-opt" title="Advanced Options"><i class="fas fa-toolbox"></i></button>
-//         </div>
+//          
 //     `;
 
 //     // Add click event to toggle controls
