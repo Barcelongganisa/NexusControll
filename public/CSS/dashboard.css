@@ -70,7 +70,7 @@ body.light h2{
 
 #control-section .pc-grid {
     position: relative;
-    top: -40px;
+    top: -46px;
 }
 
 
@@ -410,8 +410,8 @@ ul{
 
 .pc-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Creates responsive columns */
-    gap: var(--dynamic-gap, 120px); /* Default gap */
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); /* Creates responsive columns */
+    gap: 60px; /* var(--dynamic-gap, 120px); */
     justify-content: center;
     padding: 10px;
     transition: gap 0.3s ease-in-out;
@@ -419,6 +419,8 @@ ul{
     height: 680px;
     position: relative;
     top: -18px;
+
+    overflow-x: hidden;
 }
 
 #pcTitle{
@@ -463,7 +465,7 @@ ul{
     color: var(--glass-text-light);
 
     height: fit-content;
-    width: fit-content;
+    width: 220px; /*orginally fit-content*/
     justify-self: anchor-center;
 }
 
@@ -549,8 +551,13 @@ ul{
 }
 
 .pc-controls button{
-    color: white;
+    color: black;
 }
+
+.dark .pc-controls button{
+    color: white !important;
+}
+
 
 /* Add smooth transition */
 :root {
@@ -569,10 +576,9 @@ ul{
 }
 
 /* Dark Mode - Fix Background & Text */
-[data-theme="dark"] .pc-controls button {
+/* [data-theme="dark"] .pc-controls button {
     background-color: var(--button-bg-dark) !important;
-    /* color: var(--button-text-dark) !important; */
-}
+} */
 
 .pc-controls i:hover {
     color: #007bff;

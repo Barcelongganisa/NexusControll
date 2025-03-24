@@ -93,7 +93,7 @@
                 <div class="pc-item" onclick="openModal('{{ $subPc->id }}', '{{ $subPc->vnc_port }}')">
                     <img src="{{ asset('images/pc.png') }}" alt="PC {{ $subPc->ip_address }}">
                     <div class="pc-info">
-                        <p>PC Name: {{ $subPc->ip_address}} </p>
+                        <p>PC Name: <br>{{ $subPc->ip_address}} </p>
                         <p>Port: {{ $subPc->vnc_port }}</p>
                 {{-- <p>Status: {{ $subPc->status }}</p> --}}
                         <p class="pc-status" data-ip="{{ $subPc->ip_address }}">
@@ -170,9 +170,11 @@
             <div class="pc-item">
                 <img src="{{ asset('images/pc.png') }}" alt="PC {{ $subPc->ip_address }}">
                 <div class="pc-info">
-                    <p>PC Name: {{ $subPc->pc_name }}</p>
-                    <p>IP Address: {{ $subPc->ip_address }}</p>
+                    <p>PC Name: <br>{{ $subPc->ip_address }}</p>
                     <p>Port: {{ $subPc->vnc_port }}</p>
+                    <p class="pc-status" data-ip="{{ $subPc->ip_address }}">
+                        Status: {{ $subPc->device_status }}
+                    </p>
                 </div>
                     <div class="pc-controls" style="display: none;">
                         <button class="shutdown" data-ip="{{ $subPc->ip_address }}" title="Shutdown"><i class="fas fa-power-off"></i></button>
