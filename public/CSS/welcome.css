@@ -1076,6 +1076,7 @@ padding-left: 1.7em !important;
     filter: brightness(0.9); 
     padding-bottom: 20px;
     justify-items: center;
+    display: block;
 }
 /* Enlarge Modal by 15% */
 .modal-dialog {

@@ -23,7 +23,7 @@ body {
 /* for nightmode */
 body.light{
     background-color: white;
-    background-image: url('/images/white.jpg');
+    background-image: url('/images/whitey.jpg');
     transition: background 0.3s ease-in-out, transform 0.1s ease-in-out;
     color: black;
 }
@@ -407,6 +407,7 @@ ul{
     /* background-color: gray; */
 }
 
+
 .pc-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Creates responsive columns */
@@ -416,6 +417,8 @@ ul{
     transition: gap 0.3s ease-in-out;
     overflow-y: auto;
     height: 680px;
+    position: relative;
+    top: -18px;
 }
 
 #pcTitle{
@@ -610,8 +613,8 @@ ul{
     padding: 20px;
     border-radius: 8px;
     text-align: center;
-    width: fit-content;
-    height: fit-content;
+    width: 95%;
+    height: 95%;
     position: relative;
     transform: translateY(-20px); /* Start slightly above */
     transition: transform 0.4s ease-in-out;
@@ -655,7 +658,7 @@ ul{
 }
 
 .modal-options {
-    margin-top: 10px;
+    margin-top: -9px;
     padding: 10px;
     border-radius: 10px;
     background-color: #007bff;
@@ -1208,4 +1211,42 @@ body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidd
 
 .loading-message{
     font-size: 3em;
+}
+
+.btn-primary{
+    background-color: white !important;
+    color: black !important;
+    border: none !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100px;
+    font-size: 30px;
+}
+
+#addPcModal .modal-dialog {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+#addPcModal .modal-content{
+    position: relative;
+    top: -470px;
+    left: -200px;
+    height: 400px;
+    min-height: 300px;
+    width: 500px;
+}
+
+#addPcModal .modal-body{
+    display: block;
+}
+
+#addPcModal .modal-footer{
+    justify-content: center;
+}
+
+.mb-4{
+    margin-bottom: 1.5rem !important;
+    display: flex;
+    justify-content: space-between;
 }
