@@ -537,6 +537,8 @@ ul{
     z-index: 9999 !important;
     gap: 3px;
     transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+    /* width: 120px; */
 }
 
 .pc-controls i {

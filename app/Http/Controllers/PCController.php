@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SubPc;
 use Illuminate\Support\Facades\Http;
-use App\Models\SubPc;
 
 class PCController extends Controller
 {

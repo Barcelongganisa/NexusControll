@@ -176,40 +176,40 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    const advOptButton = document.querySelectorAll(".adv-opt");
-    const advModal = document.getElementById("advOptionsModal");
+// document.addEventListener("DOMContentLoaded", function () {
+//     const advOptButton = document.querySelectorAll(".adv-opt");
+//     const advModal = document.getElementById("advOptionsModal");
 
-    document.querySelectorAll(".pc-controls button").forEach(button => {
-        button.addEventListener("click", function (event) {
-            event.stopPropagation(); // Prevents the pc-item from closing when clicking a button
+//     document.querySelectorAll(".pc-controls button").forEach(button => {
+//         button.addEventListener("click", function (event) {
+//             event.stopPropagation(); // Prevents the pc-item from closing when clicking a button
 
-            let action = this.getAttribute("title");
+//             let action = this.getAttribute("title");
 
-            if (action === "Advanced Options") {
-                // Disable button to prevent multiple clicks
-                this.disabled = true;
+//             if (action === "Advanced Options") {
+//                 // Disable button to prevent multiple clicks
+//                 this.disabled = true;
 
-                // Open the modal
-                let modal = new bootstrap.Modal(advModal);
-                modal.show();
+//                 // Open the modal
+//                 let modal = new bootstrap.Modal(advModal);
+//                 modal.show();
 
-                // Enable button again when modal is hidden
-                advModal.addEventListener("hidden.bs.modal", () => {
-                    this.disabled = false;
-                }, { once: true }); // { once: true } ensures the event runs only once
-            } else {
-                // Show confirm alert for other actions
-                let confirmAction = confirm(`Do you wish to ${action.toLowerCase()} this PC?`);
-                if (confirmAction) {
-                    alert(`${action} command sent.`);
-                } else {
-                    alert(`${action} canceled.`);
-                }
-            }
-        });
-    });
-});
+//                 // Enable button again when modal is hidden
+//                 advModal.addEventListener("hidden.bs.modal", () => {
+//                     this.disabled = false;
+//                 }, { once: true }); // { once: true } ensures the event runs only once
+//             } else {
+//                 // Show confirm alert for other actions
+//                 let confirmAction = confirm(`Do you wish to ${action.toLowerCase()} this PC?`);
+//                 if (confirmAction) {
+//                     alert(`${action} command sent.`);
+//                 } else {
+//                     alert(`${action} canceled.`);
+//                 }
+//             }
+//         });
+//     });
+// });
 
 
 // PARA SA LOGS
@@ -308,44 +308,44 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    const advModal = document.getElementById("advOptionsModal");
+// document.addEventListener("DOMContentLoaded", function () {
+//     const advModal = document.getElementById("advOptionsModal");
 
-    document.querySelectorAll(".pc-controls button").forEach(button => {
-        button.addEventListener("click", function (event) {
-            event.stopPropagation(); // Prevents closing the pc-item when clicking a button
+//     document.querySelectorAll(".pc-controls button").forEach(button => {
+//         button.addEventListener("click", function (event) {
+//             event.stopPropagation(); // Prevents closing the pc-item when clicking a button
 
-            let action = this.getAttribute("title");
+//             let action = this.getAttribute("title");
 
-            if (action === "Advanced Options") {
-                this.disabled = true; // Disable button to prevent multiple clicks
+//             if (action === "Advanced Options") {
+//                 this.disabled = true; // Disable button to prevent multiple clicks
 
-                let modal = new bootstrap.Modal(advModal);
-                modal.show();
+//                 let modal = new bootstrap.Modal(advModal);
+//                 modal.show();
 
-                advModal.addEventListener("hidden.bs.modal", () => {
-                    this.disabled = false;
-                }, { once: true });
-            } else {
-                let confirmAction = confirm(`Do you wish to ${action.toLowerCase()} this PC?`);
-                alert(confirmAction ? `${action} command sent.` : `${action} canceled.`);
-            }
-        });
-    });
+//                 advModal.addEventListener("hidden.bs.modal", () => {
+//                     this.disabled = false;
+//                 }, { once: true });
+//             } else {
+//                 let confirmAction = confirm(`Do you wish to ${action.toLowerCase()} this PC?`);
+//                 alert(confirmAction ? `${action} command sent.` : `${action} canceled.`);
+//             }
+//         });
+//     });
 
-    // Attach event listener for dynamically created ".adv-opt" buttons
-    document.addEventListener("click", function (e) {
-        if (e.target.classList.contains("adv-opt")) {
-            e.stopPropagation();
-            let pcDiv = e.target.closest(".pc-item");
-            if (pcDiv) {
-                let pcId = pcDiv.getAttribute("data-pc-id"); // Ensure the PC has an ID
-                alert("Opening advanced options...");
-                openAdvancedModal(pcId);
-            }
-        }
-    });
-});
+//     // Attach event listener for dynamically created ".adv-opt" buttons
+//     document.addEventListener("click", function (e) {
+//         if (e.target.classList.contains("adv-opt")) {
+//             e.stopPropagation();
+//             let pcDiv = e.target.closest(".pc-item");
+//             if (pcDiv) {
+//                 let pcId = pcDiv.getAttribute("data-pc-id"); // Ensure the PC has an ID
+//                 alert("Opening advanced options...");
+//                 openAdvancedModal(pcId);
+//             }
+//         }
+//     });
+// });
 
 
     
@@ -366,305 +366,7 @@ document.addEventListener("DOMContentLoaded", function () {
         modal.classList.remove("show");
         document.getElementById("vnc").src = "";
     }
-      
-//     // Function to render a PC item for monitoring
-//     function renderPcItem(pc) {
-//         const pcDiv = document.createElement("div");
-//         pcDiv.className = "pc-item";
-//         pcDiv.setAttribute("data-pc-id", pc.id);
-//         pcDiv.onclick = () => openModal(pc.id, pc.name, pc.imageUrl);
-        
-//         pcDiv.innerHTML = `
-//             <img src="${pc.imageUrl || '{{ asset("images/pc.png") }}'}" alt="${pc.name}">
-//             <div class="pc-info">
-//                 <p>PC Name: ${pc.name}</p>
-//                 <p>Status: ${pc.status}</p>
-//             </div>
-//         `;
-//         return pcDiv;
-//     }
-    
-//    // Function to render a PC control item
-// function renderPcControlItem(pc) {
-//     const pcDiv = document.createElement("div");
-//     pcDiv.className = "pc-item";
-//     pcDiv.setAttribute("data-pc-id", pc.id);
-    
-//     pcDiv.innerHTML = `
-//         <img src="${pc.imageUrl || '/images/pc.png'}" alt="${pc.name}">
-//         <div class="pc-info">
-//             <p>PC Name: ${pc.name}</p>
-//             <p>Status: ${pc.status}</p>
-//         </div>
-//         <div class="pc-controls" style="display: none;">
-//             <button class="shutdown" title="Shutdown"><i class="fas fa-power-off"></i></button>
-//             <button class="restart" title="Restart"><i class="fas fa-sync-alt"></i></button>
-//             <button class="lock" title="Lock"><i class="fas fa-lock"></i></button>
-//             <button class="file-transfer" title="File Transfer"><i class="fas fa-file-upload"></i></button>
-//             <button class="adv-opt" title="Advanced Options"><i class="fas fa-toolbox"></i></button>
-//         </div>
-//     `;
-
-//     // Add click event to toggle controls
-//     pcDiv.addEventListener("click", function (event) {
-//         let controls = this.querySelector(".pc-controls");
-
-//         // Ignore clicks inside .pc-controls
-//         if (event.target.closest(".pc-controls")) return;
-
-//         // Toggle visibility of controls
-//         if (controls.style.display === "none" || controls.style.display === "") {
-//             controls.style.display = "flex"; // Show controls
-//         } else {
-//             controls.style.display = "none"; // Hide controls
-//         }
-//     });
-
-
-//       function handleAction(action, pcId) {
-//         const userConfirmed = confirm(`Are you sure you want to ${action} this PC?`);
-//         if (userConfirmed) {
-//             sendCommand(pcId, action);
-//         } else {
-//             alert(`${action} action canceled.`);
-//         }
-//     }
-
-//         pcDiv.querySelector(".shutdown").addEventListener("click", (e) => {
-//             e.stopPropagation();
-//             handleAction("shutdown", pc.id);
-//         });
-
-//         pcDiv.querySelector(".restart").addEventListener("click", (e) => {
-//             e.stopPropagation();
-//             handleAction("restart", pc.id);
-//         });
-
-//         pcDiv.querySelector(".lock").addEventListener("click", (e) => {
-//             e.stopPropagation();
-//             handleAction("lock", pc.id);
-//         });
-
-//         pcDiv.querySelector(".file-transfer").addEventListener("click", (e) => {
-//             e.stopPropagation();
-//             handleAction("file-transfer", pc.id);
-//         });
-
-//         pcDiv.querySelector(".adv-opt").addEventListener("click", (e) => {
-//             e.stopPropagation();
-//             alert("Opening advanced options...");
-//             openAdvancedModal(pc.id);
-//         });
-
-//         return pcDiv;
-// }
-
-    
-//     try {
-//         // Connect to Socket.IO server for real-time updates
-//         const socket = io("http://192.168.1.14:3000");
-        
-//         socket.on("connect", () => {
-//             console.log("✅ Connected to Socket.IO server");
-//         });
-        
-//         // Initial connected PCs load
-//         socket.on("initialConnectedPCs", (connectedPCs) => {
-//             // Handle monitoring section
-//             if (connectedPcsContainer) {
-//                 connectedPcsContainer.innerHTML = '';
-                
-//                 // If no PCs are connected, show a message
-//                 if (!connectedPCs || connectedPCs.length === 0) {
-//                     connectedPcsContainer.innerHTML = '<p class="text-center p-4">No PCs currently connected</p>';
-//                 } else {
-//                     // Add each connected PC to the monitoring grid
-//                     connectedPCs.forEach(pc => {
-//                         connectedPcsContainer.appendChild(renderPcItem(pc));
-//                     });
-//                 }
-//             }
-            
-//             // Handle control section
-//             if (controlPcsContainer) {
-//                 controlPcsContainer.innerHTML = '';
-                
-//                 // If no PCs are connected, show a message
-//                 if (!connectedPCs || connectedPCs.length === 0) {
-//                     controlPcsContainer.innerHTML = '<p class="text-center p-4">No PCs currently connected</p>';
-//                 } else {
-//                     // Add each connected PC to the control grid
-//                     connectedPCs.forEach(pc => {
-//                         controlPcsContainer.appendChild(renderPcControlItem(pc));
-//                     });
-//                 }
-//             }
-//         });
-        
-//         // PC connection event
-//         socket.on("pcConnected", (pc) => {
-//             console.log("PC Connected event received:", pc);
-            
-//             // Update monitoring section
-//             if (connectedPcsContainer) {
-//                 // Remove "no PCs" message if it exists
-//                 const monitoringNoItemsMsg = connectedPcsContainer.querySelector("p.text-center");
-//                 if (monitoringNoItemsMsg) {
-//                     connectedPcsContainer.innerHTML = '';
-//                 }
-                
-//                 // Check if we already have this PC in monitoring
-//                 const existingMonitoringPc = connectedPcsContainer.querySelector(`.pc-item[data-pc-id="${pc.id}"]`);
-//                 if (!existingMonitoringPc) {
-//                     connectedPcsContainer.appendChild(renderPcItem(pc));
-//                 }
-//             }
-            
-//             // Update control section
-//             if (controlPcsContainer) {
-//                 // Remove "no PCs" message if it exists
-//                 const controlNoItemsMsg = controlPcsContainer.querySelector("p.text-center");
-//                 if (controlNoItemsMsg) {
-//                     controlPcsContainer.innerHTML = '';
-//                 }
-                
-//                 // Check if we already have this PC in controls
-//                 const existingControlPc = controlPcsContainer.querySelector(`.pc-item[data-pc-id="${pc.id}"]`);
-//                 if (!existingControlPc) {
-//                     controlPcsContainer.appendChild(renderPcControlItem(pc));
-//                 }
-//             }
-//         });
-        
-//         // PC disconnection event
-//         socket.on("pcDisconnected", (pcId) => {
-//             console.log("PC Disconnected event received:", pcId);
-            
-//             // Update monitoring section
-//             if (connectedPcsContainer) {
-//                 const monitoringPcElement = connectedPcsContainer.querySelector(`.pc-item[data-pc-id="${pcId}"]`);
-//                 if (monitoringPcElement) {
-//                     monitoringPcElement.remove();
-                    
-//                     // If no PCs are left in monitoring, show the message
-//                     if (connectedPcsContainer.children.length === 0) {
-//                         connectedPcsContainer.innerHTML = '<p class="text-center p-4">No PCs currently connected</p>';
-//                     }
-//                 }
-//             }
-            
-//             // Update control section
-//             if (controlPcsContainer) {
-//                 const controlPcElement = controlPcsContainer.querySelector(`.pc-item[data-pc-id="${pcId}"]`);
-//                 if (controlPcElement) {
-//                     controlPcElement.remove();
-                    
-//                     // If no PCs are left in controls, show the message
-//                     if (controlPcsContainer.children.length === 0) {
-//                         controlPcsContainer.innerHTML = '<p class="text-center p-4">No PCs currently connected</p>';
-//                     }
-//                 }
-//             }
-            
-//             // If the modal for this PC is open, close it
-//             if (selectedPcId === pcId) {
-//                 closeModal();
-//             }
-//         });
-        
-//         // Update PC status
-//         socket.on("pcStatusUpdate", (pc) => {
-//             // Update in monitoring section
-//             if (connectedPcsContainer) {
-//                 const monitoringPcElement = connectedPcsContainer.querySelector(`.pc-item[data-pc-id="${pc.id}"]`);
-//                 if (monitoringPcElement) {
-//                     const statusElement = monitoringPcElement.querySelector('.pc-info p:nth-child(2)');
-//                     if (statusElement) {
-//                         statusElement.textContent = `Status: ${pc.status}`;
-//                     }
-//                 }
-//             }
-            
-//             // Update in control section
-//             if (controlPcsContainer) {
-//                 const controlPcElement = controlPcsContainer.querySelector(`.pc-item[data-pc-id="${pc.id}"]`);
-//                 if (controlPcElement) {
-//                     const statusElement = controlPcElement.querySelector('.pc-info p:nth-child(2)');
-//                     if (statusElement) {
-//                         statusElement.textContent = `Status: ${pc.status}`;
-//                     }
-//                 }
-//             }
-//         });
-        
-//         // Handle screen updates for the currently open modal
-//         socket.on("updateScreen", (data) => {
-//             // Only update the image if this is the selected PC or no PC ID was provided
-//             if (!selectedPcId || data.pcId === selectedPcId) {
-//                 document.getElementById("pcImage").src = data.imageUrl;
-//             }
-//         });
-        
-//         // Handle incoming chat messages
-//         socket.on("chatMessage", (data) => {
-//             if (data.pcId === selectedPcId) {
-//                 const messagesDiv = document.getElementById("chatMessages");
-//                 const messageElement = document.createElement("div");
-//                 messageElement.className = "message received";
-//                 messageElement.textContent = data.message;
-//                 messagesDiv.appendChild(messageElement);
-//                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
-//             }
-//         });
-        
-//         socket.on("connect_error", (error) => {
-//             console.error("❌ Socket.IO connection error:", error);
-//             if (connectedPcsContainer) {
-//                 connectedPcsContainer.innerHTML = '<p class="text-center p-4 text-red-500">Error connecting to server</p>';
-//             }
-//             if (controlPcsContainer) {
-//                 controlPcsContainer.innerHTML = '<p class="text-center p-4 text-red-500">Error connecting to server</p>';
-//             }
-//         });
-
-        
-//     } catch (error) {
-//         console.error("❌ Error initializing Socket.IO:", error);
-//         if (connectedPcsContainer) {
-//             connectedPcsContainer.innerHTML = '<p class="text-center p-4 text-red-500">Error initializing connection</p>';
-//         }
-//         if (controlPcsContainer) {
-//             controlPcsContainer.innerHTML = '<p class="text-center p-4 text-red-500">Error initializing connection</p>';
-//         }
-//     }
-// });
-   
-
-//    function openModal(pcName, imgSrc) {
-//     const modal = document.getElementById("pcModal");
-
-//     // Set content
-//     document.getElementById("pcTitle").innerText = "";
-//     document.getElementById("pcImage").src = imgSrc;
-
-//     // Reset visibility before applying the fade-in effect
-//     modal.style.visibility = "visible";
-
-//     // Show modal with fade-in effect
-//     modal.classList.add("show");
-// }
-
-// function closeModal() {
-//     const modal = document.getElementById("pcModal");
-
-//     // Remove 'show' class for fade-out
-//     modal.classList.remove("show");
-
-//     // Wait for the transition to finish before hiding completely
-//     setTimeout(() => {
-//         modal.style.visibility = "hidden";
-//     }, 400); // Match this with your CSS transition duration
-// }
+ 
 
 // Close when clicking outside
 document.getElementById("pcModal").addEventListener("click", closeModal);
@@ -766,7 +468,8 @@ document.addEventListener("DOMContentLoaded", function () {
     observer.observe(document.querySelector(".pc-grid"), { childList: true });
 });
 
-// for dynamic adding of pc in monitoring section
+
+// ADD NG PC SA MONITORING SECTION
 document.addEventListener("DOMContentLoaded", function () {
     let confirmAddPc = document.getElementById("confirmAddPc");
 

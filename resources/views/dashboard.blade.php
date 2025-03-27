@@ -84,8 +84,8 @@
     <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-semibold">Monitoring</h2>
         <button type="button" id="addPcButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPcModal">
-    +
-</button>
+            +
+        </button>
     </div>
     
         <div class="pc-grid" id="connected-pcs">
@@ -166,51 +166,40 @@
         <button id="selectAll" title="Select All"><i class="fa-solid fa-check"></i></button>
 
         <div class="pc-grid" id="control-pcs">
-            <table>
-                <thead>
-                    <tr>
-                        <th>PC Name</th>
-                        <th>IP Address</th>
-                        <th>VNC Port</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($subPcs as $subPc)
-                        <tr>
-                            <td>{{ $subPc->pc_name }}</td>
-                            <td>{{ $subPc->ip_address }}</td>
-                            <td>{{ $subPc->vnc_port }}</td>
-                            <td>
-                                <button class="shutdown" data-ip="{{ $subPc->ip_address }}">Shutdown</button>
-                                <button class="restart" data-ip="{{ $subPc->ip_address }}">Restart</button>
-                                <button class="lock" data-ip="{{ $subPc->ip_address }}">Lock</button>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        @foreach($subPcs as $subPc)
+            <div class="pc-item">
+                <img src="{{ asset('images/pc.png') }}" alt="PC {{ $subPc->ip_address }}">
+                <div class="pc-info">
+                    <p>PC Name: {{ $subPc->pc_name }}</p>
+                    <p>IP Address: {{ $subPc->ip_address }}</p>
+                    <p>Port: {{ $subPc->vnc_port }}</p>
+                </div>
+                    <div class="pc-controls" style="display: none;">
+                        <button class="shutdown" data-ip="{{ $subPc->ip_address }}" title="Shutdown"><i class="fas fa-power-off"></i></button>
+                        <button class="restart" data-ip="{{ $subPc->ip_address }}" title="Restart"><i class="fas fa-sync-alt"></i></button>
+                        <button class="lock" data-ip="{{ $subPc->ip_address }}" title="Lock"><i class="fa-solid fa-lock"></i></button>
+                    </div>
+            </div>
+        @endforeach
+    </div>
+    <script>
+    document.querySelectorAll('.shutdown, .restart, .lock').forEach(button => {
+        button.addEventListener('click', function () {
+            let ip = this.dataset.ip;
+            let action = this.classList.contains('shutdown') ? 'shutdown' :
+                this.classList.contains('restart') ? 'restart' : 'lock';
 
-            <script>
-                document.querySelectorAll('.shutdown, .restart, .lock').forEach(button => {
-                    button.addEventListener('click', function () {
-                        let ip = this.dataset.ip;
-                        let action = this.classList.contains('shutdown') ? 'shutdown' :
-                            this.classList.contains('restart') ? 'restart' : 'lock';
-
-                        fetch('/pcs/control', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                            body: JSON.stringify({ ip, action })
-                        })
-                            .then(response => response.json())
-                            .then(data => alert(data.message))
-                            .catch(error => console.error('Error:', error));
-                    });
-                });
-            </script>
-
-        </div>
+            fetch('/pcs/control', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                body: JSON.stringify({ ip, action })
+            })
+                .then(response => response.json())
+                .then(data => alert(data.message))
+                .catch(error => console.error('Error:', error));
+            });
+        });
+    </script>
     </div>
 
 
