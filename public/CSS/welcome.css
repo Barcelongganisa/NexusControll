@@ -20,6 +20,18 @@ html, body {
     padding-top: 5rem; /* Adjusted to prevent overlap with navbar */
 }
 
+/* INPUT-GROUP SA LOGIN */
+#loginModal > div > div > div.modal-body > form > div:nth-child(3) > div{
+  gap: 0px;
+}
+
+/* EYE ICON SA LOGIN */
+#togglePassword{
+  background-color: rgb(128 127 126);
+  border: none !important;
+  color: white !important;
+}
+
 .overlay {
     pointer-events: none;
 }

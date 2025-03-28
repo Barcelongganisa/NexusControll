@@ -10,6 +10,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Optional: Bootstrap CDN (Remove if using Vite for Bootstrap) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= asset('css/welcome.css') ?>">
 </head>
@@ -347,7 +348,12 @@
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" autocomplete="off" required>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" autocomplete="off" required>
+                            <span class="input-group-text" id="togglePassword" style="cursor: pointer;">
+                                <i class="bi bi-eye"></i>
+                            </span>
+                        </div>
                     </div>
 
                     <!-- Remember Me Checkbox -->
