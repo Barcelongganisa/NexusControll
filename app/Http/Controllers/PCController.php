@@ -50,6 +50,7 @@ class PCController extends Controller
         $subPcs = SubPc::all();
         $totalDevices = $subPcs->count();
         $onlineDevices = 0;
+        $offlineDevices = 0;
 
         foreach ($subPcs as $subPc) {
             if ($this->isPCOnline($subPc->ip_address)) {
