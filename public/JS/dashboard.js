@@ -301,46 +301,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-// document.addEventListener("DOMContentLoaded", function () {
-//     const advModal = document.getElementById("advOptionsModal");
-
-//     document.querySelectorAll(".pc-controls button").forEach(button => {
-//         button.addEventListener("click", function (event) {
-//             event.stopPropagation(); // Prevents closing the pc-item when clicking a button
-
-//             let action = this.getAttribute("title");
-
-//             if (action === "Advanced Options") {
-//                 this.disabled = true; // Disable button to prevent multiple clicks
-
-//                 let modal = new bootstrap.Modal(advModal);
-//                 modal.show();
-
-//                 advModal.addEventListener("hidden.bs.modal", () => {
-//                     this.disabled = false;
-//                 }, { once: true });
-//             } else {
-//                 let confirmAction = confirm(`Do you wish to ${action.toLowerCase()} this PC?`);
-//                 alert(confirmAction ? `${action} command sent.` : `${action} canceled.`);
-//             }
-//         });
-//     });
-
-//     // Attach event listener for dynamically created ".adv-opt" buttons
-//     document.addEventListener("click", function (e) {
-//         if (e.target.classList.contains("adv-opt")) {
-//             e.stopPropagation();
-//             let pcDiv = e.target.closest(".pc-item");
-//             if (pcDiv) {
-//                 let pcId = pcDiv.getAttribute("data-pc-id"); // Ensure the PC has an ID
-//                 alert("Opening advanced options...");
-//                 openAdvancedModal(pcId);
-//             }
-//         }
-//     });
-// });
-
-
     
     // Modal functions
     function openModal(pcName, vncPort) {
@@ -439,7 +399,7 @@ function closeChatModal() {
 }
 
 // Toggle Chat Modal
-// document.getElementById("chatToggle").addEventListener("click", openChatModal);
+document.getElementById("chatToggle").addEventListener("click", openChatModal);
 
 // para sa gap to ng mga PCs sa monitoring-section
 document.addEventListener("DOMContentLoaded", function () {
