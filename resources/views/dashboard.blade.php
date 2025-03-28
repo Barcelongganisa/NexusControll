@@ -10,7 +10,7 @@
         iframe {
             border: 1px solid #ccc;
             width: 100%;
-            height: 815px;
+            height: 600px;
         }
     </style>
 
@@ -94,12 +94,11 @@
 
         <div class="pc-grid" id="connected-pcs">
             @foreach ($subPcs as $subPc)
-                <div class="pc-item" onclick="openModal('{{ $subPc->id }}', '{{ $subPc->vnc_port }}')">
+                <div class="pc-item" onclick="openModal('{{ $subPc->ip_address }}', '{{ $subPc->vnc_port }}')">
                     <img src="{{ asset('images/pc.png') }}" alt="PC {{ $subPc->ip_address }}">
                     <div class="pc-info">
-                        <p>PC Name: <br>{{ $subPc->ip_address}} </p>
+                        <p>PC Name: {{ $subPc->ip_address }} </p>
                         <p>Port: {{ $subPc->vnc_port }}</p>
-                {{-- <p>Status: {{ $subPc->status }}</p> --}}
                         <p class="pc-status" data-ip="{{ $subPc->ip_address }}">
                             Status: {{ $subPc->device_status }}
                         </p>
@@ -472,10 +471,21 @@
             </table>
         </div>
 
+    <button class="absolute top-5 left-5 bg-blue-500 text-white px-4 py-2 rounded" id="menuToggle">
+        ☰
+    </button>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const connectedDevicesEl = document.getElementById("connectedDevices");
+            const onlineDevicesEl = document.getElementById("onlineDevices");
+            const totalDevicesEl = document.getElementById("totalDevices");
+            const notifList = document.getElementById("notifList");
+            const notifBadge = document.getElementById("notifBadge");
 
+            let notifications = [];
+            let previousStatus = {};
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
+            function fetchDeviceStats() {
                 fetch("http://127.0.0.1:8000/api/device-stats")
                     .then(response => {
                         if (!response.ok) {
