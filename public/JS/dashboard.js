@@ -176,40 +176,33 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// document.addEventListener("DOMContentLoaded", function () {
-//     const advOptButton = document.querySelectorAll(".adv-opt");
-//     const advModal = document.getElementById("advOptionsModal");
+document.addEventListener("DOMContentLoaded", function () {
+    const advOptButton = document.querySelectorAll(".adv-opt");
+    const advModal = document.getElementById("advOptionsModal");
 
-//     document.querySelectorAll(".pc-controls button").forEach(button => {
-//         button.addEventListener("click", function (event) {
-//             event.stopPropagation(); // Prevents the pc-item from closing when clicking a button
+    document.querySelectorAll(".pc-controls button").forEach(button => {
+        button.addEventListener("click", function (event) {
+            event.stopPropagation();
 
-//             let action = this.getAttribute("title");
+            let action = this.getAttribute("title");
 
-//             if (action === "Advanced Options") {
-//                 // Disable button to prevent multiple clicks
-//                 this.disabled = true;
+            if (action === "Advanced Options") {
+                this.disabled = true;
 
-//                 // Open the modal
-//                 let modal = new bootstrap.Modal(advModal);
-//                 modal.show();
+                let modal = new bootstrap.Modal(advModal);
+                modal.show();
 
-//                 // Enable button again when modal is hidden
-//                 advModal.addEventListener("hidden.bs.modal", () => {
-//                     this.disabled = false;
-//                 }, { once: true }); // { once: true } ensures the event runs only once
-//             } else {
-//                 // Show confirm alert for other actions
-//                 let confirmAction = confirm(`Do you wish to ${action.toLowerCase()} this PC?`);
-//                 if (confirmAction) {
-//                     alert(`${action} command sent.`);
-//                 } else {
-//                     alert(`${action} canceled.`);
-//                 }
-//             }
-//         });
-//     });
-// });
+                advModal.addEventListener("hidden.bs.modal", () => {
+                    this.disabled = false;
+                }, { once: true }); 
+            } 
+            else if (action !== "View Background Processes") {
+                alert(`${action} command sent.`);
+            }
+        });
+    });
+});
+
 
 
 // PARA SA LOGS
