@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     this.disabled = false;
                 }, { once: true }); 
             } 
-            else if (action !== "View Background Processes") {
+            else if (action !== "View Background Processes" && action !== "File Transfer") {
                 alert(`${action} command sent.`);
             }
         });

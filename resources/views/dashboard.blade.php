@@ -2,6 +2,31 @@
 <x-app-layout>
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: `{!! session('success') !!}`,
+                confirmButtonColor: '#3085d6'
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: `{!! session('error') !!}`,
+                confirmButtonColor: '#d33'
+            });
+        </script>
+    @endif
+
+
     <style>
         .vnc-container {
             margin-bottom: 20px;
@@ -31,9 +56,9 @@
         </div>
     </div>
 
-            <button class="absolute top-5 left-5 bg-blue-500 text-white px-4 py-2 rounded" id="menuToggle">
-            ☰
-        </button>
+    <button class="absolute top-5 left-5 bg-blue-500 text-white px-4 py-2 rounded" id="menuToggle">
+        ☰
+    </button>
 
     <!-- Dashboard Cards -->
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-6" id="dashCards">
@@ -87,7 +112,8 @@
     <div class="monitoring-container max-w-7xl mx-auto sm:px-6 lg:px-8 mt-10" id="monitoring-section">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-semibold">Monitoring</h2>
-            <button type="button" id="addPcButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPcModal">
+            <button type="button" id="addPcButton" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#addPcModal">
                 +
             </button>
         </div>
@@ -169,31 +195,51 @@
 
         <div class="pc-grid" id="control-pcs">
             @foreach($subPcs as $subPc)
-            <div class="pc-item">
-                <img src="{{ asset('images/pc.png') }}" alt="PC {{ $subPc->ip_address }}">
-                <div class="pc-info">
-                    <p>PC Name: <br>{{ $subPc->ip_address }}</p>
-                    <p>Port: {{ $subPc->vnc_port }}</p>
-                    <p class="pc-status" data-ip="{{ $subPc->ip_address }}">
-                        Status: {{ $subPc->device_status }}
-                    </p>
+                <div class="pc-item">
+                    <img src="{{ asset('images/pc.png') }}" alt="PC {{ $subPc->ip_address }}">
+                    <div class="pc-info">
+                        <p>PC Name: <br>{{ $subPc->ip_address }}</p>
+                        <p>Port: {{ $subPc->vnc_port }}</p>
+                        <p class="pc-status" data-ip="{{ $subPc->ip_address }}">
+                            Status: {{ $subPc->device_status }}
+                        </p>
+                    </div>
+                    <div class="pc-controls" style="display: none;">
+                        <button class="shutdown" data-ip="{{ $subPc->ip_address }}" title="Shutdown"><i
+                                class="fas fa-power-off"></i></button>
+                        <button class="restart" data-ip="{{ $subPc->ip_address }}" title="Restart"><i
+                                class="fas fa-sync-alt"></i></button>
+                        <button class="lock" data-ip="{{ $subPc->ip_address }}" title="Lock"><i
+                                class="fa-solid fa-lock"></i></button>
+                        <form action="{{ url('/upload') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="sub_pc_id" value="{{ $subPc->ip_address }}">
+                            <input type="file" name="file" id="fileInput-{{ $subPc->ip_address }}" required
+                                style="display: none;">
+                            <button type="button" class="file-transfer" title="File Transfer"
+                                onclick="document.getElementById('fileInput-{{ $subPc->ip_address }}').click();">
+                                <i class="fas fa-file-upload"></i>
+                            </button>
+                        </form>
+
+                        <script>
+                            document.getElementById('fileInput-{{ $subPc->ip_address }}').addEventListener('change', function () {
+                                this.form.submit();
+                            });
+                        </script>
+
+                        <button class="adv-opt" title="Advanced Options"><i class="fas fa-toolbox"></i></button>
+                        <button class="view-processes" data-ip="{{ $subPc->ip_address }}" title="View Background Processes">
+                            <i class="fas fa-tasks"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="pc-controls" style="display: none;">
-                    <button class="shutdown" data-ip="{{ $subPc->ip_address }}" title="Shutdown"><i class="fas fa-power-off"></i></button>
-                    <button class="restart" data-ip="{{ $subPc->ip_address }}" title="Restart"><i class="fas fa-sync-alt"></i></button>
-                    <button class="lock" data-ip="{{ $subPc->ip_address }}" title="Lock"><i class="fa-solid fa-lock"></i></button>
-                    <button class="file-transfer" title="File Transfer"><i class="fas fa-file-upload"></i></button>
-                    <button class="adv-opt" title="Advanced Options"><i class="fas fa-toolbox"></i></button>
-                    <button class="view-processes" data-ip="{{ $subPc->ip_address }}" title="View Background Processes">
-                        <i class="fas fa-tasks"></i>
-                    </button>
-                </div>
-            </div>
             @endforeach
         </div>
     </div>
     <!-- Process Modal -->
-    <div id="process-modal" style="display: none;" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div id="process-modal" style="display: none;"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
         <div class="modal-content">
             <h2 class="text-xl font-bold mb-4">Task Manager - Processes</h2>
             <button id="close-modal" class="absolute top-4 right-4 text-gray-600 hover:text-black">✖</button>
@@ -205,13 +251,13 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             let modal = document.getElementById('process-modal');
             let modalContent = document.getElementById('process-modal-content');
             let closeModalBtn = document.getElementById('close-modal');
 
             document.querySelectorAll('.view-processes').forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     let ip = this.dataset.ip;
                     modal.style.display = "flex";
                     modalContent.innerHTML = "<p class='text-center'>Connecting...</p>";
@@ -221,7 +267,7 @@
                         transports: ["websocket", "polling"]
                     });
 
-                    socket.on('update_processes', function(data) {
+                    socket.on('update_processes', function (data) {
                         if (data.processes.length > 0) {
                             // Sort processes by CPU usage (highest to lowest)
                             data.processes.sort((a, b) => b.cpu - a.cpu);
@@ -251,7 +297,7 @@
                             <td class="border p-2 font-bold ${proc.cpu > 50 ? 'text-red-600' : 'text-green-600'}">${proc.cpu}%</td>
                             <td class="border p-2 ${proc.memory > 500 ? 'text-red-600' : 'text-blue-600'}">${proc.memory}MB</td>
                             <td class="border p-2">
-                                <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700 end-task" 
+                                <button class="bg-red-500 text-black px-3 py-1 rounded hover:bg-red-700 end-task" 
                                     data-ip="${ip}" data-pid="${proc.pid}">
                                     End Task
                                 </button>
@@ -264,7 +310,7 @@
 
                             // Add event listeners to End Task buttons
                             document.querySelectorAll('.end-task').forEach(btn => {
-                                btn.addEventListener('click', function() {
+                                btn.addEventListener('click', function () {
                                     let pid = this.dataset.pid;
                                     let ip = this.dataset.ip;
                                     endTask(ip, pid);
@@ -287,14 +333,14 @@
             function endTask(ip, pid) {
                 if (confirm(`Are you sure you want to end process ${pid}?`)) {
                     fetch(`http://${ip}:5000/kill-process`, {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                pid: pid
-                            })
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            pid: pid
                         })
+                    })
                         .then(response => response.json())
                         .then(data => {
                             alert(data.message || data.error);
@@ -307,12 +353,12 @@
             }
 
             // Close the modal
-            closeModalBtn.addEventListener('click', function() {
+            closeModalBtn.addEventListener('click', function () {
                 modal.style.display = "none";
             });
 
             // Close when clicking outside the modal
-            modal.addEventListener('click', function(event) {
+            modal.addEventListener('click', function (event) {
                 if (event.target === modal) {
                     modal.style.display = "none";
                 }
@@ -324,22 +370,22 @@
 
     <script>
         document.querySelectorAll('.shutdown, .restart, .lock').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 let ip = this.dataset.ip;
                 let action = this.classList.contains('shutdown') ? 'shutdown' :
                     this.classList.contains('restart') ? 'restart' : 'lock';
 
                 fetch('/pcs/control', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({
-                            ip,
-                            action
-                        })
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        ip,
+                        action
                     })
+                })
                     .then(response => response.json())
                     .then(data => alert(data.message))
                     .catch(error => console.error('Error:', error));
@@ -347,21 +393,21 @@
         });
 
         document.querySelectorAll('.view-processes').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 let ip = this.dataset.ip;
                 let processListDiv = document.getElementById('process-list-' + ip);
                 processListDiv.style.display = 'block';
 
                 fetch('/pcs/processes', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({
-                            ip
-                        })
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        ip
                     })
+                })
                     .then(response => response.json())
                     .then(data => {
                         if (data.processes) {
@@ -379,7 +425,7 @@
     </script>
     <script>
         document.querySelectorAll('.show-processes').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 let ip = this.dataset.ip; // Get Sub-PC IP
                 let processListDiv = document.getElementById('process-list-' + ip);
 
@@ -452,59 +498,59 @@
                 </thead>
                 <tbody id="logsTable">
                     @if(isset($logs))
-                    @foreach($logs as $log)
-                    <tr>
-                        <td class="p-2 border">{{ $log->timestamp }}</td>
-                        <td class="p-2 border">{{ $log->pc_name }}</td>
-                        <td class="p-2 border">{{ $log->action }}</td>
-                        <td class="p-2 border {{ $log->status == 'Success' ? 'text-green-500' : 'text-red-500' }}">
-                            {{ $log->status }}
-                        </td>
-                    </tr>
-                    @endforeach
+                        @foreach($logs as $log)
+                            <tr>
+                                <td class="p-2 border">{{ $log->timestamp }}</td>
+                                <td class="p-2 border">{{ $log->pc_name }}</td>
+                                <td class="p-2 border">{{ $log->action }}</td>
+                                <td class="p-2 border {{ $log->status == 'Success' ? 'text-green-500' : 'text-red-500' }}">
+                                    {{ $log->status }}
+                                </td>
+                            </tr>
+                        @endforeach
                     @else
-                    <tr>
-                        <td colspan="4" class="p-2 border text-center">No logs found</td>
-                    </tr>
+                        <tr>
+                            <td colspan="4" class="p-2 border text-center">No logs found</td>
+                        </tr>
                     @endif
                 </tbody>
             </table>
         </div>
 
-    <button class="absolute top-5 left-5 bg-blue-500 text-white px-4 py-2 rounded" id="menuToggle">
-        ☰
-    </button>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const connectedDevicesEl = document.getElementById("connectedDevices");
-            const onlineDevicesEl = document.getElementById("onlineDevices");
-            const totalDevicesEl = document.getElementById("totalDevices");
-            const notifList = document.getElementById("notifList");
-            const notifBadge = document.getElementById("notifBadge");
+        <button class="absolute top-5 left-5 bg-blue-500 text-white px-4 py-2 rounded" id="menuToggle">
+            ☰
+        </button>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const connectedDevicesEl = document.getElementById("connectedDevices");
+                const onlineDevicesEl = document.getElementById("onlineDevices");
+                const totalDevicesEl = document.getElementById("totalDevices");
+                const notifList = document.getElementById("notifList");
+                const notifBadge = document.getElementById("notifBadge");
 
-            let notifications = [];
-            let previousStatus = {};
+                let notifications = [];
+                let previousStatus = {};
 
-            function fetchDeviceStats() {
-                fetch("http://127.0.0.1:8000/api/device-stats")
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        document.getElementById("connectedDevices").textContent = data.connected;
-                        document.getElementById("onlineDevices").textContent = data.online;
-                        document.getElementById("totalDevices").textContent = data.total;
-                    })
-                    .catch(error => {
-                        console.error("Error fetching device stats:", error);
-                        document.getElementById("connectedDevices").textContent = "Failed to Load";
-                        document.getElementById("onlineDevices").textContent = "Failed to Load";
-                        document.getElementById("totalDevices").textContent = "Failed to Load";
-                    });
-            });
+                function fetchDeviceStats() {
+                    fetch("http://127.0.0.1:8000/api/device-stats")
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            document.getElementById("connectedDevices").textContent = data.connected;
+                            document.getElementById("onlineDevices").textContent = data.online;
+                            document.getElementById("totalDevices").textContent = data.total;
+                        })
+                        .catch(error => {
+                            console.error("Error fetching device stats:", error);
+                            document.getElementById("connectedDevices").textContent = "Failed to Load";
+                            document.getElementById("onlineDevices").textContent = "Failed to Load";
+                            document.getElementById("totalDevices").textContent = "Failed to Load";
+                        });
+                });
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
         <script src="{{ asset('js/dashboard.js') }}"></script>

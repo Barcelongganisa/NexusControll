@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\SubPc;
 use Illuminate\Support\Facades\Http;
 use App\Models\Log;
+use Illuminate\Support\Facades\DB;
+
 
 
 class PCController extends Controller
@@ -132,4 +134,55 @@ class PCController extends Controller
 
         return response()->json(['processes' => $processes]);
     }
+
+    public function uploadFile(Request $request)
+    {
+        $subPc = DB::table('sub_pcs')->where('ip_address', $request->input('sub_pc_id'))->first();
+
+    if (!$subPc) {
+        return redirect()->back()->with('error', 'Sub-PC not found.');
+    }
+
+    // Get file details
+    $file = $request->file('file');
+    $filename = $file->getClientOriginalName();
+    $localPath = $file->getPathname(); // Temporary path
+
+    // ✅ Establish Direct FTP Connection
+    $ftpHost = $subPc->ip_address; // Dynamically get IP from DB
+    $ftpUsername = env('FTP_USERNAME');
+    $ftpPassword = env('FTP_PASSWORD');
+    $remoteFile = "/uploads/{$filename}"; // Destination path
+
+    // Connect to FTP Server
+    $ftpConn = ftp_connect($ftpHost, 21, 30); // 30s timeout
+    if (!$ftpConn) {
+        return redirect()->back()->with('error', 'FTP connection failed!');
+    }
+
+    // Login to FTP
+    if (!ftp_login($ftpConn, $ftpUsername, $ftpPassword)) {
+        ftp_close($ftpConn);
+        return redirect()->back()->with('error', 'FTP login failed!');
+    }
+
+    // Enable Active Mode (Faster for LAN)
+    ftp_pasv($ftpConn, false);
+
+    // ✅ Optimize Large File Transfers
+    ftp_set_option($ftpConn, FTP_TIMEOUT_SEC, 60); // Set timeout
+    ftp_set_option($ftpConn, FTP_AUTOSEEK, true); // Enable seeking for large files
+
+    // Upload the file
+    $uploadSuccess = ftp_put($ftpConn, $remoteFile, $localPath, FTP_BINARY);
+
+    // Close FTP connection
+    ftp_close($ftpConn);
+
+    if ($uploadSuccess) {
+        return redirect()->back()->with('success', 'File uploaded successfully!');
+    } else {
+        return redirect()->back()->with('error', 'Upload failed!');
+    }
+}
 }
