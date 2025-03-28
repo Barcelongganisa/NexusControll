@@ -155,6 +155,12 @@
                                 <button class="shutdown" data-ip="{{ $subPc->ip_address }}">Shutdown</button>
                                 <button class="restart" data-ip="{{ $subPc->ip_address }}">Restart</button>
                                 <button class="lock" data-ip="{{ $subPc->ip_address }}">Lock</button>
+                                <form action="{{ url('/upload') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="hidden" name="sub_pc_id" value="{{ $subPc->ip_address }}">
+                                    <input type="file" name="file" required>
+                                    <button type="submit">Upload</button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
@@ -260,7 +266,7 @@
             const notifBadge = document.getElementById("notifBadge");
 
             let notifications = [];
-            let previousStatus = {}; 
+            let previousStatus = {};
 
             function fetchDeviceStats() {
                 fetch("http://127.0.0.1:8000/api/device-stats")
@@ -277,9 +283,6 @@
                     })
                     .catch(error => {
                         console.error("Error fetching device stats:", error);
-                        connectedDevicesEl.textContent = "No Device Connected";
-                        onlineDevicesEl.textContent = "No Device Connected";
-                        totalDevicesEl.textContent = "No Device Connected";
                     });
             }
 
