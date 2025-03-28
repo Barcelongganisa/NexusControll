@@ -30,7 +30,9 @@
             </div>
         </div>
     </div>
-
+    <button class="absolute top-5 left-5 bg-blue-500 text-white px-4 py-2 rounded" id="menuToggle">
+            ☰
+        </button>
     <!-- Dashboard Cards -->
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-6" id="dashCards">
         <h2>Dashboard</h2>
@@ -469,9 +471,9 @@
         </div>
 
 
-        <button class="absolute top-5 left-5 bg-blue-500 text-white px-4 py-2 rounded" id="menuToggle">
+        <!-- <button class="absolute top-5 left-5 bg-blue-500 text-white px-4 py-2 rounded" id="menuToggle">
             ☰
-        </button>
+        </button> -->
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 fetch("http://127.0.0.1:8000/api/device-stats")
