@@ -21,8 +21,11 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
-        //
+public function boot()
+{
+    
+    if (php_sapi_name() !== 'cli') {
+        exec('php artisan websockify:start > NUL 2>&1 &');
     }
+}
 }

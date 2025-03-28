@@ -182,34 +182,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.querySelectorAll(".pc-controls button").forEach(button => {
         button.addEventListener("click", function (event) {
-            event.stopPropagation(); // Prevents the pc-item from closing when clicking a button
+            event.stopPropagation();
 
             let action = this.getAttribute("title");
 
             if (action === "Advanced Options") {
-                // Disable button to prevent multiple clicks
                 this.disabled = true;
 
-                // Open the modal
                 let modal = new bootstrap.Modal(advModal);
                 modal.show();
 
-                // Enable button again when modal is hidden
                 advModal.addEventListener("hidden.bs.modal", () => {
                     this.disabled = false;
-                }, { once: true }); // { once: true } ensures the event runs only once
-            } else {
-                // Show confirm alert for other actions
-                let confirmAction = confirm(`Do you wish to ${action.toLowerCase()} this PC?`);
-                if (confirmAction) {
-                    alert(`${action} command sent.`);
-                } else {
-                    alert(`${action} canceled.`);
-                }
+                }, { once: true }); 
+            } 
+            else if (action !== "View Background Processes") {
+                alert(`${action} command sent.`);
             }
         });
     });
 });
+
 
 
 // PARA SA LOGS
@@ -308,132 +301,46 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    const advModal = document.getElementById("advOptionsModal");
+// document.addEventListener("DOMContentLoaded", function () {
+//     const advModal = document.getElementById("advOptionsModal");
 
-    document.querySelectorAll(".pc-controls button").forEach(button => {
-        button.addEventListener("click", function (event) {
-            event.stopPropagation(); // Prevents closing the pc-item when clicking a button
+//     document.querySelectorAll(".pc-controls button").forEach(button => {
+//         button.addEventListener("click", function (event) {
+//             event.stopPropagation(); // Prevents closing the pc-item when clicking a button
 
-            let action = this.getAttribute("title");
+//             let action = this.getAttribute("title");
 
-            if (action === "Advanced Options") {
-                this.disabled = true; // Disable button to prevent multiple clicks
+//             if (action === "Advanced Options") {
+//                 this.disabled = true; // Disable button to prevent multiple clicks
 
-                let modal = new bootstrap.Modal(advModal);
-                modal.show();
+//                 let modal = new bootstrap.Modal(advModal);
+//                 modal.show();
 
-                advModal.addEventListener("hidden.bs.modal", () => {
-                    this.disabled = false;
-                }, { once: true });
-            } else {
-                let confirmAction = confirm(`Do you wish to ${action.toLowerCase()} this PC?`);
-                alert(confirmAction ? `${action} command sent.` : `${action} canceled.`);
-            }
-        });
-    });
-
-    // Attach event listener for dynamically created ".adv-opt" buttons
-    document.addEventListener("click", function (e) {
-        if (e.target.classList.contains("adv-opt")) {
-            e.stopPropagation();
-            let pcDiv = e.target.closest(".pc-item");
-            if (pcDiv) {
-                let pcId = pcDiv.getAttribute("data-pc-id"); // Ensure the PC has an ID
-                alert("Opening advanced options...");
-                openAdvancedModal(pcId);
-            }
-        }
-    });
-});
-
-// // Function to handle opening advanced options
-// function openAdvancedModal(pcId) {
-//     console.log(`Opening advanced options for PC: ${pcId}`);
-//     let advModal = new bootstrap.Modal(document.getElementById("advOptionsModal"));
-//     advModal.show();
-// }
-
-
-document.addEventListener("DOMContentLoaded", () => {
-    setupDashboardUpdater();
-});
-
-/**
- * Function to update the dashboard dynamically
- */
-function updateDashboard() {
-    const allPcs = document.querySelectorAll(".pc-item");
-
-    // Filter online PCs
-    const onlinePcs = [...allPcs].filter(pc => 
-        pc.querySelector(".pc-info p:nth-child(2)")?.textContent.includes("Online")
-    );
-
-    // Update dashboard DOM
-    document.querySelector("#dashCards .dashboard-cards .card:nth-child(1) p").textContent = allPcs.length; // Connected Devices
-    document.querySelector("#dashCards .dashboard-cards .card:nth-child(2) p").textContent = onlinePcs.length; // Online Devices
-    document.querySelector("#dashCards .dashboard-cards .card:nth-child(3) p").textContent = allPcs.length; // Total Devices (assuming connected = total)
-
-    console.log("Dashboard Updated:", { connected: allPcs.length, online: onlinePcs.length });
-}
-
-/**
- * Function to set up real-time monitoring for dashboard updates
- */
-// function setupDashboardUpdater() {
-//     const container = document.querySelector("#pc-container");
-
-//     if (!container) {
-//         console.warn("PC container not found. Dashboard update not set.");
-//         return;
-//     }
-
-//     // MutationObserver to detect changes in PC list
-//     const observer = new MutationObserver(() => updateDashboard());
-//     observer.observe(container, { childList: true, subtree: true });
-
-//     console.log("Dashboard update observer initialized.");
-
-//     // Initial update on page load
-//     updateDashboard();
-// }
-
-/**
- * WebSocket Event Listener (Example)
- * Listens for PC status updates and updates the dashboard
- */
-// if (typeof socket !== "undefined") {
-//     socket.on("pc-status-update", (data) => {
-//         console.log("Received WebSocket Update:", data);
-//         updateDashboard();
+//                 advModal.addEventListener("hidden.bs.modal", () => {
+//                     this.disabled = false;
+//                 }, { once: true });
+//             } else {
+//                 let confirmAction = confirm(`Do you wish to ${action.toLowerCase()} this PC?`);
+//                 alert(confirmAction ? `${action} command sent.` : `${action} canceled.`);
+//             }
+//         });
 //     });
-// }
 
-// // Combined script for both monitoring and control sections
-//    document.addEventListener("DOMContentLoaded", () => {
-//     // Shared WebSocket connection
-//     const ws = new WebSocket("ws://192.168.1.14:8080");
-//     let selectedPcId = null;
-    
-//     // WebSocket Connection Handling
-//     ws.onopen = () => console.log("✅ Connected to WebSocket server");
-//     ws.onclose = () => console.log("🔌 WebSocket disconnected");
-//     ws.onerror = (error) => console.error("❌ WebSocket error:", error);
-    
-//     // Get DOM elements
-//     const connectedPcsContainer = document.getElementById("connected-pcs");
-//     const controlPcsContainer = document.getElementById("control-pcs");
-    
-//     // Function to send command to a PC
-//     function sendCommand(pcId, command) {
-//         if (ws.readyState === WebSocket.OPEN) {
-//             ws.send(JSON.stringify({ pc_id: pcId, command: command }));
-//             console.log(`📩 Sent command "${command}" to PC ${pcId}`);
-//         } else {
-//             console.warn("⚠️ WebSocket not connected!");
+//     // Attach event listener for dynamically created ".adv-opt" buttons
+//     document.addEventListener("click", function (e) {
+//         if (e.target.classList.contains("adv-opt")) {
+//             e.stopPropagation();
+//             let pcDiv = e.target.closest(".pc-item");
+//             if (pcDiv) {
+//                 let pcId = pcDiv.getAttribute("data-pc-id"); // Ensure the PC has an ID
+//                 alert("Opening advanced options...");
+//                 openAdvancedModal(pcId);
+//             }
 //         }
-//     }
+//     });
+// });
+
+
     
     // Modal functions
     function openModal(pcName, vncPort) {
@@ -452,6 +359,7 @@ function updateDashboard() {
         modal.classList.remove("show");
         document.getElementById("vnc").src = "";
     }
+<<<<<<< HEAD
       
 //     // Function to render a PC item for monitoring
 //     function renderPcItem(pc) {
@@ -751,6 +659,9 @@ function updateDashboard() {
 //         modal.style.visibility = "hidden";
 //     }, 400); // Match this with your CSS transition duration
 // }
+=======
+ 
+>>>>>>> 5eca577924890739834c888910747c73db3beda0
 
 // Close when clicking outside
 document.getElementById("pcModal").addEventListener("click", closeModal);
@@ -830,7 +741,7 @@ function closeChatModal() {
 }
 
 // Toggle Chat Modal
-document.getElementById("chatToggle").addEventListener("click", openChatModal);
+// document.getElementById("chatToggle").addEventListener("click", openChatModal);
 
 // para sa gap to ng mga PCs sa monitoring-section
 document.addEventListener("DOMContentLoaded", function () {
@@ -851,4 +762,50 @@ document.addEventListener("DOMContentLoaded", function () {
     const observer = new MutationObserver(adjustGap);
     observer.observe(document.querySelector(".pc-grid"), { childList: true });
 });
+
+
+// ADD NG PC SA MONITORING SECTION
+document.addEventListener("DOMContentLoaded", function () {
+    let confirmAddPc = document.getElementById("confirmAddPc");
+
+    if (confirmAddPc) {
+        confirmAddPc.addEventListener("click", addPc);
+    }
+});
+
+function addPc() {
+    let ip = document.getElementById("pc-ip").value;
+    let port = document.getElementById("pc-port").value;
+
+    if (!ip || !port) {
+        alert("Please enter both IP address and port.");
+        return;
+    }
+
+    fetch('/add-pc', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ ip_address: ip, port: port })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("PC Added Successfully!");
+            let modal = bootstrap.Modal.getInstance(document.getElementById("addPcModal"));
+            modal.hide(); // Close modal
+            location.reload(); // Refresh UI
+        } else {
+            alert("Error adding PC.");
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Failed to add PC.");
+    });
+}
+
+
 
