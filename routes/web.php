@@ -23,6 +23,8 @@ use App\Http\Controllers\VncController;
 Route::post('/pcs/control', [PCController::class, 'controlPC']);
 Route::get('/pcs/device-counts', [PCController::class, 'getDeviceCounts']);
 Route::get('/pcs/update-status', [PCController::class, 'updateDeviceStatus']);
+Route::post('/pcs/processes', [PcController::class, 'getProcesses']);
+
 
 
 Route::get('/', function () {
@@ -32,7 +34,6 @@ Route::get('/', function () {
 Route::get('/dashboard', [VncController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
-    
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
