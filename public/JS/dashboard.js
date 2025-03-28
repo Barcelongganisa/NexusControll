@@ -62,8 +62,25 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    window.addEventListener("resize", updateNavVisibility);
+    function updateNavVisibility() {
+        let sidebar = document.getElementById("sidebar");
+        let topNavbar = document.getElementById("topNavbar");
+    
+        if (window.innerWidth > 768) { 
+            sidebar.classList.remove("active");  // Close sidebar if screen is large
+            sidebar.style.transform = "translateX(-100%)"; // Move sidebar completely out
+            topNavbar.classList.remove("navtopbar-move");
+        } else {
+            sidebar.style.transform = ""; // Reset when in mobile view
+        }
+    }
+    
+    // Call the function on page load
     updateNavVisibility();
+    
+    // Listen for screen resize events
+    window.addEventListener("resize", updateNavVisibility);
+    
 });
 document.addEventListener("DOMContentLoaded", function () {
     const selectAllBtn = document.getElementById("selectAll");

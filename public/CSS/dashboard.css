@@ -13,34 +13,40 @@ body {
     height: 100vh;
     width: 100vw;
     background-color: whitesmoke;
-    background-size: cover;
-    background-position: center;
+    background-size: cover; /* Ensures it covers the whole screen */
+    background-position: center center; /* Centers the image */
     background-repeat: no-repeat;
-    transition: background 0.5s;
-    overflow: hidden;
+    transition: background 0.5s ease-in-out;
+    overflow: hidden; /* Prevents unwanted scrolling */
 }
 
-/* for nightmode */
-body.light{
+/* 🔄 Light Mode */
+body.light {
     background-color: white;
     background-image: url('/images/whitey.jpg');
-    transition: background 0.3s ease-in-out, transform 0.1s ease-in-out;
-    color: black;
+    background-size: cover;  /* ✅ Keeps the image covering the entire screen */
+    background-position: center center;
+    background-attachment: fixed; /* ✅ Prevents image from shifting */
+    transition: background 0.3s ease-in-out;
 }
 
-body.dark{
-    background-color:black;
+/* 🌙 Dark Mode */
+body.dark {
+    background-color: black;
     background-image: url('/images/computer3.jpg');
-    transition: background 0.3s ease-in-out, transform 0.1s ease-in-out;
+    background-size: cover;  /* ✅ Ensures full-screen coverage */
+    background-position: center center;
+    background-attachment: fixed; /* ✅ Prevents unwanted movement */
+    transition: background 0.3s ease-in-out;
 }
 
-body.dark h2{
-    color: white;
+/* ✅ Responsive Fix for Small Screens */
+@media (max-width: 768px) {
+    body {
+        background-size: contain; /* Prevents distortion on smaller screens */
+    }
 }
 
-body.light h2{
-    color: black;
-}
 
 #selectAll {
     background-color: #777777; /* Blue */
@@ -195,10 +201,10 @@ ul{
     transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
 }
 
-/* Move top navbar when sidebar is toggled */
-#topNavbar.navtopbar-move {  /* ✅ Ensure ID and class are referenced properly */
-    transform: translateX(110px);
-    width: 1756px;
+#topNavbar.navtopbar-move {
+    transform: translateX(110px); /* Moves with sidebar */
+    width: calc(100% - 110px); /* ✅ Stays responsive */
+    max-width: 100%; /* ✅ Prevents overflow */
 }
 #topNavbar > div > div > div > div:nth-child(1) > button {
     width: 60px; /* Adjust the size */
@@ -238,9 +244,16 @@ ul{
 
 /* Move button when sidebar is toggled */
 #topNavbar.navtopbar-move > div > div > div > div:nth-child(1) > button {
-    transform: translateX(250px);
+    transform: translateX(120px); /* Reduce movement */
+    max-width: 60px;  /* Ensure it doesn't stretch */
 }
 
+#topNavbar button {
+    position: relative;
+    right: 0;
+    min-width: 50px; /* Keep its size consistent */
+    overflow: visible;
+}
 
 #topNavbar > div > div > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.ltr\:origin-top-right.rtl\:origin-top-left.end-0 > div{
     width: 200px;
@@ -278,12 +291,20 @@ ul{
 
 .dashboard-cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-    row-gap: 20px; /* Vertical spacing */
-    column-gap: 150px; /* Horizontal spacing */
-    margin-bottom: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
+    gap: 20px; /* Space between cards */
+    justify-content: center; /* Center the grid */
+    width: 100%; /* Ensure it doesn't overflow */
+    max-width: 1200px; /* Prevent it from stretching too wide */
+    margin: 0 auto; /* Center the whole section */
+    padding: 10px; /* Add some spacing */
+    overflow: hidden; /* Prevents unwanted scrolling */
 }
 
+/* When sidebar is closed, make it full width */
+.sidebar-closed .dashboard-cards {
+    width: 100%;
+}
 
 .dashboard-cards h3{
     font-size: 1.5em;
@@ -317,6 +338,71 @@ ul{
     transform: scale(1.05);
     background: rgba(56, 56, 56, 0.673);
     color: var(--text-light);
+}
+
+@media (max-width: 1024px) {
+    #dashCards {
+        width: 90%;
+        left: 0;
+        top: 10vh;
+        margin: auto;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns */
+        column-gap: 50px;
+    }
+
+    .card {
+        padding: 60px;
+        font-size: 1.3em;
+    }
+
+    #dashCards h2 {
+        font-size: 2.5em;
+    }
+}
+
+/* 📱 Mobile (1 Column) */
+@media (max-width: 768px) {
+    #dashCards {
+        width: 95%;
+        top: 5vh;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: 1fr; /* 1 column for mobile */
+        row-gap: 15px;
+        column-gap: 0;
+    }
+
+    .card {
+        padding: 40px;
+        font-size: 1.2em;
+    }
+
+    #dashCards h2 {
+        font-size: 2em;
+    }
+}
+
+/* 📱 Small Phones */
+@media (max-width: 480px) {
+    #dashCards {
+        width: 100%;
+        padding: 5px;
+    }
+
+    .card {
+        padding: 30px;
+        font-size: 1em;
+    }
+
+    #dashCards h2 {
+        font-size: 1.8em;
+    }
 }
 
 /* Alert Card */
