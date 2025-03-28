@@ -11,7 +11,23 @@
     color: #666; /* Subtle gray */
     text-transform: none;
 }
+/* Center the main content */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
 
+/* Center the cards properly */
+.profile-card, .card {
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto; /* Center horizontally */
+    padding: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Adds a soft shadow */
+}
 
 .profile-card {
     position: relative;
