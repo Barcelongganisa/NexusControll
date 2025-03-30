@@ -105,10 +105,10 @@ body.dark {
     z-index: 1; /* Keep it above the overlay */
     border: 4px solid white; /* Optional border */
     background-color: transparent;
-    width: 120px;   /* Fixed width */
-    height: 120px;  /* Fixed height */
-    left: -38px;
-    top: -17px;
+    width: 180px;   /* Fixed width */
+    height: 180px;  /* Fixed height */
+    left: -57px;
+    top: -5px;
     object-fit: cover; /* Ensures the image fills the area without distortion */
 }
 /* Sidebar Navigation */
@@ -181,9 +181,9 @@ nav a {
 }
 
 ul{
-    font-size: 1.5em;
+    font-size: 1.8em;
     position: relative;
-    top: 4vh;
+    top: 12vh;
     padding-left: 0;
     padding-top: 10px;
 }
@@ -655,18 +655,22 @@ ul{
     color: white !important;
 }
 
+.dark h2{
+    color: white !important;
+}
+
 
 /* Add smooth transition */
-:root {
-    --button-bg-light: transparent; /* ✅ Fixed */
+/* :root {
+    --button-bg-light: transparent; 
     --button-text-light: rgb(0, 0, 0);
     --button-bg-dark: rgba(51, 51, 51, 0.692);
     --button-text-dark: white;
-}
+} */
 
 /* Default Light Mode */
 .pc-controls button {
-    background-color: var(--button-bg-light); /* Now correctly transparent */
+    background-color: var(--button-bg-light); 
     /* color: var(--button-text-light); */
     border: none !important;  
     transition: all 0.3s ease-in-out;

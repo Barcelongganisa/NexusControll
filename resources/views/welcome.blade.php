@@ -95,7 +95,7 @@
                 </li>
                 <li class='item' style="background-image: url('/images/turnoff.jpg')">
                     <div class='content'>
-                        <h2 class='title'>Shutdown/<br>Startup</h2>
+                        <h2 class='title'>Shutdown</h2>
                         <p class='description'>Manage power across multiple PCs easily.</p>
                         <button class="read-more-btn" data-target="shutdown-content">Read More</button>
                     </div>
@@ -155,7 +155,7 @@
     </div>
 
     <div id="shutdown-content" class="hidden-content">
-        <h3>Shutdown/Startup</h3>
+        <h3>Shutdown</h3>
         <p>Manually turning multiple PCs on/off is time-consuming, but NexusControl’s Automated Shutdown & Startup simplifies this by allowing administrators to send a single command to power on, restart, or shut down multiple PCs.  
             <br><br>
             This feature improves energy efficiency, security, and operations, making it ideal for offices, labs, and training centers. Administrators can schedule automatic PC startup/shutdowns, reducing energy waste and unauthorized access.  
