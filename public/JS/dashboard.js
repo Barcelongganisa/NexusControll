@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     this.disabled = false;
                 }, { once: true }); 
             } 
-            else if (action !== "View Background Processes") {
+            else if (action !== "View Background Processes" && action !== "File Transfer") {
                 alert(`${action} command sent.`);
             }
         });
@@ -318,6 +318,19 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+const pcModal = document.getElementById('pcModal');
+
+// Open modal example (you probably already have this somewhere)
+function openModal() {
+    pcModal.style.display = "block";
+}
+
+// Close when clicking outside the modal content
+window.addEventListener('click', function (e) {
+    if (e.target === pcModal) {
+        pcModal.style.display = "none";
+    }
+});
     
     // Modal functions
     function openModal(pcName, vncPort) {
@@ -339,7 +352,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
 
 // Close when clicking outside
-document.getElementById("pcModal").addEventListener("click", closeModal);
+// document.getElementById("pcModal").addEventListener("click", closeModal);
 
 document.querySelector(".modal-content").addEventListener("click", function(event) {
     event.stopPropagation();

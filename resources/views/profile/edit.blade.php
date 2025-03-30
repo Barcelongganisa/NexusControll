@@ -14,7 +14,7 @@
 
                 <!-- Profile Card (Full Width) -->
                 <div class="col-12">
-                    <div class="card shadow-sm h-100 min-vh-50 d-flex flex-column profile-card">
+                    <div class="card shadow-sm h-100 min-vh-50 max-vw-100 d-flex flex-column profile-card">
                         <div class="overlay"></div> <!-- Dark overlay for readability -->
                         <div class="card-body text-center position-relative">
                             <!-- Display Profile Picture -->

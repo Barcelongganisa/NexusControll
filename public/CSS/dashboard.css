@@ -202,10 +202,11 @@ ul{
 }
 
 #topNavbar.navtopbar-move {
-    transform: translateX(110px); /* Moves with sidebar */
-    width: calc(100% - 110px); /* ✅ Stays responsive */
-    max-width: 100%; /* ✅ Prevents overflow */
+    transform: translateX(110px); 
+    width: 1755px; /*calc(100% - 110px)*/ 
+    /* max-width: 100%;  */
 }
+
 #topNavbar > div > div > div > div:nth-child(1) > button {
     width: 60px; /* Adjust the size */
     height: 60px;
@@ -218,10 +219,18 @@ ul{
     justify-content: center;
     transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
     position: relative;
-    left: 1335px;
+    left: -10px; /*1335px orig*/
     top: -35px;
     overflow: hidden; /* Prevents overflow */
     font-size: 0;
+    gap: 10px;
+}
+
+#navtop {
+    justify-content: end; 
+    /* justify-items: end; */
+    display: flex;
+    gap: 5px;
 }
 
 /* Add an image inside the button */
@@ -253,6 +262,7 @@ ul{
     right: 0;
     min-width: 50px; /* Keep its size consistent */
     overflow: visible;
+    align-items: center;
 }
 
 #topNavbar > div > div > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.ltr\:origin-top-right.rtl\:origin-top-left.end-0 > div{
@@ -292,13 +302,14 @@ ul{
 .dashboard-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
-    gap: 20px; /* Space between cards */
+    gap: 30px; /* Space between cards */
     justify-content: center; /* Center the grid */
     width: 100%; /* Ensure it doesn't overflow */
-    max-width: 1200px; /* Prevent it from stretching too wide */
+    /* max-width: 1200px; */
     margin: 0 auto; /* Center the whole section */
     padding: 10px; /* Add some spacing */
-    overflow: hidden; /* Prevents unwanted scrolling */
+    overflow: hidden; 
+    justify-items: end;
 }
 
 /* When sidebar is closed, make it full width */
@@ -708,7 +719,7 @@ ul{
     border-radius: 8px;
     text-align: center;
     width: 95%;
-    height: 95%;
+    height: 95%; /*70%*/
     position: relative;
     transform: translateY(-20px); /* Start slightly above */
     transition: transform 0.4s ease-in-out;
@@ -1396,6 +1407,10 @@ body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidd
     cursor: pointer;
     padding: 5px 10px;
     transition: color 0.2s ease-in-out;
+    width: 46px;
+    align-self: end;
+    top: -58px;
+    position: relative;
 }
 
 #close-modal:hover {

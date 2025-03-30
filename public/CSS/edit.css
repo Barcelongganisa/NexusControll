@@ -1,5 +1,5 @@
 #userDropdown{
-    left: 89vw;
+    left: 86.5vw;
     top: 10px;
 }
 
@@ -11,23 +11,7 @@
     color: #666; /* Subtle gray */
     text-transform: none;
 }
-/* Center the main content */
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
 
-/* Center the cards properly */
-.profile-card, .card {
-    width: 90%;
-    max-width: 600px;
-    margin: 20px auto; /* Center horizontally */
-    padding: 20px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Adds a soft shadow */
-}
 
 .profile-card {
     position: relative;
@@ -65,37 +49,8 @@ main {
 .profile-card .card-body {
     position: relative;
     z-index: 1;
-    color: white;
+    color: rgb(0, 0, 0);
 }
-
-
-.col-md-12:nth-child(1) .card-body {
-    background-image: url("/images/profile-picture.jpg") !important;
-    z-index: 1050;
-}
-
-.col-md-12:nth-child(2) .card-body {
-    background-image: url("/images/update-password.jpg");
-}
-
-.col-md-12:nth-child(3) .card-body {
-    background-image: url("/images/create-user.jpg");
-}
-
-.col-md-12:nth-child(4) .card-body {
-    background-image: url("/images/delete.jpg");
-}
-
-/* Ensure card body doesn't override the card background */
-.card-body {
-    background: none !important;
-}
-
-/* Ensure the card body doesn’t override the card’s background */
-#card-body {
-    background: none !important;
-}
-
 
 /* profile-edit */
 
@@ -139,6 +94,7 @@ main {
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     color: white; /* Ensures readability */
+    z-index: 99999999;
 }
 
 /* Buttons with glass effect */
@@ -205,9 +161,14 @@ main {
 
 .card-title, .text-muted{
     justify-self: center !important;
+    color: black !important;
 }
 
 /* wag gagalawin ang mga nasa */
+
+body > div > main > div > div > div > div.col-12 > div > div.card-body.text-center.position-relative > h5{
+    color: white !important;
+}
 
 /* img container nung sa edit profile */
 body > div > main > div > div > div > div:nth-child(2) > div > div > div > section > div > form > div.mb-3.text-center > div > img{
@@ -246,11 +207,27 @@ svg{
 
 #card-body{
     border: 3px solid gray;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     border-radius: 10px;
     width: 40vw;
     align-self: center;
 }
+
+
+input {
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    padding: 10px;
+    color: white;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-bottom: 2px solid #00A8E8;
+}
+
 
 .form-control{
     width: 70%;
@@ -264,6 +241,7 @@ svg{
     align-items: baseline;
 }
 
-/* body > div > main > div > div > div > div:nth-child(5) > div{
-    margin-bottom: 20px;
-} */
+
+body > div > main > div > div > div > div:nth-child(5){
+    margin-bottom: 15px;
+}
