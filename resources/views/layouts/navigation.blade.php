@@ -82,46 +82,87 @@
                 </ul>
             </div>
 
-                        <!-- navtop -->
-            <nav x-data="{ open: false }" id="topNavbar" class="bg-gray-800 text-black z-50 h-16 flex items-center shadow-md">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-between">
-                    <!-- 🔹 Right: User Dropdown -->
-                    <div id="navtop" class="flex items-center">
-                        <body>
-                            <button id="switchBtn">
-                                <i class="fa-solid fa-moon"></i>
-                            </button>
-                            <button id="notifBtn">
-                                <i class="fa-solid fa-bell"></i>
-                                    <span id="notifBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">3</span>
-                            </button>
-                            <!-- Notification Dropdown -->
-                        <div id="notifDropdown" class="dropdown-menu dropdown-menu-end shadow ">
-                            <h6 class="dropdown-header">Notifications</h6>
-                            <div id="notifList" class="list-group">
-                                <p class="text-muted small text-center m-0">No new notifications</p>
-                            </div>
-                        </div>
-                        </body>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ Auth::user()->name }}
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
-                                <li>
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <button type="submit" class="dropdown-item">Log Out</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+                     <!-- 🔹 Navbar -->
+<nav id="topNavbar" class="bg-gray-800 text-white z-50 h-16 flex items-center shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-between">
 
-            
+        <!-- 🔹 Left: Theme & Notification Buttons -->
+        <div id="navtop" class="flex items-center space-x-3">
+            <!-- Theme Switch -->
+            <button id="switchBtn" class="btn btn-light">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+
+          <!-- Notification Bell -->
+        <div class="dropdown">
+            <button id="notifBtn" class="btn btn-light position-relative">
+                <i class="fa-solid fa-bell"></i>
+                <span id="notifBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
+            </button>
+
+            <!-- Notification Dropdown -->
+            <div id="notifDropdown" class="dropdown-menu dropdown-menu-end shadow">
+                <h6 class="dropdown-header">Notifications</h6>
+                <div id="notifList" class="list-group">
+                    <p class="text-muted small text-center m-0">No new notifications</p>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- 🔹 Right: User Dropdown -->
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-togg  le" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ Auth::user()->name }}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
+                <li>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="dropdown-item">Log Out</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+<!-- ✅ JavaScript to Fetch Notifications Dynamically -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    function fetchNotifications() {
+        axios.get('/pc-status') // Adjust the API endpoint
+            .then(response => {
+                let notifications = [];
+                let notifList = document.getElementById('notifList');
+                let notifBadge = document.getElementById('notifBadge');
+
+                response.data.forEach(pc => {
+                    if (pc.device_status === 'online') {
+                        notifications.push(`<a href="#" class="list-group-item list-group-item-action">
+                            <strong>PC ${pc.ip_address}</strong> is now <span class="text-success">ONLINE</span>!</a>`);
+                    }
+                });
+
+                if (notifications.length > 0) {
+                    notifList.innerHTML = notifications.join('');
+                    notifBadge.innerText = notifications.length;
+                    notifBadge.classList.remove('d-none');
+                } else {
+                    notifList.innerHTML = `<p class="text-muted small text-center m-0">No new notifications</p>`;
+                    notifBadge.classList.add('d-none');
+                }
+            })
+            .catch(error => console.log('Error fetching notifications:', error));
+    }
+
+    setInterval(fetchNotifications, 10000); // Fetch notifications every 10 sec
+});
+</script>
+
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">

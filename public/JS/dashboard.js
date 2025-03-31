@@ -482,3 +482,7 @@ function addPc() {
 
 
 
+document.getElementById("menuToggle").addEventListener("click", function() {
+    const navtop = document.getElementById("navtop");
+    navtop.classList.toggle("navtop-move");
+});

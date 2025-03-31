@@ -9,6 +9,8 @@ use App\Http\Controllers\VncController;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\AlertController;
+use App\Models\SubPc;
 
 
 
@@ -31,8 +33,13 @@ Route::post('/pcs/control', [PCController::class, 'controlPC']);
 Route::get('/pcs/device-counts', [PCController::class, 'getDeviceCounts']);
 Route::get('/pcs/update-status', [PCController::class, 'updateDeviceStatus']);
 Route::post('/pcs/processes', [PcController::class, 'getProcesses']);
+Route::get('/fetch-alerts', [AlertController::class, 'fetchAlerts']);
 
+Route::post('/add-pc', [PcController::class, 'store']);
 
+Route::get('/pc-status', function () {
+    return response()->json(SubPc::all(['id', 'ip_address', 'device_status']));
+});
 
 Route::get('/', function () {
     return view('welcome');
@@ -53,4 +60,4 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
