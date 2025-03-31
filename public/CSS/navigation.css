@@ -10,7 +10,7 @@
 }
 
 .userDropdown-move {
-    transform: translateX(0px); /* Moves it 250px to the right */
+    transform: translateX(0px);
     transition: transform 0.3s ease-in-out;
 }
 
@@ -37,7 +37,8 @@ ul li a {
 #notifDropdown{
     position: absolute;
     top: 80px;
-    left: 1196px;
+    /* left: 40px; */
+    left: 1250px;
 }
 
 

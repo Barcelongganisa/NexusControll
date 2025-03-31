@@ -49,8 +49,21 @@
 .profile-card .card-body {
     position: relative;
     z-index: 1;
-    color: rgb(0, 0, 0);
+    /* color: white; */
 }
+
+
+
+/* Ensure card body doesn't override the card background */
+.card-body {
+    background: none !important;
+}
+
+/* Ensure the card body doesn’t override the card’s background */
+#card-body {
+    background: none !important;
+}
+
 
 /* profile-edit */
 
@@ -94,7 +107,8 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     color: white; /* Ensures readability */
-    z-index: 99999999;
+    z-index: 99999;
+
 }
 
 /* Buttons with glass effect */
@@ -109,6 +123,20 @@
     padding: 10px;
     border-radius: 5px;
     color: white;
+}
+
+input {
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    padding: 10px;
+    color: white;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-bottom: 2px solid #00A8E8;
 }
 
 /* Make labels more visible */
@@ -166,10 +194,6 @@
 
 /* wag gagalawin ang mga nasa */
 
-body > div > main > div > div > div > div.col-12 > div > div.card-body.text-center.position-relative > h5{
-    color: white !important;
-}
-
 /* img container nung sa edit profile */
 body > div > main > div > div > div > div:nth-child(2) > div > div > div > section > div > form > div.mb-3.text-center > div > img{
     width: 120px;   /* Fixed width */
@@ -177,6 +201,10 @@ body > div > main > div > div > div > div:nth-child(2) > div > div > div > secti
     object-fit: cover; /* Ensures the image fills the area without distortion */
 }
 
+
+body > div > main > div > div > div > div.col-12 > div > div.card-body.text-center.position-relative > h5{
+    color: white !important;
+}
 
 /* 4-ways space ng nexuscontrol */
 body > div > header > div{
@@ -187,6 +215,10 @@ body > div > header > div{
 /* DON'T MAKE ANY CHANGES HERE, THESE ARE SOMETHING THAT MUST NOT BE MOVED */
 svg{
     display: none;
+}
+
+body > div > main > div > div > div > div:nth-child(5){
+    margin-bottom: 15px;
 }
 
 #switchBtn, body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > div > div:nth-child(1) > button, body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > ul, body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.-me-2.flex.items-center.sm\:hidden, body > div > nav > div.hidden.sm\:hidden {
@@ -207,27 +239,11 @@ svg{
 
 #card-body{
     border: 3px solid gray;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     border-radius: 10px;
     width: 40vw;
     align-self: center;
 }
-
-
-input {
-    border: none;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-    background: transparent;
-    padding: 10px;
-    color: white;
-    outline: none;
-    transition: 0.3s;
-}
-
-input:focus {
-    border-bottom: 2px solid #00A8E8;
-}
-
 
 .form-control{
     width: 70%;
@@ -241,7 +257,6 @@ input:focus {
     align-items: baseline;
 }
 
-
-body > div > main > div > div > div > div:nth-child(5){
-    margin-bottom: 15px;
-}
+/* body > div > main > div > div > div > div:nth-child(5) > div{
+    margin-bottom: 20px;
+} */

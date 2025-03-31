@@ -46,7 +46,9 @@ body.dark {
         background-size: contain; /* Prevents distortion on smaller screens */
     }
 }
-
+.dark h2{
+    color: white !important;
+}
 
 #selectAll {
     background-color: #777777; /* Blue */
@@ -206,7 +208,6 @@ ul{
     width: 1755px; /*calc(100% - 110px)*/ 
     /* max-width: 100%;  */
 }
-
 #topNavbar > div > div > div > div:nth-child(1) > button {
     width: 60px; /* Adjust the size */
     height: 60px;
@@ -219,18 +220,12 @@ ul{
     justify-content: center;
     transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
     position: relative;
-    left: -10px; /*1335px orig*/
-    top: -35px;
+    left: 1335px;
+    top: -10px; /*1335px orig*/
     overflow: hidden; /* Prevents overflow */
     font-size: 0;
     gap: 10px;
-}
 
-#navtop {
-    justify-content: end; 
-    /* justify-items: end; */
-    display: flex;
-    gap: 5px;
 }
 
 /* Add an image inside the button */
@@ -260,9 +255,11 @@ ul{
 #topNavbar button {
     position: relative;
     right: 0;
+    left: 1300px;
     min-width: 50px; /* Keep its size consistent */
     overflow: visible;
     align-items: center;
+    padding: 10px
 }
 
 #topNavbar > div > div > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.ltr\:origin-top-right.rtl\:origin-top-left.end-0 > div{
@@ -305,10 +302,10 @@ ul{
     gap: 30px; /* Space between cards */
     justify-content: center; /* Center the grid */
     width: 100%; /* Ensure it doesn't overflow */
-    /* max-width: 1200px; */
+    max-width: 100%; /*1200px;*/
     margin: 0 auto; /* Center the whole section */
     padding: 10px; /* Add some spacing */
-    overflow: hidden; 
+    overflow: hidden; /* Prevents unwanted scrolling */
     justify-items: end;
 }
 
@@ -723,7 +720,7 @@ ul{
     border-radius: 8px;
     text-align: center;
     width: 95%;
-    height: 95%; /*70%*/
+    height: 95%;
     position: relative;
     transform: translateY(-20px); /* Start slightly above */
     transition: transform 0.4s ease-in-out;
@@ -1095,6 +1092,11 @@ table {
     border: 1px solid white !important;
 }
 
+.logsTable{
+    max-height: 500px;
+    overflow-y: auto;
+}
+
 .logs-container table {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
@@ -1309,6 +1311,22 @@ body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidd
     background-color: rgb(153, 153, 153) !important;
 }
 
+#navtop {
+        /* justify-items: end; */
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+        align-items: center;
+        /* padding: 10px; */
+        left: -130px;
+        position: relative;
+}
+
+#navtop.navtop-move{
+    transform: translateX(250px);
+    transition: transform 0.3s ease-in-out;
+}
+
 /* topNavbar profile picture */
 #navtop > div > img{
     display: none !important;
@@ -1411,10 +1429,6 @@ body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidd
     cursor: pointer;
     padding: 5px 10px;
     transition: color 0.2s ease-in-out;
-    width: 46px;
-    align-self: end;
-    top: -58px;
-    position: relative;
 }
 
 #close-modal:hover {
@@ -1442,4 +1456,25 @@ body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidd
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+.progress-container {
+    width: 150px;
+    background: #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 20px;
+    position: relative;
+    top: -10px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, #4caf50, #8bc34a);
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    line-height: 20px;
+    transition: width 0.3s ease-in-out;
 }

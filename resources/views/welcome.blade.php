@@ -357,10 +357,10 @@
                     </div>
 
                     <!-- Remember Me Checkbox -->
-                    {{-- <div class="mb-3 form-check">
+                    <!-- <div class="mb-3 form-check">
                         <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
                         <label for="remember_me" class="form-check-label">Remember me</label>
-                    </div> --}}
+                    </div> -->
 
                     <!-- Google reCAPTCHA (Optional) -->
                     <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>

@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class PCController extends Controller
 {
-   
-public function controlPC(Request $request)
+    public function controlPC(Request $request)
     {
         $ip = $request->input('ip');
         $action = $request->input('action');
@@ -30,14 +29,14 @@ public function controlPC(Request $request)
             $response = Http::post($url);
             $status = $response->successful() ? 'Success' : 'Failed';
         } catch (\Exception $e) {
-            $status = 'Failed';
+            $status = 'Error';
         }
 
         // Store the log
         Log::create([
-            'pc_name'  => $subPc->pc_name,
-            'action'   => $action,
-            'status'   => $status,
+            'pc_name' => $subPc->pc_name,
+            'action' => $action,
+            'status' => $status,
             'timestamp' => now(),
         ]);
 
@@ -65,33 +64,20 @@ public function controlPC(Request $request)
         ]);
     }
 
-    public function updateDeviceStatus(Request $request)
-{
-    $ip = $request->input('ip');
-    $status = $request->input('status'); // 'online' or 'offline'
-
-    $subPc = SubPc::where('ip_address', $ip)->first();
-
-    if ($subPc) {
-        $subPc->device_status = $status;
-        $subPc->save();
+    public function updateDeviceStatus()
+    {
+        $subPcs = SubPc::all();
+    
+        foreach ($subPcs as $subPc) {
+            $status = $this->isPCOnline($subPc->ip_address) ? 'online' : 'offline';
+    
+            if ($subPc->device_status !== $status) {
+                $subPc->update(['device_status' => $status]);
+            }
+        }
+    
         return response()->json(['message' => 'Status updated']);
     }
-
-    return response()->json(['message' => 'PC not found'], 404);
-}
-
-public function getDeviceStatus($ip)
-{
-    $subPc = SubPc::where('ip_address', $ip)->first();
-
-    if ($subPc) {
-        return response()->json(['status' => $subPc->device_status]);
-    }
-
-    return response()->json(['status' => 'unknown'], 404);
-}
-
 
     private function isPCOnline($ip)
     {
@@ -118,11 +104,10 @@ public function getDeviceStatus($ip)
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
     }
-
     public function showLogs()
     {
         $logs = Log::orderBy('timestamp', 'desc')->get();
-        return view('dashboard', compact('logs')); 
+        return view('dashboard', compact('logs'));
     }
 
     public function getProcesses(Request $request)
@@ -150,53 +135,60 @@ public function getDeviceStatus($ip)
     }
 
     public function uploadFile(Request $request)
-    {
-        $subPc = DB::table('sub_pcs')->where('ip_address', $request->input('sub_pc_id'))->first();
+{
+    $subPc = DB::table('sub_pcs')->where('ip_address', $request->input('sub_pc_id'))->first();
 
     if (!$subPc) {
-        return redirect()->back()->with('error', 'Sub-PC not found.');
+        return response()->json(['error' => 'Sub-PC not found.'], 404);
     }
 
-    // Get file details
     $file = $request->file('file');
     $filename = $file->getClientOriginalName();
-    $localPath = $file->getPathname(); // Temporary path
+    $localPath = $file->getPathname();
 
-    // ✅ Establish Direct FTP Connection
-    $ftpHost = $subPc->ip_address; // Dynamically get IP from DB
+    $ftpHost = $subPc->ip_address;
     $ftpUsername = env('FTP_USERNAME');
     $ftpPassword = env('FTP_PASSWORD');
-    $remoteFile = "/uploads/{$filename}"; // Destination path
+    $remoteFile = "/uploads/{$filename}";
 
-    // Connect to FTP Server
-    $ftpConn = ftp_connect($ftpHost, 21, 30); // 30s timeout
+    $ftpConn = ftp_connect($ftpHost, 21, 30);
     if (!$ftpConn) {
-        return redirect()->back()->with('error', 'FTP connection failed!');
+        return response()->json(['error' => 'FTP connection failed!'], 500);
     }
 
-    // Login to FTP
     if (!ftp_login($ftpConn, $ftpUsername, $ftpPassword)) {
         ftp_close($ftpConn);
-        return redirect()->back()->with('error', 'FTP login failed!');
+        return response()->json(['error' => 'FTP login failed!'], 500);
     }
 
-    // Enable Active Mode (Faster for LAN)
     ftp_pasv($ftpConn, false);
+    ftp_set_option($ftpConn, FTP_TIMEOUT_SEC, 60);
+    ftp_set_option($ftpConn, FTP_AUTOSEEK, true);
 
-    // ✅ Optimize Large File Transfers
-    ftp_set_option($ftpConn, FTP_TIMEOUT_SEC, 60); // Set timeout
-    ftp_set_option($ftpConn, FTP_AUTOSEEK, true); // Enable seeking for large files
-
-    // Upload the file
     $uploadSuccess = ftp_put($ftpConn, $remoteFile, $localPath, FTP_BINARY);
 
-    // Close FTP connection
     ftp_close($ftpConn);
 
+    Log::create([
+        'pc_name' => $subPc->pc_name,
+        'action' => "File Transfer",
+        'status' => $uploadSuccess,
+        'timestamp' => now(),
+    ]);
+
     if ($uploadSuccess) {
-        return redirect()->back()->with('success', 'File uploaded successfully!');
+        return response()->json(['success' => 'File uploaded successfully!'], 200);
     } else {
-        return redirect()->back()->with('error', 'Upload failed!');
+        return response()->json(['error' => 'Upload failed!'], 500);
     }
+}
+
+
+    public function index()
+{
+    $subPcs = SubPC::all(); // Fetch all connected sub-PCs
+    $alerts = DB::table('alerts')->latest()->take(5)->get();
+
+    return view('dashboard', compact('subPcs', 'alerts'));
 }
 }

@@ -318,19 +318,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-const pcModal = document.getElementById('pcModal');
-
-// Open modal example (you probably already have this somewhere)
-function openModal() {
-    pcModal.style.display = "block";
-}
-
-// Close when clicking outside the modal content
-window.addEventListener('click', function (e) {
-    if (e.target === pcModal) {
-        pcModal.style.display = "none";
-    }
-});
     
     // Modal functions
     function openModal(pcName, vncPort) {
@@ -352,7 +339,7 @@ window.addEventListener('click', function (e) {
   
 
 // Close when clicking outside
-// document.getElementById("pcModal").addEventListener("click", closeModal);
+document.getElementById("pcModal").addEventListener("click", closeModal);
 
 document.querySelector(".modal-content").addEventListener("click", function(event) {
     event.stopPropagation();
@@ -495,3 +482,7 @@ function addPc() {
 
 
 
+document.getElementById("menuToggle").addEventListener("click", function() {
+    const navtop = document.getElementById("navtop");
+    navtop.classList.toggle("navtop-move");
+});
