@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const menuToggle = document.getElementById("menuToggle");
     const nav = document.querySelector("nav");
+    const navtop = document.getElementById("navtop");
     const topNavbar = document.getElementById("topNavbar");
     const dashCards = document.getElementById("dashCards");
     const monitoringSection = document.getElementById("monitoring-section");
@@ -8,15 +9,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const logSection = document.getElementById("logs-section"); 
     const dropdown = document.getElementById("userDropdown");
 
-
     function updateNavVisibility() {
         const screenWidth = window.innerWidth;
-
         if (screenWidth >= 769) {
             nav.classList.remove("nav-hidden");
             nav.classList.add("nav-open");
-            menuToggleopen.classList.remove("menuToggle-move");
-            topNavbar.classList.remove("navtopbar-move"); 
+            menuToggle.classList.remove("menuToggle-move");
+
+            if (topNavbar) topNavbar.classList.remove("navtopbar-move"); 
+            if (navtop) navtop.classList.remove("navtop-move");
         } else {
             nav.classList.add("nav-hidden");
             nav.classList.remove("nav-open");
@@ -28,20 +29,17 @@ document.addEventListener("DOMContentLoaded", function () {
         nav.classList.toggle("nav-hidden");
         nav.classList.toggle("nav-open");
         menuToggle.classList.toggle("menuToggle-move");
-        topNavbar.classList.toggle("navtopbar-move");
 
-        // ✅ Adjust dashboard cards position when sidebar is toggled
+        // ✅ Ensure both navtop and topNavbar move together
+        if (navtop) navtop.classList.toggle("navtop-move");
+        if (topNavbar) topNavbar.classList.toggle("navtopbar-move");
+
+        // ✅ Adjust other sections accordingly
         dashCards.classList.toggle("dashCards-move");
-
-        // ✅ Adjust monitoring-section position when sidebar is toggled
         monitoringSection.classList.toggle("monitoring-move");
-
-        // ✅ Adjust control-section position when sidebar is toggled
         controlSection.classList.toggle("control-move");
-
         logSection.classList.toggle("log-move");
-
-         dropdown.classList.toggle("userDropdown-move"); // Toggle movement
+        dropdown.classList.toggle("userDropdown-move");
     });
 
     document.addEventListener("click", function (event) {
@@ -51,9 +49,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 nav.classList.add("nav-hidden");
                 nav.classList.remove("nav-open");
                 menuToggle.classList.remove("menuToggle-move");
-                topNavbar.classList.remove("navtopbar-move");
 
-                // ✅ Reset positions when clicking outside
+                if (topNavbar) topNavbar.classList.remove("navtopbar-move");
+                if (navtop) navtop.classList.remove("navtop-move");
+
                 dashCards.classList.remove("dashCards-move");
                 monitoringSection.classList.remove("monitoring-move");
                 controlSection.classList.remove("control-move");
@@ -67,21 +66,18 @@ document.addEventListener("DOMContentLoaded", function () {
         let topNavbar = document.getElementById("topNavbar");
     
         if (window.innerWidth > 768) { 
-            sidebar.classList.remove("active");  // Close sidebar if screen is large
-            sidebar.style.transform = "translateX(-100%)"; // Move sidebar completely out
-            topNavbar.classList.remove("navtopbar-move");
+            sidebar.classList.remove("active");  
+            sidebar.style.transform = "translateX(-100%)";  
+            if (topNavbar) topNavbar.classList.remove("navtopbar-move");
         } else {
-            sidebar.style.transform = ""; // Reset when in mobile view
+            sidebar.style.transform = "";  
         }
     }
-    
-    // Call the function on page load
+
     updateNavVisibility();
-    
-    // Listen for screen resize events
     window.addEventListener("resize", updateNavVisibility);
-    
 });
+
 document.addEventListener("DOMContentLoaded", function () {
     const selectAllBtn = document.getElementById("selectAll");
     const section = document.getElementById("control-section");
@@ -482,7 +478,7 @@ function addPc() {
 
 
 
-document.getElementById("menuToggle").addEventListener("click", function() {
-    const navtop = document.getElementById("navtop");
-    navtop.classList.toggle("navtop-move");
-});
+// document.getElementById("menuToggle").addEventListener("click", function() {
+//     const navtop = document.getElementById("navtop");
+//     navtop.classList.toggle("navtop-move");
+// });
