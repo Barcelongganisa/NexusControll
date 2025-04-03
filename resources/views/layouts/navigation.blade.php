@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
+                <form method="POST" action="{{ route('logout') }}" class="w-100">
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')"

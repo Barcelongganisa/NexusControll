@@ -185,7 +185,7 @@ nav a {
 ul{
     font-size: 1.8em;
     position: relative;
-    top: 12vh;
+    top: 11vh;
     padding-left: 0;
     padding-top: 10px;
 }
@@ -1297,13 +1297,18 @@ li::marker {
     padding-left: 0; /* Ensure no extra spacing */
 }
 
+#navtop > div:nth-child(3) > ul > li:nth-child(2) > form > button{
+    position: relative;
+    left: 5px;
+}
+
 
 body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.origin-top-right.right-0 > div{    
     background-color: gray !important;
     border-radius: 10px !important;
-    margin-top: 50px;
+    margin-top: 126px;
+    margin-bottom: -105px;
     position: relative;
-    top: 12px;
 }
 
 body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.origin-top-right.right-0 > div >:hover{

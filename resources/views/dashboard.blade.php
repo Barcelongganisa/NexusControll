@@ -265,6 +265,7 @@
                                     const file = fileInput.files[0];
                                     if (!file) return;
 
+                                     fileInput.disabled = false; 
                                     const formData = new FormData(form);
                                     const xhr = new XMLHttpRequest();
 
@@ -298,6 +299,7 @@
                                                 buttons.forEach(btn => btn.style.display = "inline-block");
 
                                                 fileInput.style.display = "none"; ileInput.style.display = "none";
+                                                 fileInput.disabled = false; 
                                             }, 2000);
                                         } else {
                                             progressBar.style.width = "0%";
