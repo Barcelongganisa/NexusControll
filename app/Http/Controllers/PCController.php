@@ -170,17 +170,11 @@ class PCController extends Controller
     ftp_close($ftpConn);
 
     Log::create([
-        'pc_name' => $subPc->pc_name,
+        'pc_name' => $subPc->ip_address,
         'action' => "File Transfer",
         'status' => $uploadSuccess,
         'timestamp' => now(),
     ]);
-
-    if ($uploadSuccess) {
-        return response()->json(['success' => 'File uploaded successfully!'], 200);
-    } else {
-        return response()->json(['error' => 'Upload failed!'], 500);
-    }
 }
 
 

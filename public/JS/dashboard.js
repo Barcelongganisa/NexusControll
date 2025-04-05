@@ -460,20 +460,22 @@ function addPc() {
         body: JSON.stringify({ ip_address: ip, port: port })
     })
     .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert("PC Added Successfully!");
-            let modal = bootstrap.Modal.getInstance(document.getElementById("addPcModal"));
-            modal.hide(); // Close modal
-            location.reload(); // Refresh UI
-        } else {
-            alert("Error adding PC.");
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("Failed to add PC.");
-    });
+.then(data => {
+    console.log("Response from server:", data);
+    if (data.success) {
+        alert("PC Added Successfully!");
+        let modal = bootstrap.Modal.getInstance(document.getElementById("addPcModal"));
+        modal.hide();
+        location.reload();
+    } else {
+        alert("Error adding PC: " + (data.error || "Unknown error"));
+    }
+})
+.catch(error => {
+    console.error("Fetch error:", error);
+    alert("Failed to add PC.");
+});
+
 }
 
 

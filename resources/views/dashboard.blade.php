@@ -92,7 +92,7 @@
         </div>
     </div>
 
-    <script>
+    {{-- <script>
         function fetchAlerts() {
             fetch('/fetch-alerts')
                 .then(response => response.json())
@@ -110,7 +110,7 @@
         }
 
         setInterval(fetchAlerts, 5000); // Fetch alerts every 5 seconds
-    </script>
+    </script> --}}
 
 
 
@@ -211,127 +211,119 @@
         </div>
     </div>
 
-    <!-- Control Section -->
-    <div class="control-container max-w-7xl mx-auto sm:px-6 lg:px-8 mt-10" id="control-section">
-        <h2 class="text-xl font-semibold mb-4">Controls</h2>
-        <button id="selectAll" title="Select All"><i class="fa-solid fa-check"></i></button>
+   <!-- Control Section -->
+<div class="control-container max-w-7xl mx-auto sm:px-6 lg:px-8 mt-10" id="control-section">
+    <h2 class="text-xl font-semibold mb-4">Controls</h2>
+    <button id="selectAll" title="Select All"><i class="fa-solid fa-check"></i></button>
 
-        <div class="pc-grid" id="control-pcs">
-            @foreach($subPcs as $subPc)
-                <div class="pc-item">
-                    <img src="{{ asset('images/pc.png') }}" alt="PC {{ $subPc->ip_address }}">
-                    <div class="pc-info">
-                        <p>PC Name: <br>{{ $subPc->ip_address }}</p>
-                        <p>Port: {{ $subPc->vnc_port }}</p>
-                        <p class="pc-status" data-ip="{{ $subPc->ip_address }}">
-                            Status: {{ $subPc->device_status }}
-                        </p>
-                    </div>
-                    <div class="pc-controls" style="display: none;">
-                        <button class="shutdown" data-ip="{{ $subPc->ip_address }}" title="Shutdown"><i
-                                class="fas fa-power-off"></i></button>
-                        <button class="restart" data-ip="{{ $subPc->ip_address }}" title="Restart"><i
-                                class="fas fa-sync-alt"></i></button>
-                        <button class="lock" data-ip="{{ $subPc->ip_address }}" title="Lock"><i
-                                class="fa-solid fa-lock"></i></button>
-                        <form action="{{ url('/upload') }}" method="POST" enctype="multipart/form-data"
-                            class="file-upload-form">
-                            @csrf
-                            <input type="hidden" name="sub_pc_id" value="{{ $subPc->ip_address }}">
-                            <input type="file" name="file" id="fileInput-{{ $subPc->ip_address }}" required
-                                style="display: none;">
-
-                            <button type="button" class="file-transfer" title="File Transfer"
-                                onclick="document.getElementById('fileInput-{{ $subPc->ip_address }}').click();">
-                                <i class="fas fa-file-upload"></i>
-                            </button>
-
-                            <div class="progress-container" id="progress-{{ $subPc->ip_address }}"
-                                style="display:none; margin-top: 10px; ">
-                                <div class="progress-bar" id="progress-bar-{{ $subPc->ip_address }}" style="width: 100%;">
-                                </div>
-                            </div>
-                        </form>
-
-                        <script>
-                            document.querySelectorAll(".file-upload-form").forEach(form => {
-                                const fileInput = form.querySelector("input[type='file']");
-                                const progressContainer = form.querySelector(".progress-container");
-                                const progressBar = form.querySelector(".progress-bar");
-                                const pcControls = form.closest(".pc-controls");
-                                const buttons = pcControls.querySelectorAll("button, input[type='file']");
-
-                                fileInput.addEventListener("change", function () {
-                                    const file = fileInput.files[0];
-                                    if (!file) return;
-
-                                     fileInput.disabled = false; 
-                                    const formData = new FormData(form);
-                                    const xhr = new XMLHttpRequest();
-
-                                    xhr.open("POST", "{{ url('/upload') }}", true);
-                                    xhr.setRequestHeader("X-CSRF-TOKEN", "{{ csrf_token() }}");
-
-                                    // Hide buttons completely to prevent flickering
-                                    buttons.forEach(btn => btn.style.display = "none");
-
-                                    // Show progress bar
-                                    progressContainer.style.display = "block";
-
-                                    xhr.upload.onprogress = function (event) {
-                                        if (event.lengthComputable) {
-                                            let percent = (event.loaded / event.total) * 100;
-                                            progressBar.style.width = percent + "%";
-                                            progressBar.textContent = Math.round(percent) + "%";
-                                        }
-                                    };
-
-                                    xhr.onload = function () {
-                                        if (xhr.status === 200) {
-                                            progressBar.style.width = "100%";
-                                            progressBar.textContent = "Upload Complete!";
-
-                                            setTimeout(() => {
-                                                progressContainer.style.display = "none";
-                                                progressBar.style.width = "0%";
-
-                                                // Restore buttons after upload is complete
-                                                buttons.forEach(btn => btn.style.display = "inline-block");
-
-                                                fileInput.style.display = "none"; ileInput.style.display = "none";
-                                                 fileInput.disabled = false; 
-                                            }, 2000);
-                                        } else {
-                                            progressBar.style.width = "0%";
-                                            progressBar.textContent = "Upload Failed!";
-
-                                            setTimeout(() => {
-                                                progressContainer.style.display = "none";
-
-                                                // Restore buttons even if upload fails
-                                                buttons.forEach(btn => btn.style.display = "none");
-
-                                                // Reset file input properly
-                                                fileInput.style.display = "none";
-                                            }, 2000);
-                                        }
-                                    };
-
-                                    xhr.send(formData);
-                                });
-                            });
-
-
-                        </script>
-
-                        <button class="view-processes" data-ip="{{ $subPc->ip_address }}" title="View Background Processes">
-                            <i class="fas fa-tasks"></i>
-                        </button>
-                    </div>
+    <div class="pc-grid" id="control-pcs">
+        @foreach($subPcs as $subPc)
+            <div class="pc-item">
+                <img src="{{ asset('images/pc.png') }}" alt="PC {{ $subPc->ip_address }}">
+                <div class="pc-info">
+                    <p>PC Name: <br>{{ $subPc->ip_address }}</p>
+                    <p>Port: {{ $subPc->vnc_port }}</p>
+                    <p class="pc-status" data-ip="{{ $subPc->ip_address }}">
+                        Status: {{ $subPc->device_status }}
+                    </p>
                 </div>
-            @endforeach
-        </div>
+                <div class="pc-controls" style="display: none;">
+                    <button class="shutdown" data-ip="{{ $subPc->ip_address }}" title="Shutdown"><i
+                            class="fas fa-power-off"></i></button>
+                    <button class="restart" data-ip="{{ $subPc->ip_address }}" title="Restart"><i
+                            class="fas fa-sync-alt"></i></button>
+                    <button class="lock" data-ip="{{ $subPc->ip_address }}" title="Lock"><i
+                            class="fa-solid fa-lock"></i></button>
+
+                    <form action="{{ url('/upload') }}" method="POST" enctype="multipart/form-data"
+                        class="file-upload-form">
+                        @csrf
+                        <input type="hidden" name="sub_pc_id" value="{{ $subPc->ip_address }}">
+                        <input type="file" name="file" id="fileInput-{{ $subPc->ip_address }}" required
+                            style="display: none;">
+
+                        <button type="button" class="file-transfer" title="File Transfer"
+                            onclick="document.getElementById('fileInput-{{ $subPc->ip_address }}').click();">
+                            <i class="fas fa-file-upload"></i>
+                        </button>
+
+                        <div class="progress-container" id="progress-{{ $subPc->ip_address }}"
+                            style="display:none; margin-top: 10px;">
+                            <div class="progress-bar" id="progress-bar-{{ $subPc->ip_address }}" style="width: 100%;">
+                            </div>
+                        </div>
+                    </form>
+
+                    <button class="view-processes" data-ip="{{ $subPc->ip_address }}" title="View Background Processes">
+                        <i class="fas fa-tasks"></i>
+                    </button>
+                </div>
+            </div>
+        @endforeach
     </div>
+</div>
+
+<!-- Move script outside the loop -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".file-upload-form").forEach(form => {
+            const fileInput = form.querySelector("input[type='file']");
+            const progressContainer = form.querySelector(".progress-container");
+            const progressBar = form.querySelector(".progress-bar");
+            const pcControls = form.closest(".pc-controls");
+            const buttons = pcControls.querySelectorAll("button, input[type='file']");
+
+            fileInput.addEventListener("change", function () {
+                const file = fileInput.files[0];
+                if (!file) return;
+
+                const formData = new FormData(form);
+                const xhr = new XMLHttpRequest();
+
+                xhr.open("POST", "{{ url('/upload') }}", true);
+                xhr.setRequestHeader("X-CSRF-TOKEN", "{{ csrf_token() }}");
+
+                // Hide buttons completely to prevent flickering
+                buttons.forEach(btn => btn.style.display = "none");
+
+                // Show progress bar
+                progressContainer.style.display = "block";
+
+                xhr.upload.onprogress = function (event) {
+                    if (event.lengthComputable) {
+                        let percent = (event.loaded / event.total) * 100;
+                        progressBar.style.width = percent + "%";
+                        progressBar.textContent = Math.round(percent) + "%";
+                    }
+                };
+
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        progressBar.style.width = "100%";
+                        progressBar.textContent = "Upload Complete!";
+                        setTimeout(() => {
+                            progressContainer.style.display = "none";
+                            progressBar.style.width = "0%";
+                            buttons.forEach(btn => btn.style.display = "inline-block");
+                            fileInput.style.display = "none";
+                        }, 2000);
+                    } else {
+                        progressBar.style.width = "0%";
+                        progressBar.textContent = "Upload Failed!";
+                        setTimeout(() => {
+                            progressContainer.style.display = "none";
+                            buttons.forEach(btn => btn.style.display = "inline-block");
+                            fileInput.style.display = "none";
+                        }, 2000);
+                    }
+                };
+
+                xhr.send(formData);
+            });
+        });
+    });
+</script>
+
     <!-- Process Modal -->
     <div id="process-modal" style="display: none;"
         class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -368,11 +360,13 @@
                             data.processes.sort((a, b) => b.cpu - a.cpu);
 
                             modalContent.innerHTML = `
-            <div class="p-4 bg-gray-100 rounded-lg shadow-md mb-4">
-                <h3 class="text-lg font-bold mb-2">System Performance</h3>
-                <p><strong>CPU Usage:</strong> <span class="${data.cpu_usage > 70 ? 'text-red-600' : 'text-green-600'}">${data.cpu_usage}%</span></p>
-                <p><strong>Memory Usage:</strong> <span class="${data.memory_usage > 80 ? 'text-red-600' : 'text-blue-600'}">${data.memory_usage}%</span></p>
-                <p><strong>Network Usage:</strong> ${data.network_usage}</p>
+           <div class="p-4 bg-gray-100 rounded-lg shadow-md mb-4" id="SysPerformance">
+            <div class="h3-container"><h3 class="text-lg font-bold mb-2">System Performance</h3></div>
+            <div class="performance-container">
+                    <p><strong>CPU Usage:</strong> <span class="${data.cpu_usage > 70 ? 'text-red-600' : 'text-green-600'}">${data.cpu_usage}%</span></p>
+                    <p><strong>Memory Usage:</strong> <span class="${data.memory_usage > 80 ? 'text-red-600' : 'text-blue-600'}">${data.memory_usage}%</span></p>
+                    <p><strong>Network Usage:</strong> ${data.network_usage}</p>
+                </div>
             </div>
             <table class="w-full text-sm border-collapse">
                 <thead class="sticky top-0 bg-gray-300">
@@ -518,6 +512,8 @@
             });
         });
     </script>
+
+    
     <script>
         document.querySelectorAll('.show-processes').forEach(button => {
             button.addEventListener('click', function () {
@@ -574,7 +570,7 @@
             <select id="logFilter" class="border p-2">
                 <option value="all">All</option>
                 <option value="shutdown">Shutdown</option>
-                <option value="startup">Startup</option>
+                <option value="lock">Lock</option>
                 <option value="restart">Restart</option>
                 <option value="file">File Transfer</option>
             </select>

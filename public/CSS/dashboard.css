@@ -23,7 +23,7 @@ body {
 /* 🔄 Light Mode */
 body.light {
     background-color: white;
-    background-image: url('/images/whitey.jpg');
+    background-image: url('/images/whitewhite.jpg');
     background-size: cover;  /* ✅ Keeps the image covering the entire screen */
     background-position: center center;
     background-attachment: fixed; /* ✅ Prevents image from shifting */
@@ -112,6 +112,8 @@ body.dark {
     left: -57px;
     top: -5px;
     object-fit: cover; /* Ensures the image fills the area without distortion */
+    pointer-events: none;
+    cursor: pointer;
 }
 /* Sidebar Navigation */
 nav {
@@ -1434,6 +1436,10 @@ body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidd
     cursor: pointer;
     padding: 5px 10px;
     transition: color 0.2s ease-in-out;
+    width: 50px;
+    align-self: end;
+    position: relative;
+    top: -65px;
 }
 
 #close-modal:hover {
@@ -1483,3 +1489,34 @@ body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidd
     line-height: 20px;
     transition: width 0.3s ease-in-out;
 }
+
+#SysPerformance {
+    margin-top: -30px;
+    display: flex !important;
+    flex-direction: column !important; /* Align items in one row */
+    gap: 20px; /* Adds spacing between items */
+    text-align: center;
+}
+
+/* #SysPerformance h3{
+    position: relative;
+    left: 280px;
+} */
+
+.performance-container {
+    font-size: 18px;
+    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    align-self: center;
+    justify-content: center;
+    justify-items: center;
+    justify-self: center;
+    /* position: relative;
+    top: 60px;
+    left: -150px;
+    margin-bottom: 50px; */
+}
+
