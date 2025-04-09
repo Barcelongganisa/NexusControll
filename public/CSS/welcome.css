@@ -1175,3 +1175,9 @@ padding-left: 1.7em !important;
 ::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(120deg, #C0C0C0, #FFD700); /* Reverse gradient on hover */
 }
+
+/* captcha error message */
+#loginModal > div > div > div.modal-body > form > span:nth-child(6){
+  position: relative;
+  left: 60px;
+}

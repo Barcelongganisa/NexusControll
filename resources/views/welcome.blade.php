@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexusControl</title>
+    <title>NexusMattControl</title>
 
     <!-- Bootstrap CSS via Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -21,7 +21,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top glass-navbar">
         <div class="container">
             <!-- Logo -->
-            <a class="navbar-brand fw-bold text-white" href="#">NexusControl</a>
+            <a class="navbar-brand fw-bold text-white" href="#">NexusMattControl</a>
 
             <!-- Navbar Toggle -->
             <button class="navbar-toggler" type="button" aria-controls="navbarNav" aria-expanded="false"
@@ -49,7 +49,7 @@
     <div class="background-container">
         <div class="overlay"></div> <!-- Optional for dark overlay -->
         <div class="welcome text-center">
-            <h1 class="display-4 fw-bold">Welcome to NexusControl</h1>
+            <h1 class="display-4 fw-bold">Welcome to NexusMattControl</h1>
             <p class="text-light mt-2">Efficient LAN-Based PC Monitoring and Control System</p>
 
             <!-- Updated Button Here -->
@@ -335,7 +335,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Sign In to NexusControl</h5>
+                <h5 class="modal-title" id="loginModalLabel">Sign In to NexusMattControl</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -344,12 +344,14 @@
                     @csrf
                     <div class="mb-3">
                         <label for="email" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" autocomplete="off" required>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                        <span id="emailError" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <div class="input-group">
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" autocomplete="off" required>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                        <span id="passwordError" class="text-danger"></span>
                             <span class="input-group-text" id="togglePassword" style="cursor: pointer;">
                                 <i class="bi bi-eye"></i>
                             </span>
@@ -364,6 +366,7 @@
 
                     <!-- Google reCAPTCHA (Optional) -->
                     <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                    <span id="captchaError" class="text-danger d-block"></span>
                     @error('g-recaptcha-response')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -380,6 +383,15 @@
         </div>
     </div>
 </div>
+@if ($errors->has('g-recaptcha-response') || $errors->has('email') || $errors->has('password'))
+    <script>
+        window.addEventListener('load', () => {
+            const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+        });
+    </script>
+@endif
+
 
 {{-- forgot-password modal --}}
 <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel">
@@ -441,7 +453,7 @@
             </div>
 
             <!-- Address -->
-            <p class="footer-text">NEXUSCONTROL INC. HQ LANGARAY ST., BRGY 14, CALOOCAN CITY, PHILIPPINES.</p>
+            <p class="footer-text">NEXUSMATTCONTROL INC. HQ LANGARAY ST., BRGY 14, CALOOCAN CITY, PHILIPPINES.</p>
         </div>
     </footer>
 

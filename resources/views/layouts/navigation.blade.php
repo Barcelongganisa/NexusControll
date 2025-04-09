@@ -15,7 +15,7 @@
             <!-- Navigation Links -->
             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex nav-title">
                 <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('NexusControl') }}
+                    {{ __('NexusMattControl') }}
                 </x-nav-link>
             </div>
         </div>
@@ -61,22 +61,22 @@
                         <ul>
                     <li class="mb-2">
                         <a href="#dashboard" class="block px-4 py-2 rounded hover:bg-gray-700">
-                            <i class="fas fa-home"></i> Dashboard
+                            <i class="fas fa-home sidebar-icon"></i> Dashboard
                         </a>
                     </li>
                     <li class="mb-2">
                         <a href="#monitoring-section" id="monitoring-link" class="block px-4 py-2 rounded hover:bg-gray-700">
-                            <i class="fas fa-chart-line"></i> Monitoring
+                            <i class="fas fa-chart-line sidebar-icon"></i> Monitoring
                         </a>
                     </li>
                     <li class="mb-2">
                         <a href="#control-section" class="block px-4 py-2 rounded hover:bg-gray-700">
-                            <i class="fas fa-cogs"></i> Controls
+                            <i class="fas fa-cog sidebar-icon"></i> Controls
                         </a>
                     </li>
                     <li class="mb-2">
                         <a href="#logs-section" class="block px-4 py-2 rounded hover:bg-gray-700">
-                            <i class="fas fa-file-alt"></i> Logs
+                            <i class="fas fa-file-alt sidebar-icon"></i> Logs
                         </a>
                     </li>
                 </ul>

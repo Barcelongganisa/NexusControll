@@ -110,7 +110,7 @@ body.dark {
     width: 180px;   /* Fixed width */
     height: 180px;  /* Fixed height */
     left: -57px;
-    top: -5px;
+    top: 55px;
     object-fit: cover; /* Ensures the image fills the area without distortion */
     pointer-events: none;
     cursor: pointer;
@@ -168,7 +168,7 @@ nav a {
 #menuToggle {
     z-index: 1000;
     position: absolute;
-    left: 290px;
+    left: 420px;
     top: 50px;
     font-size: 1.8rem;
     transition: transform 0.3s ease-in-out;
@@ -177,7 +177,7 @@ nav a {
 
 /* Move button when clicked */
 .menuToggle-move {
-    transform: translateX(-270px); /* Adjust the distance as needed */
+    transform: translateX(-360px); /* Adjust the distance as needed */
     padding: 10px 20px;
     background-color: #4e5153;
     color: white;
@@ -187,7 +187,7 @@ nav a {
 ul{
     font-size: 1.8em;
     position: relative;
-    top: 11vh;
+    top: 18vh;
     padding-left: 0;
     padding-top: 10px;
 }
@@ -206,8 +206,8 @@ ul{
 }
 
 #topNavbar.navtopbar-move {
-    transform: translateX(110px); 
-    width: 1755px; /*calc(100% - 110px)*/ 
+    transform: translateX(10px); 
+    width: 1855px; /*calc(100% - 110px)*/ 
     /* max-width: 100%;  */
 }
 #topNavbar > div > div > div > div:nth-child(1) > button {
@@ -1096,7 +1096,7 @@ table {
 
 .logsTable{
     max-height: 500px;
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 
 .logs-container table {
@@ -1253,7 +1253,14 @@ body > div > nav > div.hidden.sm\:hidden > div.pt-4.pb-1.border-t.border-gray-20
 }
 
 body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div:nth-child(1) > div.hidden.space-x-8.sm\:-my-px.sm\:ms-10.sm\:flex > a{
-    font-size: 2.2em ;
+    font-size: 1.8em ;
+    height: 10px;
+}
+body > div.min-h-screen.bg-gray-100.dark\:bg-gray-900 > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div:nth-child(1) > div.hidden.space-x-8.sm\:-my-px.sm\:ms-10.sm\:flex.nav-title > a > span{
+    position: relative;
+    top: -61px;
+    left: 55px;
+    cursor: pointer;
 }
 
 /* button /w image to pare*/
@@ -1287,6 +1294,8 @@ body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidd
     position: relative;
     left: 100px;
     width: 100px;
+    pointer-events: none;
+    cursor: pointer;
 }
 
 body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.-me-2.flex.items-center.sm\:hidden > button{
@@ -1329,8 +1338,14 @@ body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidd
         position: relative;
 }
 
+body > div.min-h-screen.bg-gray-100.dark\:bg-gray-900 > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div:nth-child(1) > div.hidden.space-x-8.sm\:-my-px.sm\:ms-10.sm\:flex.nav-title > a > img{
+    width: 70px !important;
+    position: relative;
+    top: -4px;
+    left: -18px;
+}
 #navtop.navtop-move{
-    transform: translateX(250px);
+    transform: translateX(350px);
     transition: transform 0.3s ease-in-out;
 }
 

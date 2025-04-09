@@ -78,42 +78,6 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("resize", updateNavVisibility);
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    const selectAllBtn = document.getElementById("selectAll");
-    const section = document.getElementById("control-section");
-
-    if (!selectAllBtn || !section) {
-        console.error("Elements not found.");
-        return;
-    }
-
-    selectAllBtn.addEventListener("click", function () {
-        console.log("Select All clicked!");
-
-        const items = section.querySelectorAll(".pc-item");
-
-        if (items.length === 0) {
-            console.error("No .pc-item elements found.");
-            return;
-        }
-
-        // Check if all items are already selected
-        let allSelected = [...items].every(item => item.classList.contains("selected"));
-
-        // Toggle selection
-        items.forEach(item => {
-            if (!allSelected) {
-                item.classList.add("selected");
-                item.click(); // Simulate click
-            } else {
-                item.classList.remove("selected");
-            }
-        });
-    });
-});
-
-
-
 // PARA PANG TOGGLE NG NIGHT MODE
  document.body.classList.add('light');
 
@@ -189,28 +153,43 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+
+// SELECT ALL SA CONTROl
 document.addEventListener("DOMContentLoaded", function () {
-    const advOptButton = document.querySelectorAll(".adv-opt");
-    const advModal = document.getElementById("advOptionsModal");
+    const selectAllBtn = document.getElementById("selectAll");
+    const section = document.getElementById("control-section");
 
-    document.querySelectorAll(".pc-controls button").forEach(button => {
-        button.addEventListener("click", function (event) {
-            event.stopPropagation();
+    if (!selectAllBtn || !section) {
+        console.error("Elements not found.");
+        return;
+    }
 
-            let action = this.getAttribute("title");
+    selectAllBtn.addEventListener("click", function () {
+        console.log("Select All clicked!");
 
-            if (action === "Advanced Options") {
-                this.disabled = true;
+        const items = section.querySelectorAll(".pc-item");
+        const checkboxes = section.querySelectorAll(".pc-checkbox");
 
-                let modal = new bootstrap.Modal(advModal);
-                modal.show();
+        if (items.length === 0 || checkboxes.length === 0) {
+            console.error("No .pc-item or .pc-checkbox elements found.");
+            return;
+        }
 
-                advModal.addEventListener("hidden.bs.modal", () => {
-                    this.disabled = false;
-                }, { once: true }); 
-            } 
-            else if (action !== "View Background Processes" && action !== "File Transfer") {
-                alert(`${action} command sent.`);
+        // Check if all are already selected
+        const allSelected = Array.from(checkboxes).every(cb => cb.checked);
+
+        checkboxes.forEach(cb => {
+            cb.checked = !allSelected;
+
+            const pcItem = cb.closest(".pc-item");
+            const pcControls = pcItem.querySelector(".pc-controls");
+
+            if (!allSelected) {
+                pcItem.classList.add("selected");
+                pcControls.style.display = "flex";
+            } else {
+                pcItem.classList.remove("selected");
+                pcControls.style.display = "none";
             }
         });
     });
@@ -315,7 +294,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     
-    // Modal functions
+    // Modal functions for VNC
     function openModal(pcName, vncPort) {
         const modal = document.getElementById("pcModal");
         document.getElementById("pcTitle").textContent = "PC Name: " + pcName;
@@ -335,81 +314,11 @@ document.addEventListener("DOMContentLoaded", function () {
   
 
 // Close when clicking outside
-document.getElementById("pcModal").addEventListener("click", closeModal);
+// document.getElementById("pcModal").addEventListener("click", closeModal);
 
 document.querySelector(".modal-content").addEventListener("click", function(event) {
     event.stopPropagation();
 });
-
-
-
-// Send Chat Message
-function sendMessage(event) {
-    // Allow sending via Enter key or button click
-    if (!event || event.key === "Enter") {  
-        let chatInput = document.getElementById("chatInput");
-        let chatMessages = document.getElementById("chatMessages");
-
-        if (chatInput.value.trim() !== "") {
-            let message = document.createElement("p");
-            message.classList.add("sent-message");
-            message.innerText = chatInput.value;
-            chatMessages.appendChild(message);
-            chatInput.value = ""; // Clear input after sending
-            chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to latest message
-        }
-    }
-}
-
-// Attach event listener to the send button
-document.getElementById("sendButton").addEventListener("click", function () {
-    sendMessage(); // Call sendMessage when the button is clicked
-});
-
-document.getElementById("fileInput").addEventListener("change", function () {
-    let file = this.files[0]; // Get the selected file
-    if (file) {
-        let chatMessages = document.getElementById("chatMessages");
-
-        // Create a file message container
-        let fileMessage = document.createElement("p");
-        fileMessage.classList.add("sent-message");
-
-        // Create an object URL for local preview
-        let fileURL = URL.createObjectURL(file);
-
-        // Display a clickable file link
-        fileMessage.innerHTML = `
-            <a href="${fileURL}" download="${file.name}" target="_blank">
-                <i class="fas fa-file"></i> ${file.name}
-            </a>
-        `;
-
-        chatMessages.appendChild(fileMessage);
-        this.value = "";
-
-        // Scroll to latest message
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-});
-
-
-// Open Chat Modal
-document.getElementById("chatToggle").addEventListener("click", function () {
-    let chatModal = document.getElementById("chatModal");
-
-    if (chatModal.style.display === "none" || chatModal.style.display === "") {
-        chatModal.style.display = "block"; // Open modal
-    } else {
-        chatModal.style.display = "none"; // Close modal
-    }
-});
-
-
-// Close Chat Modal
-function closeChatModal() {
-    document.getElementById("chatModal").style.display = "none";
-}
 
 
 // para sa gap to ng mga PCs sa monitoring-section
@@ -479,6 +388,41 @@ function addPc() {
 }
 
 
+    document.addEventListener('DOMContentLoaded', function () {
+        const rowsPerPage = 10;
+        const tableBody = document.querySelector('.logsTable tbody');
+        const rows = Array.from(tableBody.querySelectorAll('tr'));
+        const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+        const paginationContainer = document.createElement('div');
+        paginationContainer.classList.add('pagination', 'mt-4', 'text-center');
+
+        function showPage(page) {
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+
+            rows.forEach((row, index) => {
+                row.style.display = (index >= start && index < end) ? '' : 'none';
+            });
+        }
+
+        function createPaginationLinks() {
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i;
+                btn.classList.add('px-3', 'py-1', 'm-1', 'border', 'rounded', 'bg-gray-200', 'hover:bg-gray-300');
+                btn.addEventListener('click', () => showPage(i));
+                paginationContainer.appendChild(btn);
+            }
+
+            // Append below the table
+            const tableContainer = document.querySelector('.logsTable');
+            tableContainer.parentElement.appendChild(paginationContainer);
+        }
+
+        showPage(1);
+        createPaginationLinks();
+    });
 
 // document.getElementById("menuToggle").addEventListener("click", function() {
 //     const navtop = document.getElementById("navtop");

@@ -1,4 +1,4 @@
-<title>NexusControl Admin</title>
+<title>NexusMattControl Admin</title>
 <x-app-layout>
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -195,22 +195,6 @@
         </div>
     </div>
 
-
-    <!-- Chat Box (Initially Hidden) -->
-    <div id="chatModal" class="chat-modal" style="display: none;">
-        <div class="chat-modal-content">
-            <span class="close-btn" onclick="closeChatModal()">&times;</span>
-            <h2>Chat</h2>
-            <div id="chatMessages"></div>
-            <label for="fileInput" class="custom-file-icon">
-                <i class="fas fa-upload"></i>
-            </label>
-            <input type="file" id="fileInput" class="custom-file-input" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.txt">
-            <input type="text" id="chatInput" placeholder="Type a message..." onkeypress="sendMessage(event)">
-            <button id="sendButton" onclick="sendMessageBtn()"><i class="fas fa-paper-plane"></i></button>
-        </div>
-    </div>
-
    <!-- Control Section -->
 <div class="control-container max-w-7xl mx-auto sm:px-6 lg:px-8 mt-10" id="control-section">
     <h2 class="text-xl font-semibold mb-4">Controls</h2>
@@ -219,6 +203,8 @@
     <div class="pc-grid" id="control-pcs">
         @foreach($subPcs as $subPc)
             <div class="pc-item">
+                <input type="checkbox" class="pc-checkbox" data-ip="{{ $subPc->ip_address }}" style="position: absolute; top: 10px; left: 10px; z-index: 10;">
+
                 <img src="{{ asset('images/pc.png') }}" alt="PC {{ $subPc->ip_address }}">
                 <div class="pc-info">
                     <p>PC Name: <br>{{ $subPc->ip_address }}</p>
@@ -458,28 +444,45 @@
 
 
     <script>
-        document.querySelectorAll('.shutdown, .restart, .lock').forEach(button => {
-            button.addEventListener('click', function () {
-                let ip = this.dataset.ip;
-                let action = this.classList.contains('shutdown') ? 'shutdown' :
-                    this.classList.contains('restart') ? 'restart' : 'lock';
+          function sendPcAction(ip, action) {
+        fetch('/pcs/control', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ ip, action })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(`${ip} - ${data.message}`);
+            alert(`${ip} - ${data.message}`);
+        })
+        .catch(error => console.error('Error:', error));
+    }
 
-                fetch('/pcs/control', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        ip,
-                        action
-                    })
-                })
-                    .then(response => response.json())
-                    .then(data => alert(data.message))
-                    .catch(error => console.error('Error:', error));
+    // Attach click event to shutdown, restart, and lock buttons
+    // Attach click event to shutdown, restart, and lock buttons
+document.querySelectorAll('.shutdown, .restart, .lock').forEach(button => {
+    button.addEventListener('click', function () {
+        const action = this.classList.contains('shutdown') ? 'shutdown' :
+                       this.classList.contains('restart') ? 'restart' : 'lock';
+
+        // 🔥 Re-query selected checkboxes inside the handler!
+        const selectedCheckboxes = document.querySelectorAll('.pc-checkbox:checked');
+
+        if (selectedCheckboxes.length > 0) {
+            selectedCheckboxes.forEach(cb => {
+                const ip = cb.dataset.ip;
+                sendPcAction(ip, action);
             });
-        });
+        } else {
+            const ip = this.dataset.ip;
+            sendPcAction(ip, action);
+        }
+    });
+});
+
 
         document.querySelectorAll('.view-processes').forEach(button => {
             button.addEventListener('click', function () {
@@ -578,7 +581,7 @@
 
         <!-- Scrollable Logs Table -->
         <div class="bg-transparent dark:bg-gray-800 sm:rounded-lg pt-6 pb-6">
-            <div class="logsTable overflow-y-auto max-h-50 border rounded-lg">
+            <div class="logsTable  max-h-50 border rounded-lg">
                 <table class="w-full border-collapse">
                     <thead>
                         <tr class="bg-gray-200 dark:bg-gray-700 text-center">
@@ -590,7 +593,7 @@
                     </thead>
                     <tbody id="logsTable">
                         @if(isset($logs))
-                            @foreach($logs as $log)
+                           @foreach($logs as $log)
                                 <tr>
                                     <td class="p-2 border">{{ $log->timestamp }}</td>
                                     <td class="p-2 border">{{ $log->pc_name }}</td>
