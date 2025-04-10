@@ -7,6 +7,6 @@ $classes = ($active ?? false)
 @endphp
 
 <a {{ $attributes->merge(['class' => $classes . ' flex items-center space-x-2']) }}>
-    <img src="{{ asset('images/nexsus.png') }}" alt="Logo" class="h-3 w-3">
+    <img src="{{ asset('images/neksos.png') }}" alt="Logo" class="h-3 w-3">
     <span>{{ $slot }}</span>
 </a>

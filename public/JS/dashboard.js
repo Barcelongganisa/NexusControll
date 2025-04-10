@@ -196,6 +196,15 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+    function updateStatuses() {
+        fetch('/update-status') // This hits your Laravel route
+            .then(response => response.json())
+            .then(data => console.log(data.message));
+    }
+
+    // Call every 10 seconds
+    setInterval(updateStatuses, 10000);
+
 
 // PARA SA LOGS
 document.addEventListener("DOMContentLoaded", function () {
@@ -428,3 +437,5 @@ function addPc() {
 //     const navtop = document.getElementById("navtop");
 //     navtop.classList.toggle("navtop-move");
 // });
+
+

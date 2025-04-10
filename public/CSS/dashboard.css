@@ -1258,7 +1258,7 @@ body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div:nth-
 }
 body > div.min-h-screen.bg-gray-100.dark\:bg-gray-900 > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div:nth-child(1) > div.hidden.space-x-8.sm\:-my-px.sm\:ms-10.sm\:flex.nav-title > a > span{
     position: relative;
-    top: -61px;
+    top: -67px;
     left: 55px;
     cursor: pointer;
 }
@@ -1535,3 +1535,17 @@ body > div.min-h-screen.bg-gray-100.dark\:bg-gray-900 > nav > div.max-w-7xl.mx-a
     margin-bottom: 50px; */
 }
 
+/* Lock Timer */
+#timerLock{
+    transform: translateY(-500px);
+    position: relative;
+    left: -150px;
+}
+
+#timerBody{
+    display: flex !important;
+}
+
+#lockTimerForm{
+    justify-items: center;
+}

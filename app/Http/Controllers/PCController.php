@@ -45,6 +45,46 @@ class PCController extends Controller
         ]);
     }
 
+    public function setLockTimer(Request $request)
+{
+    $ip = $request->input('ip');
+    $hours = (int) $request->input('hours');
+    $minutes = (int) $request->input('minutes');
+    $seconds = (int) $request->input('seconds');
+
+    $subPc = SubPc::where('ip_address', $ip)->first();
+
+    if (!$subPc) {
+        return response()->json(['message' => 'PC not found'], 404);
+    }
+
+    $totalSeconds = ($hours * 3600) + ($minutes * 60) + $seconds;
+
+    $url = "http://$ip:5000/set-timer"; // Assumes your Python client exposes this
+
+    try {
+        $response = Http::post($url, [
+            'timer' => $totalSeconds,
+            'action' => 'shutdown' // you can customize this
+        ]);
+
+        $status = $response->successful() ? 'Success' : 'Failed';
+    } catch (\Exception $e) {
+        $status = 'Error';
+    }
+
+    Log::create([
+        'pc_name' => $subPc->pc_name,
+        'action' => 'set_timer',
+        'status' => $status,
+        'timestamp' => now(),
+    ]);
+
+    return response()->json([
+        'message' => $status === 'Success' ? 'Timer set successfully' : 'Failed to set timer'
+    ]);
+}
+
     public function getDeviceCounts()
     {
         $subPcs = SubPc::all();
@@ -185,4 +225,10 @@ class PCController extends Controller
 
     return view('dashboard', compact('subPcs', 'alerts'));
 }
+
+
+
+
 }
+
+

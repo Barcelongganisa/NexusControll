@@ -157,6 +157,8 @@
         </div>
     </div>
 
+
+
     <!-- Modal for Adding PC -->
     <div class="modal fade" id="addPcModal" tabindex="-1" aria-labelledby="addPcModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -220,6 +222,9 @@
                             class="fas fa-sync-alt"></i></button>
                     <button class="lock" data-ip="{{ $subPc->ip_address }}" title="Lock"><i
                             class="fa-solid fa-lock"></i></button>
+                    <button class="lock-timer-btn" data-ip="{{ $subPc->ip_address }}" title="Start Timer">
+                         <i class="fas fa-clock"></i>
+                    </button>
 
                     <form action="{{ url('/upload') }}" method="POST" enctype="multipart/form-data"
                         class="file-upload-form">
@@ -243,12 +248,150 @@
                     <button class="view-processes" data-ip="{{ $subPc->ip_address }}" title="View Background Processes">
                         <i class="fas fa-tasks"></i>
                     </button>
+                    
                 </div>
             </div>
         @endforeach
     </div>
 </div>
 
+  <!-- Lock Timer Modal -->
+<div class="modal fade" id="lockTimerModal" tabindex="-1" aria-labelledby="lockTimerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg rounded-3" id="timerLock">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="lockTimerModalLabel">Set Lock Timer</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="timerBody">
+                <form id="lockTimerForm">
+                    <input type="hidden" name="ip" id="lockTimerPcIp">
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-12 col-md-4">
+                            <label for="lockTimerHours" class="form-label">Hours</label>
+                            <input type="number" id="lockTimerHours" name="hours" class="form-control" min="0" max="23" placeholder="0" required>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="lockTimerMinutes" class="form-label">Minutes</label>
+                            <input type="number" id="lockTimerMinutes" name="minutes" class="form-control" min="0" max="59" placeholder="0" required>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="lockTimerSeconds" class="form-label">Seconds</label>
+                            <input type="number" id="lockTimerSeconds" name="seconds" class="form-control" min="0" max="59" placeholder="0" required>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-4">
+                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success">Start Timer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const lockTimerForm = document.getElementById('lockTimerForm');
+        const modal = new bootstrap.Modal(document.getElementById('lockTimerModal'));
+        const modalPcIp = document.getElementById('lockTimerPcIp');
+        const hoursInput = document.getElementById('lockTimerHours');
+        const minutesInput = document.getElementById('lockTimerMinutes');
+        const secondsInput = document.getElementById('lockTimerSeconds');
+
+        // When "Start Timer" button is clicked
+        document.querySelectorAll('.lock-timer-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const ip = button.getAttribute('data-ip');
+                modalPcIp.value = ip;
+                
+                // Reset form values when modal is shown
+                hoursInput.value = '';
+                minutesInput.value = '';
+                secondsInput.value = '';
+                
+                modal.show();
+            });
+        });
+
+        // Handle form submission
+        lockTimerForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const ip = modalPcIp.value;
+            const hours = parseInt(hoursInput.value) || 0;
+            const minutes = parseInt(minutesInput.value) || 0;
+            const seconds = parseInt(secondsInput.value) || 0;
+
+            // Validate inputs
+            if (hours < 0 || minutes < 0 || seconds < 0) {
+                Swal.fire('Invalid Time', 'Time values cannot be negative.', 'warning');
+                return;
+            }
+
+            if (minutes > 59 || seconds > 59) {
+                Swal.fire('Invalid Time', 'Minutes and seconds must be less than 60.', 'warning');
+                return;
+            }
+
+            const totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
+
+            if (totalSeconds <= 0) {
+                Swal.fire('Invalid Timer', 'Please set a time greater than zero.', 'warning');
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = lockTimerForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Setting...';
+            submitBtn.disabled = true;
+
+            fetch(`/api/set-timer`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    ip: ip,
+                    duration: totalSeconds
+                })
+            })
+            .then(async res => {
+                if (!res.ok) {
+                    const errorData = await res.json();
+                    throw new Error(errorData.message || 'Failed to set timer');
+                }
+                return res.json();
+            })
+            .then(data => {
+                modal.hide();
+                Swal.fire({
+                    title: 'Timer Set!',
+                    text: data.message || 'The lock timer has been started.',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                Swal.fire('Error', err.message || 'Something went wrong while setting the timer.', 'error');
+            })
+            .finally(() => {
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            });
+        });
+    });
+</script>
+
+
+
+    
 <!-- Move script outside the loop -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -461,7 +604,6 @@
         .catch(error => console.error('Error:', error));
     }
 
-    // Attach click event to shutdown, restart, and lock buttons
     // Attach click event to shutdown, restart, and lock buttons
 document.querySelectorAll('.shutdown, .restart, .lock').forEach(button => {
     button.addEventListener('click', function () {
