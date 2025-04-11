@@ -344,13 +344,13 @@
                     @csrf
                     <div class="mb-3">
                         <label for="email" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" autocomplete="off" required>
                         <span id="emailError" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <div class="input-group">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" autocomplete="off" required>
                         <span id="passwordError" class="text-danger"></span>
                             <span class="input-group-text" id="togglePassword" style="cursor: pointer;">
                                 <i class="bi bi-eye"></i>

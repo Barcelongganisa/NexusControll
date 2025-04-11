@@ -131,6 +131,8 @@ nav {
     z-index: 1000;
     transition: transform 0.3s ease-in-out;
     border-radius: 10px;
+        /* border: 2px solid black !important;
+    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3) !important; */
 }
 
 /* root for nav */
@@ -203,6 +205,8 @@ ul{
     width: 1500px;
     margin-left: 100px;
     transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+    border: 2px solid black !important;
+    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3) !important;
 }
 
 #topNavbar.navtopbar-move {
@@ -261,7 +265,9 @@ ul{
     min-width: 50px; /* Keep its size consistent */
     overflow: visible;
     align-items: center;
-    padding: 10px
+    padding: 10px;
+    border: 2px solid black !important;
+    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3) !important;
 }
 
 #topNavbar > div > div > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.ltr\:origin-top-right.rtl\:origin-top-left.end-0 > div{
@@ -275,7 +281,11 @@ ul{
     top: 100px;
     border-radius: 10px;
 }
+/* 
+[data-theme="dark"] #topNavbar{
+      box-shadow: 15px 15px 0px 0px rgba(54, 11, 11, 1) !important;
 
+} */
 
 /* DASHBOARD CARDS/DASHBOARD */
 
@@ -342,10 +352,12 @@ ul{
     border: 1px solid var(--border-light);
     color: var(--text-light);
     font-size: 1.5em;
+    border: 2px solid black !important;
+    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3) !important;
 }
 
 .card:hover {
-    transform: scale(1.05);
+    /* transform: scale(1.05); */
     background: rgba(56, 56, 56, 0.673);
     color: var(--text-light);
 }
@@ -428,12 +440,17 @@ ul{
     border: 1px solid var(--border-light);
     color: var(--text-light);
     font-size: 1.3em;
+    border: 2px solid black !important;
+    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3) !important;
     
     /* 👇 Default Collapsed State */
     max-height: 110px;
     overflow: hidden;
     transition: all 0.3s ease-in-out;
     overflow-y: scroll;
+
+    position: relative;
+    top: 25px;
 }
 
 .alert-card:hover {
@@ -639,6 +656,21 @@ ul{
     /* width: 120px; */
 }
 
+.bg-blue-600{
+    background-color: gray !important;
+    position: absolute;
+        top: -106px;
+    left: 242px;
+    height: 37px;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+
+.upload-button{
+    position: absolute;
+}
+
+
 .pc-controls i {
     margin: 5px;
     cursor: pointer;
@@ -813,6 +845,12 @@ ul{
     align-items: flex-end;
 }
 
+#chatModal{
+    z-index: 99999 !important;
+    position: absolute;
+}
+
+
 .message {
     padding: 8px 12px;
     border-radius: 15px;
@@ -835,8 +873,8 @@ ul{
 
 .chat-modal {
     position: fixed;
-    top: 70%;
-    right: -320px;
+    top: 65%;
+    right: 50px;
     transform: translateY(-50%);
     width: 300px;
     height: 386px;
@@ -1096,7 +1134,7 @@ table {
 
 .logsTable{
     max-height: 500px;
-    /* overflow-y: auto; */
+    overflow-y: auto;
 }
 
 .logs-container table {
@@ -1195,13 +1233,14 @@ th {
     left: 10px;
     background-color: #4e5153;
     color: white;
-    border: none;
     padding: 10px 20px;
     font-size: 16px;
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
+    border: 2px solid black !important;
+    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3) !important;
 }
 
 #menuToggle:hover {
@@ -1311,6 +1350,8 @@ li::marker {
 #navtop > div:nth-child(3) > ul > li:nth-child(2) > form > button{
     position: relative;
     left: 5px;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 

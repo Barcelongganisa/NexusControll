@@ -36,6 +36,8 @@ Route::post('/pcs/processes', [PcController::class, 'getProcesses']);
 Route::get('/fetch-alerts', [AlertController::class, 'fetchAlerts']);
 
 Route::post('/add-pc', [PcController::class, 'store']);
+Route::get('/next-port', [PCController::class, 'getNextPort']);
+
 
 Route::get('/pc-status', function () {
     return response()->json(SubPc::all(['id', 'ip_address', 'device_status']));

@@ -34,7 +34,7 @@ class PCController extends Controller
 
         // Store the log
         Log::create([
-            'pc_name' => $subPc->pc_name,
+            'pc_name' => $subPc->ip_address,
             'action' => $action,
             'status' => $status,
             'timestamp' => now(),
@@ -74,7 +74,7 @@ class PCController extends Controller
     }
 
     Log::create([
-        'pc_name' => $subPc->pc_name,
+        'pc_name' => $subPc->ip_address,
         'action' => 'set_timer',
         'status' => $status,
         'timestamp' => now(),
@@ -144,6 +144,29 @@ class PCController extends Controller
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
     }
+
+public function getNextPort()
+{
+    try {
+        $lastPort = SubPc::max('vnc_port');
+        $nextPort = $lastPort ? $lastPort + 1 : 6080;
+
+        // Check if nextPort already exists
+        while (SubPc::where('vnc_port', $nextPort)->exists()) {
+            $nextPort++;
+        }
+
+        return response()->json([
+            'last_port' => $lastPort,
+            'next_port' => $nextPort
+        ]);
+    } catch (\Exception $e) {
+        // Log the exception for debugging purposes
+        \Log::error('Error fetching next port: ' . $e->getMessage());
+        return response()->json(['error' => 'Failed to fetch next port'], 500);
+    }
+}
+
     public function showLogs()
     {
         $logs = Log::orderBy('timestamp', 'desc')->get();

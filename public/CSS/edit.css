@@ -1,6 +1,8 @@
 #userDropdown{
     left: 86.5vw;
-    top: 10px;
+    top: 25px;
+    border: 2px solid black !important;
+    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3) !important;
 }
 
 /* PROFILE CARD */
@@ -160,18 +162,15 @@ input:focus {
 /* PARA TO SA NEXUSCONTROL */
 /* ------------------------------ */
 #nexus {
-    font-size: 20px; /* Slightly smaller for modern feel */
+    font-size: 31px; /* Slightly smaller for modern feel */
     font-weight: 600; /* Medium-bold for readability */
     color: #333 !important; /* Dark gray for a softer feel */
-    text-transform: uppercase; /* Maintain professionalism */
-    letter-spacing: 1.2px; /* Balanced spacing */
     text-decoration: none;
     transition: color 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
 /* Hover effect for a sleek interaction */
 #nexus:hover {
-    color: #007bff !important; /* Industry-standard blue (Bootstrap primary) */
     transform: scale(1.05); /* Subtle growth effect */
     text-decoration: none;
 }
@@ -179,7 +178,6 @@ input:focus {
 /* Active link styling for better UX */
 #nexus:active,
 #nexus:focus {
-    color: #0056b3 !important; /* Darker blue for focus state */
     outline: none;
 }
 
@@ -257,6 +255,32 @@ body > div > main > div > div > div > div:nth-child(5){
     align-items: baseline;
 }
 
-/* body > div > main > div > div > div > div:nth-child(5) > div{
-    margin-bottom: 20px;
-} */
+#nexus > img{
+    width: 50px;
+}
+
+body > div > main > div > div{
+    background-color: gray;
+}
+
+.flex-column{
+    background-color: gray;
+}
+
+.h-100{
+    background-color: gray;
+}
+
+.p-4{
+    border: 2px solid black !important;
+    box-shadow: 15px 15px 0px 0px rgba(0, 0, 0, 0.3);
+}
+
+body > div > main > div > div > div > div.col-12 > div{
+    border: 2px solid black !important;
+    box-shadow: 15px 15px 0px 0px rgba(0, 0, 0, 0.3) !important;
+}
+
+body > div > header > div{
+    background-color: whitesmoke;
+}

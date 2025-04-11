@@ -196,14 +196,14 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-    function updateStatuses() {
-        fetch('/update-status') // This hits your Laravel route
-            .then(response => response.json())
-            .then(data => console.log(data.message));
-    }
+    // function updateStatuses() {
+    //     fetch('/update-status') // This hits your Laravel route
+    //         .then(response => response.json())
+    //         .then(data => console.log(data.message));
+    // }
 
-    // Call every 10 seconds
-    setInterval(updateStatuses, 10000);
+    // // Call every 10 seconds
+    // setInterval(updateStatuses, 10000);
 
 
 // PARA SA LOGS
@@ -354,6 +354,20 @@ document.addEventListener("DOMContentLoaded", function () {
 // ADD NG PC SA MONITORING SECTION
 document.addEventListener("DOMContentLoaded", function () {
     let confirmAddPc = document.getElementById("confirmAddPc");
+    let pcPortInput = document.getElementById("pc-port");
+
+    const addPcModal = document.getElementById("addPcModal");
+    addPcModal.addEventListener("show.bs.modal", function () {
+        fetch('/next-port')
+            .then(response => response.json())
+            .then(data => {
+                pcPortInput.value = data.next_port;
+            })
+            .catch(error => {
+                console.error("Failed to fetch next port:", error);
+                pcPortInput.value = 6080;
+            });
+    });
 
     if (confirmAddPc) {
         confirmAddPc.addEventListener("click", addPc);
@@ -396,7 +410,7 @@ function addPc() {
 
 }
 
-
+// paginate
     document.addEventListener('DOMContentLoaded', function () {
         const rowsPerPage = 10;
         const tableBody = document.querySelector('.logsTable tbody');
@@ -439,3 +453,74 @@ function addPc() {
 // });
 
 
+document.addEventListener("DOMContentLoaded", function () {
+    const globalFileInput = document.getElementById("globalFileInput");
+
+    globalFileInput.addEventListener("change", function () {
+        const file = globalFileInput.files[0];
+        if (!file) return;
+
+        const checkedCheckboxes = document.querySelectorAll(".pc-checkbox:checked");
+
+        checkedCheckboxes.forEach(checkbox => {
+            const ip = checkbox.dataset.ip;
+            const fileInput = document.getElementById(`fileInput-${ip}`);
+            const form = fileInput.closest("form");
+            const progressContainer = form.querySelector(".progress-container");
+            const progressBar = form.querySelector(".progress-bar");
+            const pcControls = form.closest(".pc-controls");
+            const buttons = pcControls.querySelectorAll("button, input[type='file']");
+
+            // Clone the file to make it work across FormData instances
+            const fileClone = new File([file], file.name, { type: file.type });
+
+            const formData = new FormData(form);
+            formData.set("file", fileClone);
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", form.action, true);
+            xhr.setRequestHeader("X-CSRF-TOKEN", "{{ csrf_token() }}");
+
+            // Hide all buttons while uploading
+            buttons.forEach(btn => btn.style.display = "none");
+
+            progressContainer.style.display = "block";
+            // progressBar.style.width = "0%";
+            // progressBar.textContent = "0%";
+
+            xhr.upload.onprogress = function (event) {
+                if (event.lengthComputable) {
+                    let percent = (event.loaded / event.total) * 100;
+                    progressBar.style.width = percent + "%";
+                    progressBar.textContent = Math.round(percent) + "%";
+                }
+            };
+
+            xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        progressBar.style.width = "100%";
+                        progressBar.textContent = "Upload Complete!";
+                        setTimeout(() => {
+                            progressContainer.style.display = "none";
+                            progressBar.style.width = "0%";
+                            buttons.forEach(btn => btn.style.display = "inline-block");
+                            fileInput.style.display = "none";
+                        }, 2000);
+                    } else {
+                        progressBar.style.width = "0%";
+                        progressBar.textContent = "Upload Failed!";
+                        setTimeout(() => {
+                            progressContainer.style.display = "none";
+                            buttons.forEach(btn => btn.style.display = "inline-block");
+                            fileInput.style.display = "none";
+                        }, 2000);
+                    }
+                };
+
+            xhr.send(formData);
+        });
+
+        // Reset the global input
+        globalFileInput.value = "";
+    });
+});

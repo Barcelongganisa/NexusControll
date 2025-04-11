@@ -172,7 +172,7 @@
                     <input type="text" id="pc-ip" class="form-control" placeholder="192.168.x.x">
 
                     <label for="pc-port" class="form-label mt-3">Port:</label>
-                    <input type="text" id="pc-port" class="form-control" placeholder="6083">
+                    <input type="text" id="pc-port" class="form-control">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" id="confirmAddPc">Add</button>
@@ -201,6 +201,12 @@
 <div class="control-container max-w-7xl mx-auto sm:px-6 lg:px-8 mt-10" id="control-section">
     <h2 class="text-xl font-semibold mb-4">Controls</h2>
     <button id="selectAll" title="Select All"><i class="fa-solid fa-check"></i></button>
+    <div class="mb-4 upload-button">
+    <input type="file" id="globalFileInput" style="display: none;">
+    <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded" title="Upload to Selected" onclick="document.getElementById('globalFileInput').click();">
+       <i class="fas fa-file-upload"></i>
+    </button>
+</div>
 
     <div class="pc-grid" id="control-pcs">
         @foreach($subPcs as $subPc)

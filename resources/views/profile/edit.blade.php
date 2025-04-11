@@ -4,7 +4,7 @@
     
     <x-slot name="header">
         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" id="nexus">
-            {{ __('NexusControl') }}
+            {{ __('NexusMattControl') }}
         </x-nav-link>
     </x-slot>
 
@@ -27,7 +27,7 @@
                             @endif
                             
                             <h5 class="card-title text-white">{{ Auth::user()->name }}</h5>
-                            <p class="text-light">NexusControl Inc. Admin<br>Langaray Area, Barangay 14, Caloocan</p>
+                            <p class="text-light">NexusMattControl Inc. Admin<br>Langaray Area, Barangay 14, Caloocan</p>
                             <div class="mt-auto">
                                 <p class="text-light">{{ Auth::user()->email }}</p>
                             </div>
