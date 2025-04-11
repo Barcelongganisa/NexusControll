@@ -230,6 +230,10 @@
     <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded" title="Upload to Selected" onclick="document.getElementById('globalFileInput').click();">
        <i class="fas fa-file-upload"></i>
     </button>
+    <button id="multiLockTimer" title="Set Timer for Selected" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded">
+    <i class="fas fa-clock"></i>
+</button>
+
 </div>
 
     <div class="pc-grid" id="control-pcs">
@@ -346,10 +350,32 @@
             });
         });
 
+        let multiMode = false;
+let selectedIps = [];
+
+document.getElementById('multiLockTimer').addEventListener('click', () => {
+    selectedIps = Array.from(document.querySelectorAll('.pc-checkbox:checked'))
+        .map(checkbox => checkbox.dataset.ip);
+
+    if (selectedIps.length === 0) {
+        Swal.fire('No PCs Selected', 'Please select at least one PC.', 'info');
+        return;
+    }
+
+    multiMode = true;
+    modalPcIp.value = selectedIps[0]; // Just for form validation
+    hoursInput.value = '';
+    minutesInput.value = '';
+    secondsInput.value = '';
+    modal.show();
+});
+
+
         lockTimerForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
             const ip = modalPcIp.value;
+const targetIps = multiMode ? selectedIps : [ip];
             const hours = parseInt(hoursInput.value) || 0;
             const minutes = parseInt(minutesInput.value) || 0;
             const seconds = parseInt(secondsInput.value) || 0;
@@ -385,20 +411,22 @@
                 action: 'lock'
             });
 
-            fetch(`http://${ip}:5000/set-timer`, 
-                {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ip: ip,
-                    hours: hours,
-                    minutes: minutes,
-                    seconds: seconds,
-                    action: 'lock'
-                })
-            })
+            Promise.all(targetIps.map(ipAddr => {
+    return fetch(`http://${ipAddr}:5000/set-timer`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            ip: ipAddr,
+            hours,
+            minutes,
+            seconds,
+            action: 'lock'
+        })
+    });
+}))
+
             .then(async res => {
                 let responseJson;
                 try {
@@ -427,6 +455,8 @@
             .finally(() => {
                 submitBtn.innerHTML = originalBtnText;
                 submitBtn.disabled = false;
+                multiMode = false;
+                selectedIps = [];
             });
         });
     });
