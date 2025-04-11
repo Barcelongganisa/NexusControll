@@ -157,7 +157,31 @@
         </div>
     </div>
 
+    <script>
+        function updateDeviceStatuses() {
+            // Step 1: Ping devices and update DB
+            fetch('/pcs/update-status')
+                .then(() => {
+                    // Step 2: Fetch updated statuses
+                    return fetch('/pcs/get-status');
+                })
+                .then(res => res.json())
+                .then(data => {
+                    data.forEach(device => {
+                        const statusElement = document.querySelector(`.pc-status[data-ip="${device.ip_address}"]`);
+                        if (statusElement) {
+                            statusElement.textContent = `Status: ${device.device_status}`;
+                        }
+                    });
+                })
+                .catch(err => {
+                    console.error('Status update failed:', err);
+                });
+        }
 
+        // Run every 5 seconds
+        setInterval(updateDeviceStatuses, 10000);
+    </script>
 
     <!-- Modal for Adding PC -->
     <div class="modal fade" id="addPcModal" tabindex="-1" aria-labelledby="addPcModalLabel" aria-hidden="true">
@@ -298,6 +322,8 @@
     </div>
 </div>
 
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const lockTimerForm = document.getElementById('lockTimerForm');
@@ -307,22 +333,19 @@
         const minutesInput = document.getElementById('lockTimerMinutes');
         const secondsInput = document.getElementById('lockTimerSeconds');
 
-        // When "Start Timer" button is clicked
         document.querySelectorAll('.lock-timer-btn').forEach(button => {
             button.addEventListener('click', () => {
                 const ip = button.getAttribute('data-ip');
                 modalPcIp.value = ip;
-                
-                // Reset form values when modal is shown
+
                 hoursInput.value = '';
                 minutesInput.value = '';
                 secondsInput.value = '';
-                
+
                 modal.show();
             });
         });
 
-        // Handle form submission
         lockTimerForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
@@ -331,7 +354,6 @@
             const minutes = parseInt(minutesInput.value) || 0;
             const seconds = parseInt(secondsInput.value) || 0;
 
-            // Validate inputs
             if (hours < 0 || minutes < 0 || seconds < 0) {
                 Swal.fire('Invalid Time', 'Time values cannot be negative.', 'warning');
                 return;
@@ -349,35 +371,50 @@
                 return;
             }
 
-            // Show loading state
             const submitBtn = lockTimerForm.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Setting...';
             submitBtn.disabled = true;
 
-            fetch(`/api/set-timer`, {
+
+            console.log('Sending timer set request with:', {
+                ip: ip,
+                hours: hours,
+                minutes: minutes,
+                seconds: seconds,
+                action: 'lock'
+            });
+
+            fetch(`http://${ip}:5000/set-timer`, 
+                {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
                 body: JSON.stringify({
                     ip: ip,
-                    duration: totalSeconds
+                    hours: hours,
+                    minutes: minutes,
+                    seconds: seconds,
+                    action: 'lock'
                 })
             })
             .then(async res => {
-                if (!res.ok) {
-                    const errorData = await res.json();
-                    throw new Error(errorData.message || 'Failed to set timer');
+                let responseJson;
+                try {
+                    responseJson = await res.json();
+                } catch (e) {
+                    throw new Error('Invalid response from server. Are you sure the endpoint returns JSON?');
                 }
-                return res.json();
-            })
-            .then(data => {
+
+                if (!res.ok) {
+                    throw new Error(responseJson.message || 'Failed to set timer');
+                }
+
                 modal.hide();
                 Swal.fire({
                     title: 'Timer Set!',
-                    text: data.message || 'The lock timer has been started.',
+                    text: responseJson.message || 'The lock timer has been started.',
                     icon: 'success',
                     timer: 2000,
                     showConfirmButton: false
@@ -394,7 +431,6 @@
         });
     });
 </script>
-
 
 
     

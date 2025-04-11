@@ -7,6 +7,8 @@ use App\Models\SubPc;
 use Illuminate\Support\Facades\Http;
 use App\Models\Log;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\SendDelayedLockCommand;
+
 
 
 
@@ -118,6 +120,13 @@ class PCController extends Controller
     
         return response()->json(['message' => 'Status updated']);
     }
+
+    public function getDeviceStatuses()
+{
+    $subPcs = SubPc::all(['ip_address', 'device_status']);
+    return response()->json($subPcs);
+}
+
 
     private function isPCOnline($ip)
     {

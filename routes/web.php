@@ -35,6 +35,9 @@ Route::get('/pcs/update-status', [PCController::class, 'updateDeviceStatus']);
 Route::post('/pcs/processes', [PcController::class, 'getProcesses']);
 Route::get('/fetch-alerts', [AlertController::class, 'fetchAlerts']);
 
+Route::get('/pcs/get-status', [PCController::class, 'getDeviceStatuses']);
+Route::post('/set-timer', [PcController::class, 'setLockTimer']);
+
 Route::post('/add-pc', [PcController::class, 'store']);
 Route::get('/next-port', [PCController::class, 'getNextPort']);
 
