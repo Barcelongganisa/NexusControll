@@ -408,7 +408,7 @@ const targetIps = multiMode ? selectedIps : [ip];
                 hours: hours,
                 minutes: minutes,
                 seconds: seconds,
-                action: 'lock'
+                action: 'set_timer'
             });
 
             Promise.all(targetIps.map(ipAddr => {
@@ -427,27 +427,31 @@ const targetIps = multiMode ? selectedIps : [ip];
     });
 }))
 
-            .then(async res => {
-                let responseJson;
-                try {
-                    responseJson = await res.json();
-                } catch (e) {
-                    throw new Error('Invalid response from server. Are you sure the endpoint returns JSON?');
-                }
+           .then(async responses => {
+    await Promise.all(responses.map(async res => {
+        let responseJson;
+        try {
+            const text = await res.text(); // Read response as text first
+            responseJson = text ? JSON.parse(text) : {}; // Parse only if content exists
+        } catch (e) {
+            responseJson = {}; // Default to empty object if parsing fails
+        }
 
-                if (!res.ok) {
-                    throw new Error(responseJson.message || 'Failed to set timer');
-                }
+        if (!res.ok) {
+            throw new Error(responseJson.message || 'Failed to set timer for some PCs');
+        }
+    }));
 
-                modal.hide();
-                Swal.fire({
-                    title: 'Timer Set!',
-                    text: responseJson.message || 'The lock timer has been started.',
-                    icon: 'success',
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-            })
+    modal.hide();
+    Swal.fire({
+        title: 'Timer Set!',
+        text: 'The lock timer has been started for all selected PCs.',
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false
+    });
+})
+
             .catch(err => {
                 console.error('Error:', err);
                 Swal.fire('Error', err.message || 'Something went wrong while setting the timer.', 'error');

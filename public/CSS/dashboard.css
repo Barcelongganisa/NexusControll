@@ -526,7 +526,7 @@ ul{
 
 .pc-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); /* Creates responsive columns */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Creates responsive columns */
     gap: 60px; /* var(--dynamic-gap, 120px); */
     justify-content: center;
     padding: 10px;
@@ -638,9 +638,10 @@ ul{
 
 .pc-controls {
     position: absolute;
-    bottom: -50px;
+    bottom: -60px;
     left: 50%;
     transform: translateX(-50%);
+    margin-bottom:5px ;
     
     background: var(--pc-controls-bg);
     backdrop-filter: blur(15px);
@@ -648,8 +649,8 @@ ul{
     
     padding: 5px 10px;
     border-radius: 10px;
-    border: 1px solid var(--pc-controls-border);
-    box-shadow: 0 4px 10px var(--pc-controls-shadow);
+    border: 2px solid black !important;
+    box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.3) !important;
     
     visibility: visible !important;
     opacity: 1 !important;

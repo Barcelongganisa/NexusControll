@@ -47,45 +47,58 @@ class PCController extends Controller
         ]);
     }
 
-    public function setLockTimer(Request $request)
+public function setLockTimer(Request $request)
 {
-    $ip = $request->input('ip');
+    $ips = $request->input('ips'); // Get multiple IPs as an array
     $hours = (int) $request->input('hours');
     $minutes = (int) $request->input('minutes');
     $seconds = (int) $request->input('seconds');
 
-    $subPc = SubPc::where('ip_address', $ip)->first();
-
-    if (!$subPc) {
-        return response()->json(['message' => 'PC not found'], 404);
+    if (!is_array($ips) || empty($ips)) {
+        return response()->json(['message' => 'No PCs selected'], 400);
     }
 
     $totalSeconds = ($hours * 3600) + ($minutes * 60) + $seconds;
 
-    $url = "http://$ip:5000/set-timer"; // Assumes your Python client exposes this
+    $responses = [];
 
-    try {
-        $response = Http::post($url, [
-            'timer' => $totalSeconds,
-            'action' => 'shutdown' // you can customize this
+    foreach ($ips as $ip) {
+        $subPc = SubPc::where('ip_address', $ip)->first();
+        if (!$subPc) {
+            $responses[$ip] = 'PC not found';
+            continue;
+        }
+
+        $url = "http://$ip:5000/set-timer";
+
+        try {
+            $response = Http::post($url, [
+                'timer' => $totalSeconds,
+                'action' => 'shutdown',
+            ]);
+
+            $status = $response->successful() ? 'Success' : 'Failed';
+        } catch (\Exception $e) {
+            $status = 'Error';
+        }
+
+        // Log each request properly
+        Log::create([
+            'pc_name' => $subPc->ip_address,
+            'action' => 'set_timer',
+            'status' => $status,
+            'timestamp' => now(),
         ]);
 
-        $status = $response->successful() ? 'Success' : 'Failed';
-    } catch (\Exception $e) {
-        $status = 'Error';
+        $responses[$ip] = $status;
     }
 
-    Log::create([
-        'pc_name' => $subPc->ip_address,
-        'action' => 'set_timer',
-        'status' => $status,
-        'timestamp' => now(),
-    ]);
-
     return response()->json([
-        'message' => $status === 'Success' ? 'Timer set successfully' : 'Failed to set timer'
+        'message' => 'Timers processed',
+        'details' => $responses
     ]);
 }
+
 
     public function getDeviceCounts()
     {
