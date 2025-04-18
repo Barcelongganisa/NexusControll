@@ -1,4 +1,8 @@
 <title>Profile</title>
+@php
+    use App\Enums\RoleEnum;
+@endphp
+
 <x-app-layout>
     <link rel="stylesheet" href="{{ asset('css/edit.css') }}">
     
@@ -27,7 +31,10 @@
                             @endif
                             
                             <h5 class="card-title text-white">{{ Auth::user()->name }}</h5>
-                            <p class="text-light">NexusMattControl Inc. Admin<br>Langaray Area, Barangay 14, Caloocan</p>
+                            <p class="text-light">
+                                NexusMattControl Inc. {{ ucfirst(Auth::user()->role->value) }}<br>
+                                Langaray Area, Barangay 14, Caloocan
+                            </p>
                             <div class="mt-auto">
                                 <p class="text-light">{{ Auth::user()->email }}</p>
                             </div>
@@ -57,21 +64,26 @@
                 </div>
 
                 
-                <div class="col-md-12 mt-3">
-                    <div class="card h-100">
-                        <div class="card-body" id="card-body">
-                            @include('profile.partials.create-user-form')
+                @if(Auth::user()->role === RoleEnum::Admin)
+                    <div class="col-md-12 mt-3">
+                        <div class="card h-100">
+                            <div class="card-body" id="card-body">
+                                @include('profile.partials.create-user-form')
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
 
-                <div class="col-md-12 mt-3">
-                    <div class="card h-100">
-                        <div class="card-body" id="card-body">
-                            @include('profile.partials.delete-user-form')
+
+                @if(Auth::user()->role === RoleEnum::Admin)
+                    <div class="col-md-12 mt-3">
+                        <div class="card h-100">
+                            <div class="card-body" id="card-body">
+                                @include('profile.partials.delete-user-form')
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
 
             </div> 
         </div>

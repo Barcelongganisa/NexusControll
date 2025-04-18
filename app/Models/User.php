@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Enums\RoleEnum;
+use Illuminate\Support\Facades\DB;
+
 
 class User extends Authenticatable
 {
@@ -22,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'profile_picture',
+        'role'
     ];
 
     /**
@@ -41,5 +45,11 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'role' => RoleEnum::class, // if you make a RoleEnum
     ];
+
+    public function hasRole($roleName)
+    {
+        return $this->role->value === $roleName;
+    }
 }

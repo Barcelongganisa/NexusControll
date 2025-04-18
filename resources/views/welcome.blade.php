@@ -274,61 +274,64 @@
 
 
     <!-- Contact Section -->
-    <section id="contact" class="section">
-        <div class="container">
-            <div class="contact-container">
-                <div class="contact-info">
-                    <h2>Contact Information</h2>
-                    <p>Reach Out Anytime – We’re Ready to Assist!</p>
+<form action="{{ route('contact.send') }}" method="POST">
+        @csrf
+        <section id="contact" class="section">
+            <div class="container">
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <h2>Contact Information</h2>
+                        <p>Reach Out Anytime – We’re Ready to Assist!</p>
 
-                    <div class="contact-item">
-                        <img src="/images/phone.png" alt="Phone" width="18">
-                        <span>09912200846</span>
-                    </div>
-                    <div class="contact-item">
-                        <img src="/images/email.png" alt="Email" width="18">
-                        <span>NexusControl@gmail.com</span>
-                    </div>
-                    <div class="contact-item">
-                        <img src="/images/location.png" alt="Location" width="18">
-                        <span>Langaray St., Barangay 14</span>
-                    </div>
-                </div>
-                <div class="divider"></div> <!-- Thin Black Divider -->
-
-                <div class="contact-form">
-                    <div class="input-group">
-                        <div>
-                            <label>First Name</label>
-                            <input type="text" placeholder="Enter your first name">
+                        <div class="contact-item">
+                            <img src="/images/phone.png" alt="Phone" width="18">
+                            <span>09912200846</span>
                         </div>
-                        <div>
-                            <label>Last Name</label>
-                            <input type="text" placeholder="Enter your last name">
+                        <div class="contact-item">
+                            <img src="/images/email.png" alt="Email" width="18">
+                            <span>NexusControl@gmail.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <img src="/images/location.png" alt="Location" width="18">
+                            <span>Langaray St., Barangay 14</span>
                         </div>
                     </div>
+                    <div class="divider"></div> <!-- Thin Black Divider -->
 
-                    <div class="input-group">
-                        <div>
-                            <label>Email</label>
-                            <input type="email" placeholder="Enter your email">
+                    <div class="contact-form">
+                        <div class="input-group">
+                            <div>
+                                <label>First Name</label>
+                                <input type="text" name="first_name" placeholder="Enter your first name" required>
+                            </div>
+                            <div>
+                                <label>Last Name</label>
+                                <input type="text" name="last_name" placeholder="Enter your last name" required>
+                            </div>
                         </div>
-                        <div>
-                            <label>Phone Number</label>
-                            <input type="tel" placeholder="Enter your phone number">
+
+                        <div class="input-group">
+                            <div>
+                                <label>Email</label>
+                                <input type="email" name="email" placeholder="Enter your email" required>
+                            </div>
+                            <div>
+                                <label>Phone Number</label>
+                                <input type="tel" name="phone" placeholder="Enter your phone number" required>
+                            </div>
                         </div>
+
+                        <label>Message</label>
+                        <textarea name="message" placeholder="Write your message.." required></textarea>
+
+                        <button class="send-btn" type="submit">Send Message</button>
                     </div>
-
-                    <label>Message</label>
-                    <textarea placeholder="Write your message.."></textarea>
-
-                    <button class="send-btn">Send Message</button>
                 </div>
             </div>
-        </div>
-    </div>
-        </div> 
-    </section>
+            </div>
+            </div>
+        </section>
+    </form>
 
     {{-- login modal --}}
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel">

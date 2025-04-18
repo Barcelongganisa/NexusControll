@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\AlertController;
 use App\Models\SubPc;
-
+use App\Http\Controllers\ContactController;
 
 
 
@@ -26,7 +26,8 @@ use App\Models\SubPc;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/contact', [ContactController::class, 'showForm'])->name('contact');
+Route::post('/contact', [ContactController::class, 'sendForm'])->name('contact.send');
 
 Route::post('/upload', [PCController::class, 'uploadFile'])->name('pc.upload');
 Route::post('/pcs/control', [PCController::class, 'controlPC']);
