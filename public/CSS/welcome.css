@@ -9,15 +9,15 @@ html, body {
 
 /* Fullscreen Background Image */
 .background-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: url('/images/LAN.jpg') center/cover no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding-top: 5rem; /* Adjusted to prevent overlap with navbar */
+  position: relative;
+  width: 100%;
+  min-height: 100vh; /* Ensure it covers full height */
+  background: url('/images/LAN.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: 5rem; /* Adjusted to prevent overlap with navbar */
 }
 
 /* INPUT-GROUP SA LOGIN */
@@ -160,6 +160,41 @@ html, body {
   font-size: 2em;
   padding-bottom: 25px;
 }
+@media (max-width: 768px) {
+    .welcome h1 {
+        font-size: 4em; /* Adjust size for smaller screens */
+    }
+    .welcome p {
+        font-size: 1.5em; /* Adjust paragraph text size */
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome h1 {
+        font-size: 3em;
+    }
+    .welcome p {
+        font-size: 1.2em;
+    }
+}
+@media (max-width: 768px) {
+  .welcome h1 {
+      font-size: 4em; /* Adjust size for smaller screens */
+  }
+  .welcome p {
+      font-size: 1.5em; /* Adjust paragraph text size */
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome h1 {
+      font-size: 3em;
+  }
+  .welcome p {
+      font-size: 1.2em;
+  }
+}
+
 
 .welcome {
     font-family: 'Poppins', sans-serif;
@@ -399,13 +434,13 @@ body {
 }
 
 .content {
-  width: min(30vw, 500px);
-  height: 35vh;
+  width: min(90vw, 500px);
+  height: auto;
   position: absolute;
   top: 50%;
-  left: 10rem;
+  left: 50%;
   align-content: center;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);  /* Center it perfectly */
   font: 700 0.85rem helvetica, sans-serif;
   color: white;
   text-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
@@ -424,6 +459,7 @@ body {
   & .title {
     font-family: 'Arial Black', sans-serif;
     text-transform: uppercase;
+    word-break: break-word;  /* Prevents the word from overflowing */
   }
 
   & .description {
@@ -440,6 +476,20 @@ body {
     border-radius: 0.25rem;
     padding: 0.75rem;
     cursor: pointer;
+  }
+}
+@media (max-width: 768px) {
+  .content {
+      width: 90vw;
+      padding: 1rem;
+  }
+
+  .content .description {
+      font-size: 0.75rem;
+  }
+
+  .content .title {
+      font-size: 1.2rem;
   }
 }
 
@@ -889,36 +939,46 @@ padding-left: 1.7em !important;
 }
 .contact-container {
   display: flex;
+  flex-direction: row;
   width: 1000px;
-  height: 600px;
-  background: rgba(255, 255, 255, 0.2); /* Transparent white */
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.3); /* Glass-like border */
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  overflow-y: auto;
+  transition: all 0.3s ease;
   backdrop-filter: blur(15px); /* Blur effect */
   -webkit-backdrop-filter: blur(15px); /* For Safari */
 }
 
+/* Contact Form - Left Side */
 .contact-info {
-  padding: 30px;
   width: 40%;
+  padding: 30px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-right: solid 5px rgb(168, 168, 168) ;
+  color: #fff;
+  border-right: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .contact-info h2 {
   margin-bottom: 10px;
-  font-size: 3em;
+  font-size: 1em;
   color: rgb(255, 255, 255);
   font-weight: 700;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
 }
 
 .contact-info p {
-  font-size: 1.3em;
+  font-size: 1em;
+  margin-bottom: 20px;
+  line-height: 1.5;
   color: rgb(226, 226, 226);
   margin-bottom: 25px;
 }
@@ -927,13 +987,13 @@ padding-left: 1.7em !important;
   display: flex;
   align-items: center;
   margin-bottom: 15px;
-  font-size: 24px;
+  font-size: 1em;
   color: rgb(255, 255, 255);
   margin-bottom: 15px;
 }
 
 .contact-info div img {
-  width: 40px;
+  width: 24px;
   margin-right: 10px;
   color: rgb(255, 255, 255);
 }
@@ -951,14 +1011,48 @@ padding-left: 1.7em !important;
   top: 102px;
 }
 
+/* Contact Form - Right Side */
 .contact-form {
   flex: 1;
+  width: 60%;
   padding: 30px;
+  color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
+.form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
 
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 10px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid white;
+  color: white;
+  font-size: 1em;
+  outline: none;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
 .input-group {
   display: flex;
   gap: 65px;
@@ -994,8 +1088,8 @@ padding-left: 1.7em !important;
 }
 
 .contact-form textarea {
-  resize: none;
-  height: 100px; /* Slightly larger for better usability */
+  resize: vertical;
+  min-height: 80px;
 }
 
 .send-btn {
@@ -1013,6 +1107,26 @@ padding-left: 1.7em !important;
 
 .send-btn:hover {
   background: rgb(160, 160, 160);
+}
+@media screen and (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+
+  .send-btn {
+    width: 100%; /* Let the button stretch fully */
+    margin-top: 20px;
+  }
+
+  .contact-info div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  font-size: 20px;
+  color: white;
+  flex-wrap: wrap;         /* Allows wrapping on smaller screens */
+  word-break: break-word;  /* Allows long words like emails to break if needed */
+  }
 }
 
 /* login modal CSS */
@@ -1125,6 +1239,9 @@ padding-left: 1.7em !important;
 /* Footer Glassmorphism */
 .glass-container{
     background-image: url('/images/computer1.jpg');
+    background-size: cover;
+    background-position: center;
+    width: 100%;
 }
 
 .morph-container {
@@ -1134,21 +1251,38 @@ padding-left: 1.7em !important;
     border-top: 1px solid rgba(255, 255, 255, 0.2); /* Soft border */
     color: rgb(0, 0, 0);
     position: relative;
-    font-size: 24px;
+    font-size: 20px;
     font-style: bold;
     bottom: 0;
     left: 0;
-    width: 100vw;
-    padding: 40px 40px; /* Adjusted padding */
+    width: 100%;
+    padding: 20px 20px; /* Adjusted padding */
     display: flex;
     align-items: center; /* Ensures both elements align vertically */
     justify-content: space-between;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+  .morph-container {
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+      font-size: 16px;
+      padding: 30px 15px;
+  }
+
+  .social-icon {
+      margin: 5px;
+  }
 }
 
 /* Social Icons */
 .social-icon {
     width: 40px;
-    margin-right: 10px;
+    height: 40px;
+    margin-right: 0 10px;
     transition: transform 0.3s ease, filter 0.3s ease;
 }
 

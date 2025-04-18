@@ -174,3 +174,4 @@ $('#loginModal, #forgotPasswordModal').on('hidden.bs.modal', function () {
     $(this).find('input, textarea, select, button').blur(); // Remove focus
     $(this).removeAttr('aria-hidden'); // Ensure it is not hidden improperly
 });
+
