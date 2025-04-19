@@ -54,8 +54,6 @@
     /* color: white; */
 }
 
-
-
 /* Ensure card body doesn't override the card background */
 .card-body {
     background: none !important;
@@ -235,12 +233,21 @@ body > div > main > div > div > div > div:nth-child(5){
     border: none !important;
 }
 
-#card-body{
+#card-body {
     border: 3px solid gray;
     margin-bottom: 10px;
     border-radius: 10px;
     width: 40vw;
+    max-width: 400px;
+    min-width: 280px;
     align-self: center;
+}
+
+/* Responsive adjustment for small screens */
+@media (max-width: 768px) {
+    #card-body {
+        width: 90%;
+    }
 }
 
 .form-control{
