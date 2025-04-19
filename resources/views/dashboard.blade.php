@@ -56,10 +56,14 @@
         </div>
     </div>
 
-    <button class="absolute top-5 left-5 bg-blue-500 text-white px-4 py-2 rounded" id="menuToggle">
+    <button class="absolute top-5 left-5 bg-blue-500 text-white px-4 py-2 rounded z-50" id="menuToggle">
         ☰
     </button>
-
+    <div class="monitoring-cards">...</div> <!-- for Monitoring -->
+    <div class="controls-cards">...</div>   <!-- for Controls -->
+    
+</body>
+    
     <!-- Dashboard Cards -->
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-6" id="dashCards">
         <h2>Dashboard</h2>

@@ -323,6 +323,57 @@ ul{
     overflow: hidden; /* Prevents unwanted scrolling */
     justify-items: end;
 }
+/* Make sure the sidebar overlays content instead of pushing it */
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 85vw; /* cover most of the screen on mobile */
+    height: 100vh;
+    transform: translateX(-100%); /* hidden by default */
+    transition: transform 0.3s ease-in-out;
+    z-index: 9999;
+}
+
+#sidebar.open {
+    transform: translateX(0); /* slide in when active */
+}
+/* Sidebar default styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;  /* default for desktop */
+    z-index: 1102;
+    transition: transform 0.3s ease;
+}
+
+/* When sidebar is open — show it (adjust as needed for your logic) */
+.sidebar-open .sidebar {
+    transform: translateX(0);
+}
+
+/* Responsive: for mobile, make sidebar 85% wide */
+@media (max-width: 768px) {
+
+    .sidebar {
+        width: 85vw;  /* Sidebar covers 85% of the screen */
+    }
+
+    /* Make sure your content is pushed or hidden when sidebar is open */
+    .sidebar-open .main-content {
+        /* If you want the content pushed */
+        transform: translateX(85vw);
+        transition: transform 0.3s ease;
+    }
+
+    /* Optional: prevent background scrolling when sidebar is open */
+    body.sidebar-open {
+        overflow: hidden;
+    }
+}
+
 
 /* When sidebar is closed, make it full width */
 .sidebar-closed .dashboard-cards {
@@ -1619,4 +1670,185 @@ body > div.min-h-screen.bg-gray-100.dark\:bg-gray-900 > nav > div.max-w-7xl.mx-a
 .pagination button{
     border: 2px solid black !important;
     box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.3) !important;
+}
+/* === Base Grid for Desktop === */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* === Mobile Behavior: Sidebar, Cards, Navbar === */
+@media (max-width: 768px) {
+
+    /* Sidebar — hidden by default, overlays content */
+    nav {
+        width: 250px !important;
+        height: 100vh !important;
+        transform: translateX(-100%);
+        position: fixed;
+        top: 0;
+        left: 0;
+        transition: transform 0.3s ease-in-out;
+        z-index: 1000;
+        background: rgba(0, 0, 0, 0.85);  /* Sidebar dark look */
+    }
+
+    nav.nav-open {
+        transform: translateX(0);
+    }
+
+    /* Center the cards regardless of sidebar state */
+.dashboard-cards,
+.monitoring-cards,
+.controls-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0 auto;
+    max-width: 100%; /* prevent overflow */
+    padding: 10px;
+}
+
+/* Individual card sizing for mobile */
+.dashboard-cards > *,
+.monitoring-cards > *,
+.controls-cards > * {
+    width: 90%;
+    max-width: 400px;
+    margin: 10px 0;
+}
+
+/* Make body avoid vertical scrolling when sidebar is open */
+body.sidebar-open {
+    overflow: hidden;
+}
+
+    .alert-card {
+        width: 90%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    /* Prevent horizontal scrolling */
+    .monitoring-cards,
+    .controls-cards {
+        overflow-x: hidden;
+    }
+
+    /* Make sure the menu button is always visible */
+    .menu-toggle {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1101; /* higher than sidebar */
+        display: block;
+        cursor: pointer;
+        padding: 8px 16px;
+    border-radius: 8px;
+    }
+
+    /* Keep top navbar buttons always visible and above sidebar */
+    .top-navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background: #fff; /* or your light/dark color */
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        box-sizing: border-box;
+        z-index: 1100; /* same or higher than sidebar */
+    }
+}
+/* Sidebar full screen on mobile */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100vw;
+        height: 100vh;
+        left: -100vw; /* Hidden by default */
+        transition: left 0.3s ease-in-out;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+}
+@media (max-width: 768px) {
+
+    .monitoring-cards,
+    .controls-cards {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        padding: 0;
+        margin: 0 auto;
+        overflow-x: hidden;
+    }
+
+    .monitoring-cards > *,
+    .controls-cards > * {
+        width: 90%;
+        max-width: 400px;
+        margin-bottom: 20px;
+    }
+}
+
+
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    /* Allow the section to scroll if needed, not the page */
+    .monitoring-cards,
+    .controls-cards {
+        overflow-y: auto;
+        max-height: 100vh; 
+    }
+/* Make sidebar cover 85% of screen on small devices */
+@media (max-width: 768px) {
+    #sidebar {
+        width: 85vw;
+        left: 0;
+        transform: translateX(-100%); /* Hidden by default */
+        transition: transform 0.3s ease-in-out;
+        z-index: 9999; /* Make sure it's on top */
+        height: 100vh;
+    }
+
+    /* When sidebar is active (toggle class "open") */
+    #sidebar.open {
+        transform: translateX(0);
+    }
+
+    /* Optional: prevent body scroll when sidebar is open */
+    body.sidebar-open {
+        overflow: hidden;
+    }
+
+    main {
+        margin-left: 0; /* remove any gap */
+    }
+}
+/* Allow card section to scroll inside if necessary (but no page scroll) */
+@media (max-width: 768px) {
+    .dashboard-cards,
+    .monitoring-cards,
+    .controls-cards {
+        overflow-y: auto;
+        max-height: 100vh;
+    }
+
+    main {
+        margin-left: 0 !important; /* prevent push if old margin was set for sidebar */
+    }
 }
