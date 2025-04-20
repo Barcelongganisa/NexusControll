@@ -331,7 +331,7 @@
 </div>
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
-
+{{-- lock timer individual + select all --}}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const lockTimerForm = document.getElementById('lockTimerForm');

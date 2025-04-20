@@ -118,11 +118,18 @@
 
 /* Input fields styling */
 .glassmorph input, .glassmorph select {
-    background: rgba(255, 255, 255, 0.2);
+    /* background: rgba(255, 255, 255, 0.2); */
     border: none;
     padding: 10px;
     border-radius: 5px;
-    color: white;
+    /* color: white; */
+    width: 70%;
+
+}
+
+.form-control:focus{
+    color: rgb(0, 0, 0) !important;
+    background-color: none !important;
 }
 
 input {
@@ -141,7 +148,7 @@ input:focus {
 
 /* Make labels more visible */
 .glassmorph label {
-    color: white;
+    color: white !important;
 }
 
 /* Close button color fix */
@@ -291,3 +298,19 @@ body > div > main > div > div > div > div.col-12 > div{
 body > div > header > div{
     background-color: whitesmoke;
 }
+
+.modal-body{
+    color: white;
+}
+
+#confirmDeleteModal > div > div > div.modal-body > p{
+    color: white !important;
+}
+
+#confirmDeleteModalLabel{
+    padding-left: 170px;
+}
+#createUserModalLabel{
+    padding-left: 160px;
+}
+
