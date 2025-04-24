@@ -411,41 +411,96 @@ function addPc() {
 }
 
 // paginate
-    document.addEventListener('DOMContentLoaded', function () {
-        const rowsPerPage = 10;
-        const tableBody = document.querySelector('.logsTable tbody');
-        const rows = Array.from(tableBody.querySelectorAll('tr'));
-        const totalPages = Math.ceil(rows.length / rowsPerPage);
+document.addEventListener('DOMContentLoaded', function () {
+    const rowsPerPage = 10;
+    let currentPage = 1;
 
-        const paginationContainer = document.createElement('div');
-        paginationContainer.classList.add('pagination', 'mt-4', 'text-center');
+    const tableBody = document.querySelector('#logsTable');
+    const allRows = Array.from(tableBody.querySelectorAll('tr'));
+    const filterDropdown = document.querySelector('#logFilter');
 
-        function showPage(page) {
-            const start = (page - 1) * rowsPerPage;
-            const end = start + rowsPerPage;
+    // Create pagination container
+    const paginationContainer = document.createElement('div');
+    paginationContainer.classList.add('pagination', 'mt-4', 'text-center');
+    document.querySelector('.logsTable').appendChild(paginationContainer);
 
-            rows.forEach((row, index) => {
-                row.style.display = (index >= start && index < end) ? '' : 'none';
+    function showPage(page, rows) {
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+
+        rows.forEach((row, index) => {
+            row.style.display = (index >= start && index < end) ? '' : 'none';
+        });
+    }
+
+    function refreshPagination(filteredRows) {
+        const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+        paginationContainer.innerHTML = '';
+
+        if (totalPages <= 1) return;
+
+        for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement('button');
+            btn.textContent = i;
+            btn.classList.add('px-3', 'py-1', 'm-1', 'border', 'rounded', 'bg-gray-200', 'hover:bg-gray-300');
+            if (i === currentPage) btn.classList.add('bg-gray-400');
+            btn.addEventListener('click', () => {
+                currentPage = i;
+                showPage(currentPage, filteredRows);
+                refreshPagination(filteredRows); // re-render buttons with active state
             });
+            paginationContainer.appendChild(btn);
         }
 
-        function createPaginationLinks() {
-            for (let i = 1; i <= totalPages; i++) {
-                const btn = document.createElement('button');
-                btn.textContent = i;
-                btn.classList.add('px-3', 'py-1', 'm-1', 'border', 'rounded', 'bg-gray-200', 'hover:bg-gray-300');
-                btn.addEventListener('click', () => showPage(i));
-                paginationContainer.appendChild(btn);
-            }
+        showPage(currentPage, filteredRows);
+    }
 
-            // Append below the table
-            const tableContainer = document.querySelector('.logsTable');
-            tableContainer.parentElement.appendChild(paginationContainer);
-        }
+    function filterRows(filterValue) {
+        const filtered = [];
 
-        showPage(1);
-        createPaginationLinks();
+        allRows.forEach(row => {
+            const actionText = row.children[2]?.textContent.toLowerCase() || '';
+            const match = (filterValue === 'all') || actionText.includes(filterValue);
+            row.style.display = match ? '' : 'none';
+            if (match) filtered.push(row);
+        });
+
+        return filtered;
+    }
+
+    // Initial display
+    refreshPagination(allRows);
+
+    // Dropdown filtering
+    filterDropdown.addEventListener('change', () => {
+        currentPage = 1;
+        const selectedValue = filterDropdown.value.toLowerCase();
+        const filteredRows = filterRows(selectedValue);
+        refreshPagination(filteredRows);
     });
+
+    // Optional: search bar integration
+    const searchInput = document.querySelector('#logSearch');
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            const keyword = searchInput.value.toLowerCase();
+            const selectedValue = filterDropdown.value.toLowerCase();
+
+            const filtered = allRows.filter(row => {
+                const rowText = row.textContent.toLowerCase();
+                const actionText = row.children[2]?.textContent.toLowerCase() || '';
+                return rowText.includes(keyword) && (selectedValue === 'all' || actionText.includes(selectedValue));
+            });
+
+            currentPage = 1;
+            allRows.forEach(row => row.style.display = 'none');
+            filtered.forEach(row => row.style.display = '');
+
+            refreshPagination(filtered);
+        });
+    }
+});
+
 
 // document.getElementById("menuToggle").addEventListener("click", function() {
 //     const navtop = document.getElementById("navtop");
