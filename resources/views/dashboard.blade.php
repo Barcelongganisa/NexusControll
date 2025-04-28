@@ -220,7 +220,20 @@
                 <iframe id="vnc" src="" frameborder="0"></iframe>
             </div>
             <div class="modal-options">
-                <button id="chatToggle" onclick="toggleChatModal()"><i class="fas fa-comment"></i></button>
+                <button id="chatToggle" ><i class="fas fa-comment"></i></button>
+            </div>
+
+            <div id="chatModal" class="chat-modal" style="display: none;">
+                <div class="chat-modal-content">
+                    <span class="close-btn" onclick="closeChatModal()">&times;</span>
+                    <h2>Chat</h2>
+                    <div id="chatMessages"></div>
+                <label for="fileInput" class="custom-file-icon">
+                    <i class="fas fa-upload"></i>
+                </label>
+                <input type="file" id="fileInput" class="custom-file-input" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.txt">
+                <input type="text" id="chatInput" placeholder="Type a message..." onkeypress="sendMessage(event)">
+                <button id="sendButton"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
@@ -252,6 +265,9 @@
                     <p class="pc-status" data-ip="{{ $subPc->ip_address }}">
                         Status: {{ $subPc->device_status }}
                     </p>
+                    <div class="countdown-display mt-2 text-center">
+                    <span id="countdown-{{ str_replace('.', '-', $subPc->ip_address) }}" style="font-weight: bold; color: #2f8f2f;"></span>
+                    </div>
                 </div>
                 <div class="pc-controls" style="display: none;">
                     <button class="shutdown" data-ip="{{ $subPc->ip_address }}" title="Shutdown"><i
@@ -341,6 +357,39 @@
         const minutesInput = document.getElementById('lockTimerMinutes');
         const secondsInput = document.getElementById('lockTimerSeconds');
 
+        const timers = {}; // Store countdown intervals per IP
+
+function startCountdown(ip, duration) {
+    const displayId = `countdown-${ip.replace(/\./g, '-')}`;
+    const display = document.getElementById(displayId);
+    if (!display) return;
+
+    if (timers[ip]) clearInterval(timers[ip]); // Clear existing timer if any
+
+    let remaining = duration;
+
+    function updateDisplay() {
+    const h = String(Math.floor(remaining / 3600)).padStart(2, '0');
+    const m = String(Math.floor((remaining % 3600) / 60)).padStart(2, '0');
+    const s = String(remaining % 60).padStart(2, '0');
+    display.textContent = `${h}:${m}:${s}`;
+
+    if (--remaining < 0) {
+        clearInterval(timers[ip]);
+        display.textContent = "Locked";
+
+        // Set a timeout to remove "Locked" text after 5 seconds
+        setTimeout(() => {
+            display.textContent = "";
+        }, 5000); // 5000ms = 5 seconds
+    }
+}
+
+
+    updateDisplay(); // First display immediately
+    timers[ip] = setInterval(updateDisplay, 1000);
+}
+
         document.querySelectorAll('.lock-timer-btn').forEach(button => {
             button.addEventListener('click', () => {
                 const ip = button.getAttribute('data-ip');
@@ -379,7 +428,7 @@ document.getElementById('multiLockTimer').addEventListener('click', () => {
             e.preventDefault();
 
             const ip = modalPcIp.value;
-const targetIps = multiMode ? selectedIps : [ip];
+            const targetIps = multiMode ? selectedIps : [ip];
             const hours = parseInt(hoursInput.value) || 0;
             const minutes = parseInt(minutesInput.value) || 0;
             const seconds = parseInt(secondsInput.value) || 0;
@@ -432,19 +481,23 @@ const targetIps = multiMode ? selectedIps : [ip];
 }))
 
            .then(async responses => {
-    await Promise.all(responses.map(async res => {
-        let responseJson;
-        try {
-            const text = await res.text(); // Read response as text first
-            responseJson = text ? JSON.parse(text) : {}; // Parse only if content exists
-        } catch (e) {
-            responseJson = {}; // Default to empty object if parsing fails
-        }
+                await Promise.all(responses.map(async (res, i) => {
+                let responseJson;
+                try {
+                    const text = await res.text();
+                    responseJson = text ? JSON.parse(text) : {};
+                } catch (e) {
+                    responseJson = {};
+                }
 
-        if (!res.ok) {
-            throw new Error(responseJson.message || 'Failed to set timer for some PCs');
-        }
-    }));
+                const ipAddr = targetIps[i]; // ✅ Corrected
+                if (!res.ok) {
+                    throw new Error(responseJson.message || `Failed to set timer for ${ipAddr}`);
+                }
+
+                // ✅ Start countdown after success
+                startCountdown(ipAddr, totalSeconds);
+            }));
 
     modal.hide();
     Swal.fire({

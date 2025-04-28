@@ -302,22 +302,22 @@
                         <div class="input-group">
                             <div>
                                 <label>First Name</label>
-                                <input type="text" name="first_name" placeholder="Enter your first name" required>
+                                <input type="text" name="first_name" placeholder="Enter your first name" autocomplete="off" required>
                             </div>
                             <div>
                                 <label>Last Name</label>
-                                <input type="text" name="last_name" placeholder="Enter your last name" required>
+                                <input type="text" name="last_name" placeholder="Enter your last name" autocomplete="off" required>
                             </div>
                         </div>
 
                         <div class="input-group">
                             <div>
                                 <label>Email</label>
-                                <input type="email" name="email" placeholder="Enter your email" required>
+                                <input type="email" name="email" placeholder="Enter your email" autocomplete="off" required>
                             </div>
                             <div>
                                 <label>Phone Number</label>
-                                <input type="tel" name="phone" placeholder="Enter your phone number" required>
+                                <input type="tel" name="phone" placeholder="Enter your phone number" autocomplete="off" required>
                             </div>
                         </div>
 

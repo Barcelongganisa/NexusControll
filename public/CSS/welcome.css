@@ -160,40 +160,6 @@ html, body {
   font-size: 2em;
   padding-bottom: 25px;
 }
-@media (max-width: 768px) {
-    .welcome h1 {
-        font-size: 4em; /* Adjust size for smaller screens */
-    }
-    .welcome p {
-        font-size: 1.5em; /* Adjust paragraph text size */
-    }
-}
-
-@media (max-width: 480px) {
-    .welcome h1 {
-        font-size: 3em;
-    }
-    .welcome p {
-        font-size: 1.2em;
-    }
-}
-@media (max-width: 768px) {
-  .welcome h1 {
-      font-size: 4em; /* Adjust size for smaller screens */
-  }
-  .welcome p {
-      font-size: 1.5em; /* Adjust paragraph text size */
-  }
-}
-
-@media (max-width: 480px) {
-  .welcome h1 {
-      font-size: 3em;
-  }
-  .welcome p {
-      font-size: 1.2em;
-  }
-}
 
 
 .welcome {
@@ -299,18 +265,7 @@ html, body {
 
 
 /* Responsive Navbar */
-@media (max-width: 768px) {
-    .glass-navbar {
-        flex-direction: column;
-        align-items: center;
-        padding: 10px;
-    }
 
-    .navbar-nav {
-        flex-direction: column;
-        text-align: center;
-    }
-}
 
 br {
     display: block;
@@ -434,13 +389,13 @@ body {
 }
 
 .content {
-  width: min(90vw, 500px);
-  height: auto;
+  width: min(30vw, 500px);
+  height: 35vh;
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 10rem;
   align-content: center;
-  transform: translate(-50%, -50%);  /* Center it perfectly */
+  transform: translateY(-50%);  /* Center it perfectly */
   font: 700 0.85rem helvetica, sans-serif;
   color: white;
   text-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
@@ -478,20 +433,7 @@ body {
     cursor: pointer;
   }
 }
-@media (max-width: 768px) {
-  .content {
-      width: 90vw;
-      padding: 1rem;
-  }
 
-  .content .description {
-      font-size: 0.75rem;
-  }
-
-  .content .title {
-      font-size: 1.2rem;
-  }
-}
 
 /* Keep the animation */
 .item:nth-of-type(2) .content {
@@ -747,26 +689,7 @@ body {
 
 
 /* RESPONSIVENESS */
-@media (max-width: 768px) {
-  .team-container {
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-  }
 
-  .person {
-    width: 100%;
-    max-width: 250px;
-  }
-
-  .circle {
-    height: 140px;
-  }
-
-  .person h3 {
-    font-size: 16px;
-  }
-}
 
 /* Fade-in Effect */
 .show {
@@ -937,7 +860,7 @@ padding-left: 1.7em !important;
   position: relative;
   justify-items: center;
 }
-.contact-container {
+/* .contact-container {
   display: flex;
   flex-direction: row;
   width: 1000px;
@@ -952,9 +875,9 @@ padding-left: 1.7em !important;
   border: 1px solid rgba(255, 255, 255, 0.18);
   overflow-y: auto;
   transition: all 0.3s ease;
-  backdrop-filter: blur(15px); /* Blur effect */
-  -webkit-backdrop-filter: blur(15px); /* For Safari */
-}
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px); 
+} */
 
 /* Contact Form - Left Side */
 .contact-info {
@@ -969,14 +892,14 @@ padding-left: 1.7em !important;
 
 .contact-info h2 {
   margin-bottom: 10px;
-  font-size: 1em;
+  font-size: 3em;
   color: rgb(255, 255, 255);
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
 }
 
 .contact-info p {
-  font-size: 1em;
+  font-size: 1.3em;
   margin-bottom: 20px;
   line-height: 1.5;
   color: rgb(226, 226, 226);
@@ -987,13 +910,13 @@ padding-left: 1.7em !important;
   display: flex;
   align-items: center;
   margin-bottom: 15px;
-  font-size: 1em;
+  font-size: 24px;
   color: rgb(255, 255, 255);
   margin-bottom: 15px;
 }
 
 .contact-info div img {
-  width: 24px;
+  width: 40px;
   margin-right: 10px;
   color: rgb(255, 255, 255);
 }
@@ -1088,7 +1011,8 @@ padding-left: 1.7em !important;
 }
 
 .contact-form textarea {
-  resize: vertical;
+  resize: none;
+  height: 100px;
   min-height: 80px;
 }
 
@@ -1108,26 +1032,7 @@ padding-left: 1.7em !important;
 .send-btn:hover {
   background: rgb(160, 160, 160);
 }
-@media screen and (max-width: 768px) {
-  .form-row {
-    flex-direction: column;
-  }
 
-  .send-btn {
-    width: 100%; /* Let the button stretch fully */
-    margin-top: 20px;
-  }
-
-  .contact-info div {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  font-size: 20px;
-  color: white;
-  flex-wrap: wrap;         /* Allows wrapping on smaller screens */
-  word-break: break-word;  /* Allows long words like emails to break if needed */
-  }
-}
 
 /* login modal CSS */
 .modal-content {
@@ -1239,9 +1144,6 @@ padding-left: 1.7em !important;
 /* Footer Glassmorphism */
 .glass-container{
     background-image: url('/images/computer1.jpg');
-    background-size: cover;
-    background-position: center;
-    width: 100%;
 }
 
 .morph-container {
@@ -1251,32 +1153,19 @@ padding-left: 1.7em !important;
     border-top: 1px solid rgba(255, 255, 255, 0.2); /* Soft border */
     color: rgb(0, 0, 0);
     position: relative;
-    font-size: 20px;
+    font-size: 24px;
     font-style: bold;
     bottom: 0;
     left: 0;
-    width: 100%;
-    padding: 20px 20px; /* Adjusted padding */
+    width: 100vw;
+    padding: 40px 40px; /* Adjusted padding */
     display: flex;
     align-items: center; /* Ensures both elements align vertically */
     justify-content: space-between;
-    flex-wrap: wrap;
-    text-align: center;
 }
 
-@media (max-width: 768px) {
-  .morph-container {
-      flex-direction: column;
-      justify-content: center;
-      gap: 20px;
-      font-size: 16px;
-      padding: 30px 15px;
-  }
 
-  .social-icon {
-      margin: 5px;
-  }
-}
+
 
 /* Social Icons */
 .social-icon {

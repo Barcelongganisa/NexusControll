@@ -147,25 +147,45 @@ public function setLockTimer(Request $request)
         return strpos($pingResult, 'Reply from') !== false;
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'ip_address' => 'required|ip',
-            'port' => 'required|integer'
+   public function store(Request $request)
+{
+    $request->validate([
+        'ip_address' => 'required|ip',
+        'port' => 'required|integer'
+    ]);
+
+    // Check for existing IP or Port
+    $existing = SubPc::where('ip_address', $request->ip_address)
+                    ->orWhere('vnc_port', $request->port)
+                    ->first();
+
+    if ($existing) {
+        $duplicateField = null;
+        if ($existing->ip_address === $request->ip_address) {
+            $duplicateField = 'IP address';
+        } elseif ($existing->vnc_port == $request->port) {
+            $duplicateField = 'port';
+        }
+
+        return response()->json([
+            'success' => false,
+            'error' => "A PC with this $duplicateField already exists."
+        ]);
+    }
+
+    try {
+        // Add new PC to the database
+        $subPc = SubPc::create([
+            'ip_address' => $request->ip_address,
+            'vnc_port' => $request->port
         ]);
 
-        try {
-            // Add new PC to the database
-            $subPc = SubPc::create([
-                'ip_address' => $request->ip_address,
-                'vnc_port' => $request->port
-            ]);
-
-            return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
-        }
+        return response()->json(['success' => true]);
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
     }
+}
+
 
 public function getNextPort()
 {
@@ -229,37 +249,31 @@ public function getNextPort()
 
     $file = $request->file('file');
     $filename = $file->getClientOriginalName();
-    $localPath = $file->getPathname();
+    $path = $file->getPathname();
 
-    $ftpHost = $subPc->ip_address;
-    $ftpUsername = env('FTP_USERNAME');
-    $ftpPassword = env('FTP_PASSWORD');
-    $remoteFile = "/uploads/{$filename}";
+    $uploadUrl = rtrim($subPc->ip_address, '/') . ':5000/upload';
 
-    $ftpConn = ftp_connect($ftpHost, 21, 30);
-    if (!$ftpConn) {
-        return response()->json(['error' => 'FTP connection failed!'], 500);
+    try {
+        $response = Http::timeout(60)
+            ->attach('file', fopen($path, 'r'), $filename)
+            ->post($uploadUrl);
+
+        $status = $response->successful();
+
+        Log::create([
+            'pc_name' => $subPc->ip_address,
+            'action' => "File Transfer",
+            'status' => $status,
+            'timestamp' => now(),
+        ]);
+
+        return response()->json([
+            'message' => $status ? 'File uploaded successfully.' : 'Upload failed.',
+            'response' => $response->body(),
+        ], $status ? 200 : 500);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
     }
-
-    if (!ftp_login($ftpConn, $ftpUsername, $ftpPassword)) {
-        ftp_close($ftpConn);
-        return response()->json(['error' => 'FTP login failed!'], 500);
-    }
-
-    ftp_pasv($ftpConn, false);
-    ftp_set_option($ftpConn, FTP_TIMEOUT_SEC, 60);
-    ftp_set_option($ftpConn, FTP_AUTOSEEK, true);
-
-    $uploadSuccess = ftp_put($ftpConn, $remoteFile, $localPath, FTP_BINARY);
-
-    ftp_close($ftpConn);
-
-    Log::create([
-        'pc_name' => $subPc->ip_address,
-        'action' => "File Transfer",
-        'status' => $uploadSuccess,
-        'timestamp' => now(),
-    ]);
 }
 
 

@@ -1,3 +1,6 @@
+@php
+    use App\Enums\RoleEnum;
+@endphp
 <section class="card p-4">
     <div class="card-body">
         <h5 class="card-title text-danger">Delete Account</h5>
@@ -36,7 +39,9 @@
                         <select id="user_id" name="user_id" class="form-control" required>
                             <option value="">-- Select User --</option>
                             @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
+                                @if ($user->role === RoleEnum::Employee)
+                                    <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>

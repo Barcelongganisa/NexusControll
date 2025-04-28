@@ -579,3 +579,65 @@ document.addEventListener("DOMContentLoaded", function () {
         globalFileInput.value = "";
     });
 });
+
+//Open Chat Modal
+document.getElementById("chatToggle").addEventListener("click", function () {
+    let chatModal = document.getElementById("chatModal");
+
+    if (chatModal.style.display === "none" || chatModal.style.display === "") {
+        chatModal.style.display = "block"; // Open modal
+    } else {
+        chatModal.style.display = "none"; // Close modal
+    }
+});
+
+
+// Send Chat Message
+function sendMessage(event) {
+    // Allow sending via Enter key or button click
+    if (!event || event.key === "Enter") {  
+        let chatInput = document.getElementById("chatInput");
+        let chatMessages = document.getElementById("chatMessages");
+
+        if (chatInput.value.trim() !== "") {
+            let message = document.createElement("p");
+            message.classList.add("sent-message");
+            message.innerText = chatInput.value;
+            chatMessages.appendChild(message);
+            chatInput.value = ""; // Clear input after sending
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to latest message
+        }
+    }
+}
+
+// Attach event listener to the send button
+document.getElementById("sendButton").addEventListener("click", function () {
+    sendMessage(); // Call sendMessage when the button is clicked
+});
+
+document.getElementById("fileInput").addEventListener("change", function () {
+    let file = this.files[0]; // Get the selected file
+    if (file) {
+        let chatMessages = document.getElementById("chatMessages");
+
+        // Create a file message container
+        let fileMessage = document.createElement("p");
+        fileMessage.classList.add("sent-message");
+
+        // Create an object URL for local preview
+        let fileURL = URL.createObjectURL(file);
+
+        // Display a clickable file link
+        fileMessage.innerHTML = `
+            <a href="${fileURL}" download="${file.name}" target="_blank">
+                <i class="fas fa-file"></i> ${file.name}
+            </a>
+        `;
+
+        chatMessages.appendChild(fileMessage);
+        this.value = "";
+
+        // Scroll to latest message
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+});
