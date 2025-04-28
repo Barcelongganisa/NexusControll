@@ -3,6 +3,8 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 
     @if (session('success'))
         <script>
@@ -59,8 +61,8 @@
     <button class="absolute top-5 left-5 bg-blue-500 text-white px-4 py-2 rounded z-50" id="menuToggle">
         ☰
     </button>
-    <div class="monitoring-cards">...</div> <!-- for Monitoring -->
-    <div class="controls-cards">...</div>   <!-- for Controls -->
+    <div class="monitoring-cards"></div> <!-- for Monitoring -->
+    <div class="controls-cards"></div>   <!-- for Controls -->
     
 </body>
     
