@@ -59,10 +59,8 @@
     <button class="absolute top-5 left-5 bg-blue-500 text-white px-4 py-2 rounded z-50" id="menuToggle">
         ☰
     </button>
-    <div class="monitoring-cards">...</div> <!-- for Monitoring -->
-    <div class="controls-cards">...</div>   <!-- for Controls -->
+
     
-</body>
     
     <!-- Dashboard Cards -->
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-6" id="dashCards">
@@ -211,7 +209,7 @@
     </div>
 
 
-    <!-- Modal Popup for Monitoring -->
+   <!-- Modal Popup for Monitoring -->
     <div id="pcModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -220,20 +218,18 @@
                 <iframe id="vnc" src="" frameborder="0"></iframe>
             </div>
             <div class="modal-options">
-                <button id="chatToggle" ><i class="fas fa-comment"></i></button>
+                <button id="chatToggle"><i class="fas fa-comment"></i></button>
             </div>
 
+            <!-- Chat Box (Initially Hidden) -->
             <div id="chatModal" class="chat-modal" style="display: none;">
                 <div class="chat-modal-content">
                     <span class="close-btn" onclick="closeChatModal()">&times;</span>
                     <h2>Chat</h2>
-                    <div id="chatMessages"></div>
-                <label for="fileInput" class="custom-file-icon">
-                    <i class="fas fa-upload"></i>
-                </label>
-                <input type="file" id="fileInput" class="custom-file-input" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.txt">
+                    <div id="chatMessages" style="display: flex; flex-direction: column;"></div>
                 <input type="text" id="chatInput" placeholder="Type a message..." onkeypress="sendMessage(event)">
-                <button id="sendButton"><i class="fas fa-paper-plane"></i></button>
+                <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
             </div>
         </div>
     </div>
@@ -946,4 +942,5 @@ document.querySelectorAll('.shutdown, .restart, .lock').forEach(button => {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
     <script src="{{ asset('js/dashboard.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
 </x-app-layout>

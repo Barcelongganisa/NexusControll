@@ -303,7 +303,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     
-    // Modal functions for VNC
+   // Modal functions for VNC
     function openModal(pcName, vncPort) {
         const modal = document.getElementById("pcModal");
         document.getElementById("pcTitle").textContent = "PC Name: " + pcName;
@@ -311,6 +311,16 @@ document.addEventListener("DOMContentLoaded", function () {
         modal.style.display = "block";
         modal.classList.add("show");
         modal.style.visibility = "visible";
+    
+        if (subPcSocket) {
+            subPcSocket.disconnect(); 
+        }
+        subPcSocket = io(`http://${pcName}:5000`);
+    
+        subPcSocket.on("subpc_reply", function (data) {
+            const message = data.message;
+            addChatMessage("Sub PC", message);
+        });
     }
     
     function closeModal() {
@@ -319,12 +329,15 @@ document.addEventListener("DOMContentLoaded", function () {
         modal.style.display = "none";
         modal.classList.remove("show");
         document.getElementById("vnc").src = "";
+
+        if (subPcSocket) {
+            subPcSocket.disconnect();
+            subPcSocket = null;
+        }
+        const chatContainer = document.getElementById("chatMessages");
+        chatContainer.innerHTML = "";
     }
   
-
-// Close when clicking outside
-// document.getElementById("pcModal").addEventListener("click", closeModal);
-
 document.querySelector(".modal-content").addEventListener("click", function(event) {
     event.stopPropagation();
 });
@@ -580,7 +593,36 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-//Open Chat Modal
+let subPcSocket = null;
+function addChatMessage(sender, message) {
+    const chatContainer = document.getElementById("chatMessages");
+
+    const wrapper = document.createElement("div");
+    wrapper.className = sender === "You" ? "message-wrapper you" : "message-wrapper subpc";
+
+    const bubble = document.createElement("div");
+    bubble.className = "chat-message";
+    bubble.innerHTML = `<strong>${sender}:</strong> ${message}`;
+
+    wrapper.appendChild(bubble);
+    chatContainer.appendChild(wrapper);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+
+function sendMessage(event) { 
+    if (event && event.key !== "Enter") return;
+    const input = document.getElementById("chatInput");
+    const message = input.value.trim();
+    if (message !== "" && subPcSocket) {
+        subPcSocket.emit("server_message", { message });
+        addChatMessage("You", message);
+        input.value = "";
+    }
+}
+
+
+// Open Chat Modal
 document.getElementById("chatToggle").addEventListener("click", function () {
     let chatModal = document.getElementById("chatModal");
 
@@ -592,52 +634,8 @@ document.getElementById("chatToggle").addEventListener("click", function () {
 });
 
 
-// Send Chat Message
-function sendMessage(event) {
-    // Allow sending via Enter key or button click
-    if (!event || event.key === "Enter") {  
-        let chatInput = document.getElementById("chatInput");
-        let chatMessages = document.getElementById("chatMessages");
-
-        if (chatInput.value.trim() !== "") {
-            let message = document.createElement("p");
-            message.classList.add("sent-message");
-            message.innerText = chatInput.value;
-            chatMessages.appendChild(message);
-            chatInput.value = ""; // Clear input after sending
-            chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to latest message
-        }
-    }
+// Close Chat Modal
+function closeChatModal() {
+    document.getElementById("chatModal").style.display = "none";
 }
 
-// Attach event listener to the send button
-document.getElementById("sendButton").addEventListener("click", function () {
-    sendMessage(); // Call sendMessage when the button is clicked
-});
-
-document.getElementById("fileInput").addEventListener("change", function () {
-    let file = this.files[0]; // Get the selected file
-    if (file) {
-        let chatMessages = document.getElementById("chatMessages");
-
-        // Create a file message container
-        let fileMessage = document.createElement("p");
-        fileMessage.classList.add("sent-message");
-
-        // Create an object URL for local preview
-        let fileURL = URL.createObjectURL(file);
-
-        // Display a clickable file link
-        fileMessage.innerHTML = `
-            <a href="${fileURL}" download="${file.name}" target="_blank">
-                <i class="fas fa-file"></i> ${file.name}
-            </a>
-        `;
-
-        chatMessages.appendChild(fileMessage);
-        this.value = "";
-
-        // Scroll to latest message
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-});
