@@ -20,16 +20,17 @@ ul li a {
         display: flex;
         align-items: center;
         gap: 8px; /* Space between icon and text */
+        font-size: 2rem;
     }
 
     ul li a:hover {
-        background-color: #468bb3 !important; /* Green hover effect */
+        background-color:#6B9071 !important; /* Green hover effect */
         color: white !important; /* Keep text white */
-        border-left: 5px solid #007bff; /* Blue border */
+        border-left: 5px solid #5fce68; /* Blue border */
     }
 
     ul li button:hover {
-        background-color: #468bb3 !important; /* Green hover effect */
+        background-color: #a3e0a8 !important; /* Green hover effect */
         color: white !important; /* Keep text white */
     }
 
@@ -78,6 +79,6 @@ ul li a {
 
 /* Change background color on hover */
 #notifList p:hover {
-    background-color: #75caf1; 
+    background-color: #a3e0a8;
     border-left: 3px solid #007bff; /* Blue border */
 }

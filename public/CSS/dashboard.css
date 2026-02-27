@@ -1,205 +1,301 @@
+#process-modal > div > h2 {
+    color: black;
+}
+
+#logs-section > div.bg-transparent.dark\:bg-gray-800.sm\:rounded-lg.pt-6.pb-6 > div {
+    border: none !important;
+}
+
 svg {
     display: none;
     position: relative;
 }
+
 /* Global Reset */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap');
+
+
+:root {
+    --green-900: #1a3528;
+    --green-800: #145c3f;
+    --green-700: #1a7a52;
+    --green-600: #229163;
+    --green-500: #2aaa77;
+    --green-400: #4ec99a;
+    --green-100: #d6f5ea;
+    --green-50:  #E2EFD3;
+
+
+    --orange-700: #145c3f;
+    --orange-600: #1a7a52;
+    --orange-500: #229163;
+    --orange-400: #2aaa77;
+    --orange-100: #d6f5ea;
+    --orange-50:  #E2EFD3;
+
+    --white:      #ffffff;
+    --off-white:  #E2EFD3;
+    --gray-100:   #e8eeeb;
+    --gray-200:   #cdd8d3;
+    --gray-400:   #8aa89e;
+    --gray-700:   #3a4f48;
+    --black:      #0a1a14;
+
+
+    --accent-primary:   var(--green-600);
+    --accent-secondary: var(--green-500);
+    --surface:          rgba(226, 239, 211, 0.72);
+    --surface-dark:     rgba(26, 53, 40, 0.72);
+    --border-color:     var(--black);
+    --shadow-color:     rgba(10, 26, 20, 0.25);
+
+    /* Typography */
+    --font-display: 'Syne', sans-serif;
+    --font-body:    'DM Sans', sans-serif;
+
+    /* Shadows */
+    --shadow-sm:  4px 4px 0px 0px var(--shadow-color);
+    --shadow-md:  7px 7px 0px 0px var(--shadow-color);
+    --shadow-lg: 10px 10px 0px 0px var(--shadow-color);
+
+    /* Nav variables */
+    --nav-bg-light: #E2EFD3;
+    --nav-bg-dark:  #6B9071;
+    --nav-border-light: rgba(10, 26, 20, 0.15);
+    --nav-border-dark:  rgba(255, 255, 255, 0.08);
+
+    /* Card variables */
+    --card-bg-light: #E2EFD3;
+    --card-bg-dark:  #6B9071;
+    --border-light:  rgba(10, 26, 20, 0.18);
+    --border-dark:   rgba(255, 255, 255, 0.12);
+    --text-light:    var(--black);
+    --text-dark:     var(--white);
+
+    /* Glass PC controls */
+    --pc-controls-bg-light:     #E2EFD3;
+    --pc-controls-border-light: rgba(10, 26, 20, 0.3);
+    --pc-controls-bg-dark:      #6B9071;
+    --pc-controls-border-dark:  rgba(255, 255, 255, 0.15);
+    --pc-controls-bg:           var(--pc-controls-bg-light);
+    --pc-controls-border:       var(--pc-controls-border-light);
+
+    /* Glass PC items */
+    --glass-bg-light:     #E2EFD3;
+    --glass-border-light: rgba(10, 26, 20, 0.20);
+    --glass-text-light:   var(--black);
+    --glass-hover-light:  rgba(42, 170, 119, 0.10);
+    --glass-bg-dark:      #6B9071;
+    --glass-border-dark:  rgba(255, 255, 255, 0.12);
+    --glass-text-dark:    var(--white);
+    --glass-hover-dark:   rgba(42, 170, 119, 0.20);
+
+    /* ── Z-INDEX SCALE ─────────────────────────────────────────── */
+    --z-base:       1;
+    --z-card:       10;
+    --z-controls:   20;   /* pc-controls sit just above cards */
+    --z-nav:        100;
+    --z-topnav:     200;
+    --z-menu:       300;
+    --z-modal-bg:   9000;
+    --z-modal:      9001;
+    --z-modal-top:  9002;
+    --z-chat:       8000;
+}
+
+/* ── DARK THEME OVERRIDES ───────────────────────────────────── */
+[data-theme="dark"] {
+    --surface:          rgba(26, 53, 40, 0.80);
+    --nav-bg-light:     var(--nav-bg-dark);
+    --nav-border-light: var(--nav-border-dark);
+    --card-bg-light:    var(--card-bg-dark);
+    --border-light:     var(--border-dark);
+    --text-light:       var(--text-dark);
+    --glass-bg-light:   var(--glass-bg-dark);
+    --glass-border-light: var(--glass-border-dark);
+    --glass-text-light: var(--glass-text-dark);
+    --glass-hover-light: var(--glass-hover-dark);
+    --pc-controls-bg:   var(--pc-controls-bg-dark);
+    --pc-controls-border: var(--pc-controls-border-dark);
+}
+
+/* ── GLOBAL RESET ───────────────────────────────────────────── */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+svg {
+    display: none;
+    position: relative;
+}
+
 body {
+    font-family: var(--font-body);
     height: 100vh;
     width: 100vw;
-    background-color: whitesmoke;
-    background-size: cover; /* Ensures it covers the whole screen */
-    background-position: center center; /* Centers the image */
+    background-color: #6B9071;
+    background-size: cover;
+    background-position: center center;
     background-repeat: no-repeat;
+    overflow: hidden;
     transition: background 0.5s ease-in-out;
-    overflow: hidden; /* Prevents unwanted scrolling */
+    color: var(--black);
 }
 
-/* 🔄 Light Mode */
+/* ── LIGHT MODE ─────────────────────────────────────────────── */
 body.light {
-    background-color: white;
-    background-image: url('/images/whitewhite.jpg');
-    background-size: cover;  /* ✅ Keeps the image covering the entire screen */
+    background-color: #6B9071;
+    background-size: cover;
     background-position: center center;
-    background-attachment: fixed; /* ✅ Prevents image from shifting */
+    background-attachment: fixed;
     transition: background 0.3s ease-in-out;
 }
 
-/* 🌙 Dark Mode */
+/* ── DARK MODE ──────────────────────────────────────────────── */
 body.dark {
-    background-color: black;
-    background-image: url('/images/computer3.jpg');
-    background-size: cover;  /* ✅ Ensures full-screen coverage */
+    background-color: #1a3528;
+    background-size: cover;
     background-position: center center;
-    background-attachment: fixed; /* ✅ Prevents unwanted movement */
+    background-attachment: fixed;
     transition: background 0.3s ease-in-out;
 }
 
-/* ✅ Responsive Fix for Small Screens */
-@media (max-width: 768px) {
-    body {
-        background-size: contain; /* Prevents distortion on smaller screens */
-    }
-}
-.dark h2{
-    color: white !important;
+/* ── TYPOGRAPHY ─────────────────────────────────────────────── */
+h1, h2, h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
 }
 
-#selectAll {
-    background-color: #777777; /* Blue */
-    color: white;
-    padding: 7px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: background 0.3s ease-in-out, transform 0.1s ease-in-out;
-    position: relative;
-    top: -70px;
-    left: 200px;
-    border: 2px solid black !important;
-    box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.3) !important;
+h2 {
+    font-size: 3em;
+    color: var(--white);
 }
 
-#selectAll:hover {
-    background-color: #c0c0c0; /* Darker Blue */
-    transform: scale(1.05);
+/* ── SCROLLBAR ──────────────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 8px;
 }
 
-#selectAll i {
-    font-size: 18px;
-}
-
-#control-section .pc-grid {
-    position: relative;
-    top: -60px;
-}
-
-
-#switchBtn{
-    background: #939da8 !important;
+::-webkit-scrollbar-track {
+    background: var(--green-100);
     border-radius: 10px;
-    color: white; /* Ensure text is visible */
-    padding: 5px 10px; /* Add padding for better appearance */
-    transition: background 0.3s ease-in-out; /* Smooth transition */
-    position: relative;
-    top: 10px;
 }
 
-#notifBtn{
-    background: #939da8 !important;
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--green-500), var(--green-700));
     border-radius: 10px;
-    color: white; /* Ensure text is visible */
-    padding: 5px 10px; /* Add padding for better appearance */
-    transition: background 0.3s ease-in-out; /* Smooth transition */
-    position: relative;
-    top: 10px;
+    transition: background 0.3s ease;
 }
 
-.profile-img {
-    position: relative;
-    z-index: 1; /* Keep it above the overlay */
-    border: 4px solid white; /* Optional border */
-    background-color: transparent;
-    width: 180px;   /* Fixed width */
-    height: 180px;  /* Fixed height */
-    left: -57px;
-    top: 55px;
-    object-fit: cover; /* Ensures the image fills the area without distortion */
-    pointer-events: none;
-    cursor: pointer;
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--green-700), var(--green-500));
 }
-/* Sidebar Navigation */
+
+/* ── SIDEBAR NAV ────────────────────────────────────────────── */
 nav {
     position: fixed;
     top: 30px;
     left: 25px;
-    width: 350px; /* Sidebar width */
-    height: 95vh; /* Full height */
-    background: var(--nav-bg-light);
-    backdrop-filter: blur(15px) saturate(180%);
-    -webkit-backdrop-filter: blur(15px) saturate(180%);
-    border: 1px solid var(--nav-border-light);
+    width: 350px;
+    height: 95vh;
+    background: #1a7a52 !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 2px solid var(--border-color) !important;
+    box-shadow: var(--shadow-lg) !important;
     padding-top: 20px;
-    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    transition: transform 0.3s ease-in-out;
-    border-radius: 10px;
-    border: 2px solid black !important;
-    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3) !important;
+    z-index: var(--z-nav);
+    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+    border-radius: 14px;
+    border-top: 4px solid var(--green-400) !important;
 }
 
-/* root for nav */
-:root {
-    --nav-bg-light: rgba(51, 51, 51, 0.692); 
-    --nav-bg-dark: rgba(56, 56, 56, 0.473); 
-    --nav-border-light: rgba(255, 255, 255, 0.068);
-    --nav-border-dark: rgba(0, 0, 0, 0.2);
-}
-
-
-/* Dark Mode */
-[data-theme="dark"] nav {
-    background: var(--nav-bg-dark);
-    border: 1px solid var(--nav-border-dark);
-}
-
-
-/* Move nav off-screen when hidden */
 .nav-hidden {
     transform: translateX(-385px);
 }
 
-/* Sidebar Links */
 nav a {
-    display: block; /* Stack vertically */
+    display: block;
     text-decoration: none;
-    color: white;
-    font-weight: bold;
-    padding: 15px 20px;
-    transition: background 0.3s ease;
+    color: #1a3528;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 13px 22px;
+    border-radius: 8px;
+    margin: 2px 10px;
+    letter-spacing: 0.01em;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
 }
 
-/* Default position */
+nav a:hover {
+    /* background: rgba(42, 170, 119, 0.25); */
+    color: var(--green-800);
+    /* transform: translateX(4px); */
+}
+
+ul {
+    font-size: 1.8em;
+    position: relative;
+    top: 20vh;
+    padding-left: 0;
+    padding-top: 10px;
+}
+
+li::marker {
+    content: none;
+    list-style: none;
+    padding-left: 0;
+}
+
+/* ── MENU TOGGLE ────────────────────────────────────────────── */
 #menuToggle {
-    z-index: 1000;
+    z-index: var(--z-menu);
     position: absolute;
     left: 420px;
     top: 50px;
     font-size: 1.8rem;
     transition: transform 0.3s ease-in-out;
-    background-color: #4e5153;
-    border: 2px solid black !important;
-    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3) !important;
+    background-color: var(--green-700) !important;
+    color: var(--white);
+    border: 2px solid var(--border-color) !important;
+    box-shadow: var(--shadow-lg) !important;
+    border-radius: 10px;
+    padding: 8px 14px;
 }
 
-/* Move button when clicked */
+#menuToggle:hover {
+    background-color: var(--green-500) !important;
+}
+
 .menuToggle-move {
-    transform: translateX(-360px); /* Adjust the distance as needed */
+    transform: translateX(-360px);
     padding: 10px 20px;
-    background-color: #4e5153;
-    color: white;
+    background-color: var(--green-700);
+    color: var(--white);
     transition: transform 0.3s ease-in-out;
 }
 
-ul{
-    font-size: 1.8em;
+/* ── PROFILE IMAGE ──────────────────────────────────────────── */
+.profile-img {
     position: relative;
-    top: 18vh;
-    padding-left: 0;
-    padding-top: 10px;
+    z-index: var(--z-base);
+    border: 4px solid var(--green-400);
+    background-color: transparent;
+    width: 180px;
+    height: 180px;
+    left: -57px;
+    top: 55px;
+    object-fit: cover;
+    pointer-events: none;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px var(--green-600);
 }
 
-
-/* for topNav */
-
+/* ── TOP NAVBAR ─────────────────────────────────────────────── */
 #topNavbar {
     position: absolute;
     left: 270px;
@@ -207,378 +303,264 @@ ul{
     height: 100px;
     width: 1500px;
     margin-left: 100px;
-    transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
-    border: 2px solid black !important;
-    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3) !important;
+    transition: transform 0.3s ease-in-out, width 0.3s ease-in-out, background 0.3s ease-in-out;
+    border: 2px solid var(--border-color) !important;
+    box-shadow: var(--shadow-lg) !important;
+    background: #1a7a52!important;
+    border-radius: 0 0 14px 14px;
+    z-index: var(--z-topnav);
 }
 
 #topNavbar.navtopbar-move {
-    transform: translateX(10px); 
-    width: 1855px; /*calc(100% - 110px)*/ 
-    /* max-width: 100%;  */
-}
-#topNavbar > div > div > div > div:nth-child(1) > button {
-    width: 60px; /* Adjust the size */
-    height: 60px;
-    border-radius: 50%; /* Makes it a circle */
-    background: white !important; /* Remove solid background */
-    border: none !important;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
-    position: relative;
-    left: 1335px;
-    top: -10px; /*1335px orig*/
-    overflow: hidden; /* Prevents overflow */
-    font-size: 0;
-    gap: 10px;
-
-}
-
-/* Add an image inside the button */
-#topNavbar > div > div > div > div:nth-child(1) > button::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-image: url('/images/user.png'); /* Corrected */
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover; /* Ensures the image covers the button */
-    border-radius: 50%; /* Keeps it circular */
-}
-
-/* Optional: Add a hover effect */
-#topNavbar > div > div > div > div:nth-child(1) > button:hover {
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* Move button when sidebar is toggled */
-#topNavbar.navtopbar-move > div > div > div > div:nth-child(1) > button {
-    transform: translateX(120px); /* Reduce movement */
-    max-width: 60px;  /* Ensure it doesn't stretch */
+    transform: translateX(10px);
+    width: 1855px;
 }
 
 #topNavbar button {
     position: relative;
     right: 0;
     left: 1300px;
-    min-width: 50px; /* Keep its size consistent */
+    min-width: 50px;
     overflow: visible;
     align-items: center;
     padding: 10px;
-    border: 2px solid black !important;
-    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3) !important;
+    border: 2px solid var(--border-color) !important;
+    box-shadow: var(--shadow-md) !important;
+    background: var(--green-500) !important;
+    color: var(--white);
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    transition: background 0.2s ease, transform 0.15s ease;
 }
 
-#topNavbar > div > div > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.ltr\:origin-top-right.rtl\:origin-top-left.end-0 > div{
-    width: 200px;
-    background-color: gray !important;
-    border-radius: 10px;
+#topNavbar button:hover {
+    background: var(--green-600) !important;
+    transform: translateY(-2px);
 }
-#topNavbar > div > div > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.ltr\:origin-top-right.rtl\:origin-top-left.end-0{
+
+#topNavbar > div > div > div > div:nth-child(1) > button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--white) !important;
+    border: 3px solid var(--green-400) !important;
+    box-shadow: var(--shadow-sm) !important;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    left: 1335px;
+    top: -10px;
+    overflow: hidden;
+    font-size: 0;
+}
+
+#topNavbar > div > div > div > div:nth-child(1) > button::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/user.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+}
+
+#topNavbar > div > div > div > div:nth-child(1) > button:hover {
+    box-shadow: 0 0 0 4px var(--green-400);
+}
+
+#topNavbar.navtopbar-move > div > div > div > div:nth-child(1) > button {
+    transform: translateX(120px);
+    max-width: 60px;
+}
+
+#topNavbar > div > div > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.ltr\:origin-top-right.rtl\:origin-top-left.end-0 > div {
+    width: 200px;
+    background-color: #E2EFD3 !important;
+    border-radius: 10px;
+    color: #1a3528;
+}
+
+#topNavbar > div > div > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.ltr\:origin-top-right.rtl\:origin-top-left.end-0 {
     width: 200px;
     position: absolute;
     top: 100px;
     border-radius: 10px;
 }
-/* 
-[data-theme="dark"] #topNavbar{
-      box-shadow: 15px 15px 0px 0px rgba(54, 11, 11, 1) !important;
 
-} */
+/* ── SWITCH / NOTIF BUTTONS ─────────────────────────────────── */
+#switchBtn,
+#notifBtn {
+    background: var(--green-600) !important;
+    border-radius: 10px;
+    color: var(--white);
+    padding: 5px 10px;
+    transition: background 0.3s ease-in-out;
+    position: relative;
+    top: 10px;
+    border: 2px solid var(--border-color) !important;
+    box-shadow: var(--shadow-sm) !important;
+    font-family: var(--font-body);
+    font-weight: 600;
+}
 
-/* DASHBOARD CARDS/DASHBOARD */
+#switchBtn:hover,
+#notifBtn:hover {
+    background: var(--green-500) !important;
+}
 
-#dashCards{
+/* ── SELECT ALL ─────────────────────────────────────────────── */
+#selectAll {
+    background-color: var(--green-600);
+    color: var(--white);
+    padding: 7px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: var(--font-display);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.3s ease-in-out, transform 0.1s ease-in-out;
+    position: relative;
+    top: -70px;
+    left: 200px;
+    border: 2px solid var(--border-color) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+#selectAll:hover {
+    background-color: var(--green-500);
+    transform: scale(1.05);
+}
+
+#selectAll i {
+    font-size: 18px;
+}
+
+/* ── DASHBOARD CARDS SECTION ────────────────────────────────── */
+#dashCards {
     position: relative;
     top: 15vh;
     width: 1500px;
     left: 185px;
     transition: transform 0.3s ease-in-out;
     padding: 20px;
-
 }
 
 #dashCards.dashCards-move {
-    transform: translateX(-185px); /* Adjust based on sidebar width */
+    transform: translateX(-185px);
 }
 
-#dashCards h2{
+#dashCards h2 {
     font-size: 3em;
     padding-bottom: 10px;
+    color: var(--white);
+    font-family: var(--font-display);
 }
 
 .dashboard-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
-    gap: 30px; /* Space between cards */
-    justify-content: center; /* Center the grid */
-    width: 100%; /* Ensure it doesn't overflow */
-    max-width: 100%; /*1200px;*/
-    margin: 0 auto; /* Center the whole section */
-    padding: 10px; /* Add some spacing */
-    overflow: hidden; /* Prevents unwanted scrolling */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+    overflow: hidden;
     justify-items: end;
 }
-/* Make sure the sidebar overlays content instead of pushing it */
-#sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 85vw; /* cover most of the screen on mobile */
-    height: 100vh;
-    transform: translateX(-100%); /* hidden by default */
-    transition: transform 0.3s ease-in-out;
-    z-index: 9999;
-}
 
-#sidebar.open {
-    transform: translateX(0); /* slide in when active */
-}
-/* Sidebar default styles */
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 250px;  /* default for desktop */
-    z-index: 1102;
-    transition: transform 0.3s ease;
-}
-
-/* When sidebar is open — show it (adjust as needed for your logic) */
-.sidebar-open .sidebar {
-    transform: translateX(0);
-}
-
-/* Responsive: for mobile, make sidebar 85% wide */
-@media (max-width: 768px) {
-
-    .sidebar {
-        width: 85vw;  /* Sidebar covers 85% of the screen */
-    }
-
-    /* Make sure your content is pushed or hidden when sidebar is open */
-    .sidebar-open .main-content {
-        /* If you want the content pushed */
-        transform: translateX(85vw);
-        transition: transform 0.3s ease;
-    }
-
-    /* Optional: prevent background scrolling when sidebar is open */
-    body.sidebar-open {
-        overflow: hidden;
-    }
-}
-
-
-/* When sidebar is closed, make it full width */
-.sidebar-closed .dashboard-cards {
-    width: 100%;
-}
-
-.dashboard-cards h3{
-    font-size: 1.5em;
-}
-/* root for dashboard */
-:root {
-    --card-bg-light: rgba(51, 51, 51, 0.692);
-    --card-bg-dark: rgba(56, 56, 56, 0.473);
-    --border-light: rgba(5, 1, 1, 0.3);
-    --border-dark: rgba(255, 255, 255, 0.1);
-    --text-light: rgb(255, 255, 255);
-    --text-dark: white;
-}
-
-/* Default (Light Mode) */
+/* ── CARDS ──────────────────────────────────────────────────── */
 .card {
-    background: var(--card-bg-light);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: #1a7a52 !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     padding: 95px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 14px;
+    border: 2px solid var(--border-color) !important;
+    box-shadow: var(--shadow-lg) !important;
     text-align: center;
-    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
-    border: 1px solid var(--border-light);
-    color: var(--text-light);
+    transition: transform 0.25s ease-in-out, background 0.3s ease-in-out, box-shadow 0.2s ease;
+    color: #ffffff;
     font-size: 1.5em;
-    border: 2px solid black !important;
-    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3) !important;
+    font-family: var(--font-body);
+    border-left: 5px solid var(--green-500) !important;
+    position: relative;
+    z-index: var(--z-card);
 }
 
 .card:hover {
-    /* transform: scale(1.05); */
-    background: rgba(56, 56, 56, 0.673);
-    color: var(--text-light);
+    background: #edf5e3 !important;
+    transform: translateY(-4px) translateX(-2px);
+    box-shadow: 12px 12px 0px 0px rgba(10, 26, 20, 0.3) !important;
+    border-left: 5px solid var(--green-400) !important;
+    color: #0a1a14;
 }
 
-@media (max-width: 1024px) {
-    #dashCards {
-        width: 90%;
-        left: 0;
-        top: 10vh;
-        margin: auto;
-    }
-
-    .dashboard-cards {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns */
-        column-gap: 50px;
-    }
-
-    .card {
-        padding: 60px;
-        font-size: 1.3em;
-    }
-
-    #dashCards h2 {
-        font-size: 2.5em;
-    }
-}
-
-/* 📱 Mobile (1 Column) */
-@media (max-width: 768px) {
-    #dashCards {
-        width: 95%;
-        top: 5vh;
-        padding: 10px;
-        text-align: center;
-    }
-
-    .dashboard-cards {
-        grid-template-columns: 1fr; /* 1 column for mobile */
-        row-gap: 15px;
-        column-gap: 0;
-    }
-
-    .card {
-        padding: 40px;
-        font-size: 1.2em;
-    }
-
-    #dashCards h2 {
-        font-size: 2em;
-    }
-}
-
-/* 📱 Small Phones */
-@media (max-width: 480px) {
-    #dashCards {
-        width: 100%;
-        padding: 5px;
-    }
-
-    .card {
-        padding: 30px;
-        font-size: 1em;
-    }
-
-    #dashCards h2 {
-        font-size: 1.8em;
-    }
-}
-
-/* Alert Card */
+/* ── ALERT CARD ─────────────────────────────────────────────── */
 .alert-card {
-    background: var(--card-bg-light);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: #1a7a52 !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 14px;
+    border: 2px solid var(--border-color) !important;
+    box-shadow: var(--shadow-lg) !important;
+    border-top: 4px solid var(--green-400) !important;
     text-align: center;
     grid-column: span 3;
-    border: 1px solid var(--border-light);
-    color: var(--text-light);
+    color: #ffffff;
     font-size: 1.3em;
-    border: 2px solid black !important;
-    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3) !important;
-    
-    /* 👇 Default Collapsed State */
+    font-family: var(--font-body);
     max-height: 110px;
     overflow: hidden;
-    transition: all 0.3s ease-in-out;
     overflow-y: scroll;
-
+    transition: all 0.3s ease-in-out;
     position: relative;
     top: 25px;
+    z-index: var(--z-card);
 }
 
 .alert-card:hover {
-    max-height: 320px; /* Enough space to expand */
-    padding: 20px; /* Optional smooth padding change */
+    max-height: 320px;
+    padding: 20px;
 }
 
-/* Width of the scrollbar */
-::-webkit-scrollbar {
-    width: 8px; /* Change to desired width */
-}
-
-/* Track (background of the scrollbar) */
-::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1); /* Light transparent track */
-    border-radius: 10px;
-}
-
-/* Scrollbar handle (draggable part) */
-::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.4); /* Semi-transparent white */
-    border-radius: 10px; /* Rounded edges */
-}
-
-/* Hover effect on the handle */
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.6);
-}
-
-
-/* Dark Mode Overrides */
-[data-theme="dark"] .card,
-[data-theme="dark"] .alert-card {
-    background: var(--card-bg-dark);
-    border: 1px solid var(--border-dark);
-    color: var(--text-dark);
-}
-
-[data-theme="dark"] .card:hover {
-    background: rgba(56, 56, 56, 0.673);
-}
-
-
-
-/* MONITORING SECTION */
-
-#monitoring-section{
+/* ── MONITORING SECTION ─────────────────────────────────────── */
+#monitoring-section {
     position: relative;
     top: 15vh;
     width: 1500px;
     left: 185px;
-    transition: transform 0.3s ease-in-out;    
+    transition: transform 0.3s ease-in-out;
 }
 
 #monitoring-section.monitoring-move {
-    transform: translateX(-185px); /* Adjust based on sidebar width */
+    transform: translateX(-185px);
 }
 
-#monitoring-section h2{
+#monitoring-section h2 {
     font-size: 3em;
+    color: var(--white);
+    font-family: var(--font-display);
 }
 
 .monitoring-container {
     max-width: 90%;
     margin: auto;
     padding: 20px;
-    /* background-color: gray; */
 }
-
 
 .pc-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Creates responsive columns */
-    gap: 60px; /* var(--dynamic-gap, 120px); */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 60px;
     justify-content: center;
     padding: 10px;
     transition: gap 0.3s ease-in-out;
@@ -587,206 +569,103 @@ ul{
     max-height: 680px;
     position: relative;
     top: -18px;
-
-    /* overflow-x: hidden; */
+    /* Extra bottom padding so pc-controls don't clip */
+    padding-bottom: 80px;
 }
 
-#pcTitle{
+#control-section .pc-grid {
+    position: relative;
+    top: -46px;
+}
+
+#pcTitle {
     font-size: 2em;
-}
-/* root for monitor and control */
-:root {
-    /* Light Mode Variables For Pc-item */
-    --glass-bg-light: rgba(51, 51, 51, 0.692);
-    --glass-border-light: rgba(255, 255, 255, 0.3);
-    --glass-text-light: black;
-    --glass-hover-light: rgba(122, 122, 122, 0.863);
-
-    /* Dark Mode Variables for PC item */
-    --glass-bg-dark: rgba(56, 56, 56, 0.473);
-    --glass-border-dark: rgba(255, 255, 255, 0.1);
-    --glass-text-dark: white;
-    --glass-hover-dark: rgba(122, 122, 122, 0.863);
+    font-family: var(--font-display);
 }
 
-/* When Dark Mode is Activated */
-[data-theme="dark"] {
-    --glass-bg-light: var(--glass-bg-dark); 
-    --glass-border-light: var(--glass-border-dark);
-    --glass-text-light: var(--glass-text-dark);
-    --glass-hover-light: var(--glass-hover-dark);
-}
-
+/* ── PC ITEMS ───────────────────────────────────────────────── */
 .pc-item {
     position: relative;
-    background: var(--glass-bg-light); /* Uses theme-based variable */
+    background: #E2EFD3 !important;
     padding: 15px;
-    border-radius: 10px;
+    border-radius: 14px;
     text-align: center;
     justify-items: center;
-    transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out, transform 0.25s ease-in-out, box-shadow 0.2s ease;
     cursor: pointer;
-    
-    backdrop-filter: blur(15px); /* Glassmorphism blur */
-    -webkit-backdrop-filter: blur(15px); /* Safari support */
-    border: 1px solid var(--glass-border-light); /* Subtle border */
-    color: var(--glass-text-light);
-
+    border: 2px solid var(--border-color) !important;
+    box-shadow: var(--shadow-lg) !important;
+    color: #1a3528;
     height: fit-content;
-    width: 220px; /*orginally fit-content*/
+    width: 220px;
     justify-self: anchor-center;
-
-    border: 2px solid black !important;
-    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3) !important;
+    border-top: 3px solid var(--green-500) !important;
+    /* Give bottom space for the controls strip */
+    margin-bottom: 70px;
+    z-index: var(--z-card);
 }
 
 .pc-item:hover {
-    background: var(--glass-hover-light); /* Slight transparency increase */
-    transform: scale(1.03); /* Slight zoom on hover */
+    background: #edf5e3 !important;
+    transform: scale(1.04) translateY(-3px);
+    border-top: 3px solid var(--green-400) !important;
 }
 
 .pc-item img {
     width: 100%;
     max-width: 130px;
     margin-bottom: 10px;
-    filter: invert(100%);
+    filter: invert(35%) sepia(80%) saturate(500%) hue-rotate(110deg) brightness(90%);
 }
 
 .pc-info {
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
-    color: white !important;
-}
-:root {
-
-    /* 🆕 Namespaced Glass Variables (Specific to .pc-controls) */
-    --pc-controls-bg-light: rgba(255, 255, 255, 0.15);
-    --pc-controls-border-light: rgba(255, 255, 255, 0.3);
-    --pc-controls-shadow-light: rgba(0, 0, 0, 0.08);
-
-    --pc-controls-bg-dark: rgba(0, 0, 0, 0.25);
-    --pc-controls-border-dark: rgba(255, 255, 255, 0.15);
-    --pc-controls-shadow-dark: rgba(0, 0, 0, 0.2);
+    color: #1a3528 !important;
+    font-family: var(--font-body);
+    font-weight: 500;
 }
 
-[data-theme="light"] {
-    /* Keep existing global styles */
-    
-    /* 🆕 Apply namespaced styles for .pc-controls */
-    --pc-controls-bg: var(--pc-controls-bg-light);
-    --pc-controls-border: var(--pc-controls-border-light);
-    --pc-controls-shadow: var(--pc-controls-shadow-light);
-}
-
-[data-theme="dark"] {
-    /* Keep existing global styles */
-    
-    /* 🆕 Apply namespaced styles for .pc-controls */
-    --pc-controls-bg: var(--pc-controls-bg-dark);
-    --pc-controls-border: var(--pc-controls-border-dark);
-    --pc-controls-shadow: var(--pc-controls-shadow-dark);
-}
-
+/* ── PC CONTROLS ────────────────────────────────────────────── */
 .pc-controls {
     position: absolute;
-    bottom: -60px;
+    bottom: -52px;
     left: 50%;
     transform: translateX(-50%);
-    margin-bottom:5px ;
-    
-    background: var(--pc-controls-bg);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    
+    background: #E2EFD3;
     padding: 5px 10px;
     border-radius: 10px;
-    border: 2px solid black !important;
-    box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.3) !important;
-    
+    border: 2px solid var(--border-color) !important;
+    box-shadow: var(--shadow-sm) !important;
     visibility: visible !important;
     opacity: 1 !important;
     pointer-events: all !important;
-    
-    z-index: 9999 !important;
+    /* Controls sit above cards but BELOW modals */
+    z-index: var(--z-controls);
     gap: 3px;
-    transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-
-    /* width: 120px; */
+    transition: background 0.3s ease-in-out;
+    white-space: nowrap;
 }
-
-.bg-blue-600{
-    background-color: gray !important;
-    position: absolute;
-    top: -106px;
-    left: 242px;
-    height: 37px;
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-    border: 2px solid black !important;
-    box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.3) !important;
-}
-
-.upload-button{
-    position: absolute;
-}
-
-#multiLockTimer{
-    background-color: gray !important;
-    position: absolute;
-    top: -106px;
-    left: 288px;
-    height: 37px;
-    padding-left: 9px !important;
-    padding-right: 9px !important;
-    border: 2px solid black !important;
-    box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.3) !important;
-}
-
 
 .pc-controls i {
     margin: 5px;
     cursor: pointer;
     font-size: 16px;
+    color: var(--green-700);
     transition: color 0.3s ease-in-out;
 }
 
-.pc-controls button{
-    color: black;
-}
-
-.dark .pc-controls button{
-    color: white !important;
-}
-
-.dark h2{
-    color: white !important;
-}
-
-
-/* Add smooth transition */
-/* :root {
-    --button-bg-light: transparent; 
-    --button-text-light: rgb(0, 0, 0);
-    --button-bg-dark: rgba(51, 51, 51, 0.692);
-    --button-text-dark: white;
-} */
-
-/* Default Light Mode */
-.pc-controls button {
-    background-color: var(--button-bg-light); 
-    /* color: var(--button-text-light); */
-    border: none !important;  
-    transition: all 0.3s ease-in-out;
-}
-
-/* Dark Mode - Fix Background & Text */
-/* [data-theme="dark"] .pc-controls button {
-    background-color: var(--button-bg-dark) !important;
-} */
-
 .pc-controls i:hover {
-    color: #007bff;
+    color: var(--green-500);
+}
+
+.pc-controls button {
+    background-color: transparent;
+    border: none !important;
+    color: #1a3528;
+    transition: all 0.3s ease-in-out;
+    font-family: var(--font-body);
 }
 
 .pc-item.active .pc-controls {
@@ -794,65 +673,109 @@ ul{
     justify-content: center;
 }
 
+/* ── BLUE / UPLOAD BUTTONS ──────────────────────────────────── */
+.bg-blue-600 {
+    background-color: var(--green-600) !important;
+    position: absolute;
+    top: -106px;
+    left: 242px;
+    height: 37px;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    border: 2px solid var(--border-color) !important;
+    box-shadow: var(--shadow-sm) !important;
+    border-radius: 8px;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
 
-/* Modal */
+.bg-blue-600:hover {
+    background-color: var(--green-500) !important;
+}
+
+#multiLockTimer {
+    background-color: var(--green-600) !important;
+    position: absolute;
+    top: -106px;
+    left: 288px;
+    height: 37px;
+    padding-left: 9px !important;
+    padding-right: 9px !important;
+    border: 2px solid var(--border-color) !important;
+    box-shadow: var(--shadow-sm) !important;
+    border-radius: 8px;
+    color: var(--white);
+    transition: background 0.2s ease;
+}
+
+#multiLockTimer:hover {
+    background-color: var(--green-500) !important;
+}
+
+/* ── MODAL OVERLAY ──────────────────────────────────────────── */
+/* 
+ * FIX: All modals use a high, consistent z-index stack.
+ * The backdrop sits at --z-modal-bg, the content at --z-modal.
+ * This ensures modals always render above pc-controls (--z-controls: 20).
+ */
 .modal {
-    opacity: 0; /* Start hidden */
-    visibility: hidden; /* Hide from interactions */
+    opacity: 0;
+    visibility: hidden;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(10, 26, 20, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     display: flex;
     justify-content: center;
     align-items: center;
-    align-content: center;
-    z-index: 999999;
+    z-index: var(--z-modal-bg);
     transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
 }
 
-/* When modal is active */
 .modal.show {
     opacity: 1;
     visibility: visible;
 }
 
-
-/* MODAL ITO NG MONITORING */
 .modal-content {
-    background: white;
+    background: #E2EFD3 !important;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 14px;
+    border: 2px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
     text-align: center;
     width: 95%;
-    height: 97%;
+    height: 98%;
     position: relative;
-    transform: translateY(-20px); /* Start slightly above */
+    /* z-index: var(--z-modal); */
+    transform: translateY(-20px);
     transition: transform 0.4s ease-in-out;
+    color: #1a3528;
     justify-self: center;
+    top: 10px;
 }
 
-/* Move content to its final position */
 .modal.show .modal-content {
     transform: translateY(0);
 }
 
-
-.modal-backdrop {
-    z-index: 99998 !important; /* Keep backdrop behind modal */
-}
+/* .modal-backdrop {
+    z-index: 99998 !important;
+} */
 
 .modal-dialog {
     position: fixed !important;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 100000 !important; /* Make sure it's above all elements */
+    z-index: 100000 !important;
 }
-
-/* MODAL ITO NG MONITORING */
 
 .close-btn {
     position: absolute;
@@ -860,9 +783,15 @@ ul{
     right: 15px;
     font-size: 20px;
     cursor: pointer;
+    color: #1a3528;
+    transition: color 0.2s ease;
+    /* z-index: var(--z-modal-top); */
 }
 
-/* Enlarged PC Image */
+.close-btn:hover {
+    color: var(--green-500);
+}
+
 .modal-img {
     width: 100%;
     max-height: 700px;
@@ -874,23 +803,46 @@ ul{
     margin-top: -15px;
     padding: 10px;
     border-radius: 10px;
-    background-color: #007bff;
+    background-color: var(--green-600);
     width: fit-content;
     align-self: flex-end;
-    color: white;
-    /* cursor: pointer; */
+    color: var(--white);
+    border: 2px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: 600;
+    transition: background 0.2s ease;
 }
 
-.modal-options i{
+.modal-options i {
     font-size: 24px;
 }
 
-.modal-options:hover{
-    background-color: #0056b3;
-
+.modal-options:hover {
+    background-color: var(--green-700);
 }
 
-/* Chat Box */
+/* ── ADVANCED OPTIONS MODAL ─────────────────────────────────── */
+#advOptionsModal {
+    z-index: var(--z-modal-top) !important;
+}
+
+#advOptionsModal .modal-content {
+    position: relative;
+    z-index: var(--z-modal-top) !important;
+    background: #E2EFD3 !important;
+    padding: 20px;
+    border-radius: 14px;
+    text-align: center;
+    width: 900px;
+    height: 900px;
+    top: -500px;
+    left: -300px;
+    color: #1a3528;
+}
+
+/* ── CHAT ───────────────────────────────────────────────────── */
 .chat-box {
     margin-top: 10px;
     display: flex;
@@ -898,10 +850,10 @@ ul{
     align-items: center;
 }
 
-#chatToggle{
+#chatToggle {
     background: none;
     border: none;
-    color:white;
+    color: var(--white);
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
@@ -911,67 +863,71 @@ ul{
     text-align: right;
     overflow-y: auto;
     overflow-x: hidden;
-    border: 1px solid #ccc;
+    border: 1px solid var(--gray-200);
     padding: 5px;
     margin-bottom: 5px;
     display: flex;
     flex-direction: column;
 }
 
-/* Wrapper for alignment */
 .message-wrapper {
     display: flex;
     margin: 5px 0;
 }
 
-/* Left side (Sub PC) */
 .message-wrapper.subpc {
     justify-content: flex-start;
 }
 
-/* Right side (You) */
 .message-wrapper.you {
     justify-content: flex-end;
 }
 
-/* Message styling */
 .chat-message {
     overflow: hidden;
     max-width: 100%;
     padding: 10px 14px;
     border-radius: 12px;
     font-size: 14px;
-    background-color: #6aacf3;
-    color: black;
+    background-color: var(--green-100);
+    color: var(--green-900);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-family: var(--font-body);
 }
 
-/* Optional: Different color for Sub PC */
 .message-wrapper.subpc .chat-message {
-    background-color: #007bff;
-    color: white;
-    /* position: relative;
-    left: -143px; */
+    background-color: var(--green-600);
+    color: var(--white);
 }
 
-#chatModal{
-    z-index: 99999 !important;
+#chatModal {
+    z-index: var(--z-chat) !important;
     position: absolute;
 }
 
-#chatModal > div > button{
+#chatModal > div > button {
     width: 50px;
     padding: 10px;
     border-radius: 10px;
     position: relative;
     left: 210px;
     top: -39px;
+    background: var(--green-500) !important;
+    color: var(--white);
 }
 
 #chatInput {
     width: 80%;
     padding: 5px;
     border-radius: 10px;
+    border: 2px solid var(--green-400);
+    font-family: var(--font-body);
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+#chatInput:focus {
+    border-color: var(--green-500);
 }
 
 .chat-modal {
@@ -981,11 +937,16 @@ ul{
     transform: translateY(-50%);
     width: 300px;
     height: 345px;
-    background: white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    background: #E2EFD3 !important;
+    box-shadow: var(--shadow-lg);
+    border: 2px solid var(--border-color);
+    border-top: 3px solid var(--green-400);
     padding: 20px;
-    border-radius: 10px;
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    border-radius: 14px;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, background 0.3s ease-in-out;
+    font-family: var(--font-body);
+    color: #1a3528;
+    z-index: var(--z-chat);
 }
 
 .chat-modal-content {
@@ -1000,26 +961,8 @@ ul{
     margin-top: 10px;
 }
 
-
-/* Control Section */
-
-/* MODAL SIZE ITO NG CONTROL */
-#advOptionsModal .modal-content{
-    position: relative;
-    z-index: 100001 !important; /* Ensure content is always above backdrop */
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    width: 900px;
-    height: 900px;
-    position: relative;
-    top: -500px;
-    left: -300px;
-}
-
-
-#control-section{
+/* ── CONTROL SECTION ────────────────────────────────────────── */
+#control-section {
     position: relative;
     top: 15vh;
     width: 1500px;
@@ -1028,11 +971,13 @@ ul{
 }
 
 #control-section.control-move {
-    transform: translateX(-185px); /* Adjust based on sidebar width */
+    transform: translateX(-185px);
 }
 
-#control-section h2{
+#control-section h2 {
     font-size: 3em;
+    color: var(--white);
+    font-family: var(--font-display);
 }
 
 .control-container {
@@ -1041,379 +986,229 @@ ul{
     padding: 20px;
 }
 
-/* FOR LOGS SECTION */
-
-#logs-section{
+/* ── LOGS SECTION ───────────────────────────────────────────── */
+#logs-section {
     position: relative;
     top: 15vh;
     width: 1500px;
     left: 185px;
-    transition: transform 0.3s ease-in-out;    
+    transition: transform 0.3s ease-in-out;
 }
 
 #logs-section.log-move {
-    transform: translateX(-185px); /* Adjust based on sidebar width */
+    transform: translateX(-185px);
 }
+
 .logs-container {
-    color: #333;
+    color: #1a3528;
     padding: 20px;
     border-radius: 8px;
     transition: margin-left 0.3s ease-in-out;
 }
 
-.logs-container h2{
+.logs-container h2 {
     font-size: 3em;
+    font-family: var(--font-display);
+    color: var(--white);
 }
 
-.dark .logs-container {
-    /* background-color: #2d3748; */
-    color: #e2e8f0;
-}
-
-/* Search & Filter Bar */
-/* Global styles for filters */
+/* ── LOGS FILTERS ───────────────────────────────────────────── */
 .logs-filters {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-/* Input and Select Styling */
 .logs-filters input,
 .logs-filters select {
-    background: rgba(51, 51, 51, 0.7);
+    background: var(--green-800);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    border: 1px solid black;
-    color: white;
-    padding: 8px;
-    border-radius: 5px;
-    border: 2px solid black !important;
-    box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.3) !important;
+    border: 2px solid var(--border-color) !important;
+    box-shadow: var(--shadow-sm) !important;
+    color: var(--white);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    transition: border-color 0.2s ease;
 }
 
-/* Dark mode input and select */
-.dark .logs-filters input,
-.dark .logs-filters select {
-    background: rgba(56, 56, 56, 0.5);
-    border: 1px solid white;
-    color: white;
-}
-
-/* Input focus styles */
 .logs-filters input:focus,
 .logs-filters select:focus {
-    border-color: #3e4042;
     outline: none;
+    border-color: var(--green-400) !important;
 }
 
-/* Placeholder styling */
 #logSearch::placeholder {
-    color: white;
+    color: rgba(226, 239, 211, 0.7);
+    opacity: 0.8;
 }
 
-.dark #logSearch::placeholder {
-    color: white;
-}
-
-/* Filter dropdown options */
 #logFilter option {
-    color: black;
-    background-color: white;
+    color: var(--black);
+    background-color: var(--white);
 }
 
-.dark #logFilter option {
-    color: white;
-    background-color: rgba(56, 56, 56, 0.5);
-}
-
-/* Logs Table */
+/* ── LOGS TABLE ─────────────────────────────────────────────── */
 table {
     width: 100%;
     border-collapse: collapse;
     text-align: center;
     font-size: 20px;
-    border: 1px solid white !important;
+    font-family: var(--font-body);
+    border: 2px solid var(--border-color) !important;
 }
 
-.logsTable{
+.logsTable {
     max-height: 500px;
-    /* overflow-y: auto; */
 }
 
 .logs-container table {
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: 5px;
-    border: 2px solid black !important;
-    box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.3) !important;
+    border-radius: 10px;
+    border: 2px solid var(--border-color) !important;
+    box-shadow: var(--shadow-md) !important;
+    overflow: hidden;
 }
 
-/* Table header */
 th, td {
-    /* padding: 10px; */
-    border: 1px solid white !important;
+    border: 1px solid rgba(107, 144, 113, 0.4) !important;
+    padding: 10px;
 }
 
 th {
-    font-weight: bold;
-    border: 1px solid white !important;
+    font-weight: 700;
+    font-family: var(--font-display);
+    letter-spacing: 0.02em;
+    font-size: 0.85em;
+    text-transform: uppercase;
 }
 
-
-/* Dark mode table header */
 .logs-container th {
-    background: rgba(51, 51, 51, 0.7);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    background: var(--green-800);
+    color: var(--white);
 }
 
-/* Table rows */
-.logs-container tr:nth-child(even),
+.logs-container tr:nth-child(even) {
+    background: rgba(226, 239, 211, 0.85);
+    color: #1a3528;
+}
+
 .logs-container tr:nth-child(odd) {
-    background: rgba(51, 51, 51, 0.7);
-    color: white;
+    background: rgba(226, 239, 211, 0.60);
+    color: #1a3528;
 }
 
-/* Dark mode table */
-.dark .logs-container table {
-    background: rgba(56, 56, 56, 0.5);
+.logs-container tr:hover {
+    background: var(--green-50);
+    color: #1a3528;
 }
 
-/* Dark mode table header */
-.dark .logs-container th {
-    background: rgba(0, 0, 0, 0.3);
-    color: white;
-}
-
-/* Dark mode table rows */
-.dark .logs-container tr:nth-child(even),
-.dark .logs-container tr:nth-child(odd) {
-    background: rgba(56, 56, 56, 0.5);
-    color: white;
-}
-
-/* Status Colors */
+/* ── STATUS COLORS ──────────────────────────────────────────── */
 .text-green-500 {
-    color: #38a169; /* Success */
+    color: var(--green-600);
     font-weight: bold;
 }
 
 .text-red-500 {
-    color: #e53e3e; /* Failed */
+    color: #e53e3e;
     font-weight: bold;
 }
 
-/* Logs Section Adjustment When Sidebar is Open */
-.logs-move {
-    margin-left: 250px; /* Adjust based on your sidebar width */
-}
-
-
-/* below is for responsiveness */
-/* Responsive Grid for dashboard cards */
-
-
-
-
-/* wag gagalawin to baka masira design kupal */
-
-body > div > nav > div.hidden.sm\:hidden > div.pt-4.pb-1.border-t.border-gray-200.dark\:border-gray-600 > div.mt-3.space-y-1{
-    display: none;
-}
-
-body > div > nav > div.hidden.sm\:hidden > div.pt-2.pb-3.space-y-1{
-    display: none;
-}
-
-body > div > header > div{
-    display:none;
-}
-
-body > div > main > div > div > div > div{
-    display: none;
-}
-
-body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div:nth-child(1) > div.shrink-0.flex.items-center{
-    display: none;
-}
-
-body > div > nav > div.hidden.sm\:hidden > div.pt-4.pb-1.border-t.border-gray-200.dark\:border-gray-600 > div.px-4{
-    position: relative;
-    top: -10vh;
-    left: 85vw;
-    display: none;
-}
-
-body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div:nth-child(1) > div.hidden.space-x-8.sm\:-my-px.sm\:ms-10.sm\:flex > a{
-    font-size: 1.8em ;
-    height: 10px;
-}
-body > div.min-h-screen.bg-gray-100.dark\:bg-gray-900 > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div:nth-child(1) > div.hidden.space-x-8.sm\:-my-px.sm\:ms-10.sm\:flex.nav-title > a > span{
-    position: relative;
-    top: -67px;
-    left: 55px;
-    cursor: pointer;
-}
-
-/* button /w image to pare*/
-body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > div > div:nth-child(1) > button {
-    border-radius: 10px;
-    background: transparent !important;
-    border: none !important;
-    color: white; /* Ensure text is visible */
-    padding: 5px 10px; /* Add padding for better appearance */
-    transition: background 0.3s ease-in-out; /* Smooth transition */
-    position: relative;
-    width: 70px;
-    height: 70px;
-}
-
-body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > div > div:nth-child(1) > button:hover {
-    background: none!important;
-}
-
-body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.ltr\:origin-top-right.rtl\:origin-top-left.end-0 > div{
-    background-color: #8a8a8a !important;
-}
-
-/* ito yung selection pag ka open ng button sa baba ng dashboard */
-body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.ltr\:origin-top-right.rtl\:origin-top-left.end-0 > div{
-    border-radius: 10px;
-}
-
-/* button na may name */
-body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > div > div:nth-child(1){
-    position: relative;
-    left: 100px;
-    width: 100px;
-    pointer-events: none;
-    cursor: pointer;
-}
-
-body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.-me-2.flex.items-center.sm\:hidden > button{
-    display: none;
-}
-
-li::marker {
-    content: none;
-    list-style: none;
-    padding-left: 0; /* Ensure no extra spacing */
-}
-
-#navtop > div:nth-child(3) > ul > li:nth-child(2) > form > button{
-    position: relative;
-    left: 5px;
-    border: none !important;
-    box-shadow: none !important;
-}
-
-
-body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.origin-top-right.right-0 > div{    
-    background-color: gray !important;
-    border-radius: 10px !important;
-    margin-top: 126px;
-    margin-bottom: -105px;
-    position: relative;
-}
-
-body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.origin-top-right.right-0 > div >:hover{
-    border-radius: 10px !important;
-    background-color: rgb(153, 153, 153) !important;
-}
-
-#navtop {
-        /* justify-items: end; */
-        display: flex;
-        gap: 5px;
-        flex-wrap: wrap;
-        align-items: center;
-        /* padding: 10px; */
-        left: -130px;
-        position: relative;
-}
-
-body > div.min-h-screen.bg-gray-100.dark\:bg-gray-900 > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div:nth-child(1) > div.hidden.space-x-8.sm\:-my-px.sm\:ms-10.sm\:flex.nav-title > a > img{
-    width: 70px !important;
-    position: relative;
-    top: -4px;
-    left: -18px;
-}
-#navtop.navtop-move{
-    transform: translateX(350px);
-    transition: transform 0.3s ease-in-out;
-}
-
-/* topNavbar profile picture */
-#navtop > div > img{
-    display: none !important;
-}
-
-/* for scrollbar */
-::-webkit-scrollbar {
-    width: 10px; /* Width of the scrollbar */
-}
-
-::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Light grey background */
-    border-radius: 10px; /* Rounded track */
-}
-
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(120deg, #070707, #C0C0C0, #808080); /* Gold to silver gradient */
-    border-radius: 10px; /* Rounded corners for a smooth look */
-    transition: all 3s ease-in-out, transform 0.2s ease-in-out;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(120deg, #C0C0C0, #070707); /* Reverse gradient on hover */
-}
-
-/* for loading (monitor/control) */
-
-.loading-message{
-    font-size: 3em;
-}
-
-.btn-primary{
-    background-color: white !important;
-    color: black !important;
-    border: 2px solid black !important;
-    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.3) !important;
+/* ── PRIMARY BUTTON ─────────────────────────────────────────── */
+.btn-primary {
+    background-color: #E2EFD3 !important;
+    color: #1a3528 !important;
+    border: 2px solid var(--border-color) !important;
+    box-shadow: var(--shadow-lg) !important;
     width: 100px;
     font-size: 30px;
+    border-radius: 10px;
+    font-family: var(--font-display);
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--green-500) !important;
+    color: var(--white) !important;
+    transform: translateY(-2px);
+}
+
+/* ── SIDEBAR (MOBILE OVERLAY) ───────────────────────────────── */
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 85vw;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 9999;
+}
+
+#sidebar.open {
+    transform: translateX(0);
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    z-index: 1102;
+    transition: transform 0.3s ease;
+    background: #E2EFD3;
+}
+
+.sidebar-open .sidebar {
+    transform: translateX(0);
+}
+
+/* ── ADD PC MODAL ───────────────────────────────────────────── */
+#addPcModal {
+    z-index: var(--z-modal-bg) !important;
+    overflow-y: hidden;
 }
 
 #addPcModal .modal-dialog {
     display: flex;
     align-items: center;
     position: relative;
+    z-index: var(--z-modal) !important;
 }
 
-#addPcModal .modal-content{
+#addPcModal .modal-content {
     position: relative;
     top: -470px;
     left: -200px;
     height: 400px;
     min-height: 300px;
     width: 500px;
+    border-top: 4px solid var(--green-500);
+    background: #E2EFD3 !important;
+    color: #1a3528;
+    z-index: var(--z-modal) !important;
 }
 
-#addPcModal .modal-body{
+#addPcModal .modal-body {
     display: block;
 }
 
-#addPcModal .modal-footer{
+#addPcModal .modal-footer {
     justify-content: center;
 }
 
-.mb-4{
+.mb-4 {
     margin-bottom: 1.5rem !important;
     display: flex;
     justify-content: space-between;
 }
 
-/* Modal Background */
+/* ── PROCESS MODAL ──────────────────────────────────────────── */
+/*
+ * FIX: Was missing explicit z-index, causing it to render beneath
+ * .pc-controls (z-index: 9999). Now correctly layered above everything.
+ */
 #process-modal {
     position: fixed;
     top: 0;
@@ -1423,22 +1218,26 @@ body > div.min-h-screen.bg-gray-100.dark\:bg-gray-900 > nav > div.max-w-7xl.mx-a
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px); /* Adds a blur effect to the background */
-    z-index: 1000; /* Keeps it on top */
+    background: rgba(10, 26, 20, 0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: var(--z-modal-bg);
 }
 
-/* Modal Content */
 #process-modal .modal-content {
-    background: white;
+    background: #E2EFD3 !important;
     padding: 20px;
-    border-radius: 12px; /* Slightly smoother corners */
+    border-radius: 14px;
+    border-top: 4px solid var(--green-400);
     width: 80%;
-    max-width: 900px; /* Prevents it from getting too wide on large screens */
+    max-width: 900px;
     max-height: 80vh;
     overflow-y: auto;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Slightly stronger shadow */
-    animation: fadeIn 0.3s ease-in-out; /* Smooth fade-in effect */
+    box-shadow: var(--shadow-lg);
+    animation: fadeIn 0.3s ease-in-out;
+    color: #1a3528;
+    position: relative;
+    z-index: var(--z-modal);
 }
 
 #close-modal {
@@ -1450,13 +1249,16 @@ body > div.min-h-screen.bg-gray-100.dark\:bg-gray-900 > nav > div.max-w-7xl.mx-a
     align-self: end;
     position: relative;
     top: -65px;
+    color: #1a3528;
+    font-family: var(--font-body);
+    font-weight: 600;
+    z-index: var(--z-modal-top);
 }
 
 #close-modal:hover {
-    color: red; /* Highlights on hover */
+    color: var(--green-600);
 }
 
-/* Table Inside Modal */
 #process-modal table {
     width: 100%;
     border-collapse: collapse;
@@ -1465,23 +1267,28 @@ body > div.min-h-screen.bg-gray-100.dark\:bg-gray-900 > nav > div.max-w-7xl.mx-a
 
 #process-modal th, #process-modal td {
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--gray-200);
 }
 
 #process-modal th {
-    background: #f0f0f0;
+    background: #6B9071;
     text-align: left;
+    color: var(--white);
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: 0.8em;
+    letter-spacing: 0.05em;
 }
 
-/* Subtle fade-in animation */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ── PROGRESS BAR ───────────────────────────────────────────── */
 .progress-container {
     width: 150px;
-    background: #e0e0e0;
+    background: var(--green-100);
     border-radius: 8px;
     overflow: hidden;
     height: 20px;
@@ -1492,26 +1299,23 @@ body > div.min-h-screen.bg-gray-100.dark\:bg-gray-900 > nav > div.max-w-7xl.mx-a
 .progress-bar {
     height: 100%;
     width: 0%;
-    background: linear-gradient(to right, #4caf50, #8bc34a);
+    background: linear-gradient(to right, var(--green-500), var(--green-700));
     text-align: center;
-    color: white;
+    color: var(--white);
     font-weight: bold;
     line-height: 20px;
+    font-family: var(--font-body);
     transition: width 0.3s ease-in-out;
 }
 
+/* ── SYSTEM PERFORMANCE ─────────────────────────────────────── */
 #SysPerformance {
     margin-top: -30px;
     display: flex !important;
-    flex-direction: column !important; /* Align items in one row */
-    gap: 20px; /* Adds spacing between items */
+    flex-direction: column !important;
+    gap: 20px;
     text-align: center;
 }
-
-/* #SysPerformance h3{
-    position: relative;
-    left: 280px;
-} */
 
 .performance-container {
     font-size: 18px;
@@ -1519,47 +1323,244 @@ body > div.min-h-screen.bg-gray-100.dark\:bg-gray-900 > nav > div.max-w-7xl.mx-a
     display: flex;
     flex-direction: row;
     align-items: center;
-    align-content: center;
-    align-self: center;
     justify-content: center;
-    justify-items: center;
-    justify-self: center;
-    /* position: relative;
-    top: 60px;
-    left: -150px;
-    margin-bottom: 50px; */
+    font-family: var(--font-body);
 }
 
-/* Lock Timer */
-#timerLock{
+/* ── LOCK TIMER ─────────────────────────────────────────────── */
+#timerLock {
     transform: translateY(-500px);
     position: relative;
     left: -150px;
 }
 
-#timerBody{
+#timerBody {
     display: flex !important;
 }
 
-#lockTimerForm{
+#lockTimerForm {
     justify-items: center;
 }
 
-.pagination button{
-    border: 2px solid black !important;
-    box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.3) !important;
-}
-/* === Base Grid for Desktop === */
-.dashboard-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+/* ── PAGINATION ─────────────────────────────────────────────── */
+.pagination button {
+    border: 2px solid var(--border-color) !important;
+    box-shadow: var(--shadow-sm) !important;
+    background: var(--green-600);
+    color: var(--white);
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    transition: background 0.2s ease, transform 0.15s ease;
 }
 
-/* === Mobile Behavior: Sidebar, Cards, Navbar === */
+.pagination button:hover {
+    background: var(--green-500);
+    transform: translateY(-2px);
+}
+
+/* ── LOADING ────────────────────────────────────────────────── */
+.loading-message {
+    font-size: 3em;
+    font-family: var(--font-display);
+    color: var(--white);
+    letter-spacing: -0.02em;
+}
+
+/* ── UPLOAD BUTTON ──────────────────────────────────────────── */
+.upload-button {
+    position: absolute;
+}
+
+/* ── FRAMEWORK OVERRIDES ────────────────────────────────────── */
+body > div > nav > div.hidden.sm\:hidden > div.pt-4.pb-1.border-t.border-gray-200.dark\:border-gray-600 > div.mt-3.space-y-1 { display: none; }
+body > div > nav > div.hidden.sm\:hidden > div.pt-2.pb-3.space-y-1 { display: none; }
+body > div > header > div { display: none; }
+body > div > main > div > div > div > div { display: none; }
+body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div:nth-child(1) > div.shrink-0.flex.items-center { display: none; }
+body > div > nav > div.hidden.sm\:hidden > div.pt-4.pb-1.border-t.border-gray-200.dark\:border-gray-600 > div.px-4 { position: relative; top: -10vh; left: 85vw; display: none; }
+
+body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div:nth-child(1) > div.hidden.space-x-8.sm\:-my-px.sm\:ms-10.sm\:flex > a {
+    font-size: 1.8em;
+    height: 10px;
+    color: white;
+    font-family: var(--font-display);
+}
+
+body > div.min-h-screen.bg-gray-100.dark\:bg-gray-900 > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div:nth-child(1) > div.hidden.space-x-8.sm\:-my-px.sm\:ms-10.sm\:flex.nav-title > a > span {
+    position: relative;
+    top: -67px;
+    left: 48px;
+    cursor: pointer;
+}
+
+body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > div > div:nth-child(1) > button {
+    border-radius: 10px;
+    background: transparent !important;
+    border: none !important;
+    color: #1a3528;
+    padding: 5px 10px;
+    transition: background 0.3s ease-in-out;
+    position: relative;
+    width: 70px;
+    height: 70px;
+}
+
+body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > div > div:nth-child(1) > button:hover {
+    background: none !important;
+}
+
+body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.ltr\:origin-top-right.rtl\:origin-top-left.end-0 > div {
+    background-color: #E2EFD3 !important;
+    border-radius: 10px;
+    color: #1a3528;
+}
+
+body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.ltr\:origin-top-right.rtl\:origin-top-left.end-0 {
+    width: 200px;
+    position: absolute;
+    top: 100px;
+    border-radius: 10px;
+}
+
+body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > div > div:nth-child(1) {
+    position: relative;
+    left: 100px;
+    width: 100px;
+    pointer-events: none;
+    cursor: pointer;
+}
+
+body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.-me-2.flex.items-center.sm\:hidden > button {
+    display: none;
+}
+
+#navtop > div:nth-child(3) > ul > li:nth-child(2) > form > button {
+    position: relative;
+    left: 5px;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.origin-top-right.right-0 > div {
+    background-color: #E2EFD3 !important;
+    border-radius: 10px !important;
+    margin-top: 126px;
+    margin-bottom: -105px;
+    position: relative;
+    color: #1a3528;
+}
+
+body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.origin-top-right.right-0 > div >:hover {
+    border-radius: 10px !important;
+    background-color: #d4e8c0 !important;
+}
+
+#navtop {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    align-items: center;
+    left: -130px;
+    position: relative;
+}
+
+body > div.min-h-screen.bg-gray-100.dark\:bg-gray-900 > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div:nth-child(1) > div.hidden.space-x-8.sm\:-my-px.sm\:ms-10.sm\:flex.nav-title > a > img {
+    width: 70px !important;
+    position: relative;
+    top: -4px;
+    left: -25px;
+}
+
+#navtop.navtop-move {
+    transform: translateX(350px);
+    transition: transform 0.3s ease-in-out;
+}
+
+#navtop > div > img {
+    display: none !important;
+}
+
+/* ── DARK MODE OVERRIDES (PINAKA-IBABA = HIGHEST PRIORITY) ──── */
+body.dark nav,
+body.dark #topNavbar,
+body.dark .card,
+body.dark .alert-card,
+body.dark .pc-item,
+body.dark .pc-controls,
+body.dark .modal-content,
+body.dark .chat-modal,
+body.dark .sidebar,
+body.dark #addPcModal .modal-content,
+body.dark #process-modal .modal-content,
+body.dark #advOptionsModal .modal-content,
+body.dark .btn-primary {
+    background: #6B9071 !important;
+    color: #ffffff !important;
+}
+
+body.dark nav a,
+body.dark .pc-info,
+body.dark h2,
+body.dark h3,
+body.dark p,
+body.dark td,
+body.dark label,
+body.dark span {
+    color: #ffffff !important;
+}
+
+body.dark .logs-container tr:nth-child(even),
+body.dark .logs-container tr:nth-child(odd) {
+    background: rgba(107, 144, 113, 0.5) !important;
+    color: #ffffff !important;
+}
+
+body.dark .logs-container tr:hover {
+    background: rgba(42, 170, 119, 0.2) !important;
+}
+
+body.dark .close-btn,
+body.dark #close-modal,
+body.dark .pc-controls button {
+    color: #ffffff !important;
+}
+
+body.dark #topNavbar > div > div > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.ltr\:origin-top-right.rtl\:origin-top-left.end-0 > div {
+    background-color: #6B9071 !important;
+    color: #ffffff !important;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+    #dashCards {
+        width: 90%;
+        left: 0;
+        top: 10vh;
+        margin: auto;
+    }
+    .dashboard-cards {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 50px;
+    }
+    .card {
+        padding: 60px;
+        font-size: 1.3em;
+    }
+    #dashCards h2 {
+        font-size: 2.5em;
+    }
+}
+
 @media (max-width: 768px) {
+    body {
+        background-size: contain;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow: hidden;
+    }
 
-    /* Sidebar — hidden by default, overlays content */
     nav {
         width: 250px !important;
         height: 100vh !important;
@@ -1568,40 +1569,41 @@ body > div.min-h-screen.bg-gray-100.dark\:bg-gray-900 > nav > div.max-w-7xl.mx-a
         top: 0;
         left: 0;
         transition: transform 0.3s ease-in-out;
-        z-index: 1000;
-        background: rgba(0, 0, 0, 0.85);  /* Sidebar dark look */
+        z-index: var(--z-nav);
     }
 
     nav.nav-open {
         transform: translateX(0);
     }
 
-    /* Center the cards regardless of sidebar state */
-.dashboard-cards,
-.monitoring-cards,
-.controls-cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    margin: 0 auto;
-    max-width: 100%; /* prevent overflow */
-    padding: 10px;
-}
+    #dashCards {
+        width: 95%;
+        top: 5vh;
+        padding: 10px;
+        text-align: center;
+    }
 
-/* Individual card sizing for mobile */
-.dashboard-cards > *,
-.monitoring-cards > *,
-.controls-cards > * {
-    width: 90%;
-    max-width: 400px;
-    margin: 10px 0;
-}
+    .dashboard-cards,
+    .monitoring-cards,
+    .controls-cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+        margin: 0 auto;
+        max-width: 100%;
+        padding: 10px;
+        overflow-y: auto;
+        max-height: 100vh;
+    }
 
-/* Make body avoid vertical scrolling when sidebar is open */
-body.sidebar-open {
-    overflow: hidden;
-}
+    .dashboard-cards > *,
+    .monitoring-cards > *,
+    .controls-cards > * {
+        width: 90%;
+        max-width: 400px;
+        margin: 10px 0;
+    }
 
     .alert-card {
         width: 90%;
@@ -1609,54 +1611,50 @@ body.sidebar-open {
         margin: 0 auto;
     }
 
-    /* Prevent horizontal scrolling */
-    .monitoring-cards,
-    .controls-cards {
-        overflow-x: hidden;
+    .card {
+        padding: 40px;
+        font-size: 1.2em;
     }
 
-    /* Make sure the menu button is always visible */
+    #dashCards h2 {
+        font-size: 2em;
+    }
+
     .menu-toggle {
         position: fixed;
         top: 20px;
         left: 20px;
-        z-index: 1101; /* higher than sidebar */
+        z-index: 1101;
         display: block;
         cursor: pointer;
         padding: 8px 16px;
-    border-radius: 8px;
+        border-radius: 8px;
     }
 
-    /* Keep top navbar buttons always visible and above sidebar */
     .top-navbar {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 60px;
-        background: #fff; /* or your light/dark color */
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 0 20px;
         box-sizing: border-box;
-        z-index: 1100; /* same or higher than sidebar */
+        z-index: var(--z-topnav);
     }
-}
-/* Sidebar full screen on mobile */
-@media (max-width: 768px) {
+
     .sidebar {
         width: 100vw;
         height: 100vh;
-        left: -100vw; /* Hidden by default */
+        left: -100vw;
         transition: left 0.3s ease-in-out;
     }
 
     .sidebar.active {
         left: 0;
     }
-}
-@media (max-width: 768px) {
 
     .monitoring-cards,
     .controls-cards {
@@ -1676,92 +1674,70 @@ body.sidebar-open {
         max-width: 400px;
         margin-bottom: 20px;
     }
-}
 
-
-    body {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        overflow: hidden;
-    }
-
-    /* Allow the section to scroll if needed, not the page */
-    .monitoring-cards,
-    .controls-cards {
-        overflow-y: auto;
-        max-height: 100vh; 
-    }
-/* Make sidebar cover 85% of screen on small devices */
-@media (max-width: 768px) {
-    #sidebar {
-        width: 85vw;
-        left: 0;
-        transform: translateX(-100%); /* Hidden by default */
-        transition: transform 0.3s ease-in-out;
-        z-index: 9999; /* Make sure it's on top */
-        height: 100vh;
-    }
-
-    /* When sidebar is active (toggle class "open") */
-    #sidebar.open {
-        transform: translateX(0);
-    }
-
-    /* Optional: prevent body scroll when sidebar is open */
     body.sidebar-open {
         overflow: hidden;
     }
 
-    main {
-        margin-left: 0; /* remove any gap */
+    #sidebar {
+        width: 85vw;
+        left: 0;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+        z-index: 9999;
+        height: 100vh;
     }
-}
-/* Allow card section to scroll inside if necessary (but no page scroll) */
-@media (max-width: 768px) {
-    .dashboard-cards,
-    .monitoring-cards,
-    .controls-cards {
-        overflow-y: auto;
-        max-height: 100vh;
+
+    #sidebar.open {
+        transform: translateX(0);
     }
 
     main {
-        margin-left: 0 !important; /* prevent push if old margin was set for sidebar */
+        margin-left: 0;
     }
-}
 
-@media(max-width: 768px){
-    #topNavbar.navtopbar-move{
+    #topNavbar.navtopbar-move {
         transform: translateX(-160px) !important;
         height: 120px !important;
         width: 200px !important;
         top: 5px;
     }
 
-    #topNavbar.navtopbar-move{
-        transform: translateX();
+    #navtop.navtop-move {
+        transform: translateX(-1200px) !important;
     }
 
-    #navtop.navtop-move{
-        transform: translateX(-1200px) !important; 
-    }
-
-    #topNavbar button{
+    #topNavbar button {
         top: -58px !important;
     }
 
-    #notifBtn{
+    #notifBtn {
         top: 46px !important;
         left: 1340px !important;
     }
 
-    ul{
+    ul {
         left: -31px;
     }
 
-    .profile-img{
+    .profile-img {
         left: -15px;
         top: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    #dashCards {
+        width: 100%;
+        padding: 5px;
+    }
+
+    .card {
+        padding: 30px;
+        font-size: 1em;
+    }
+
+    #dashCards h2 {
+        font-size: 1.8em;
     }
 }
