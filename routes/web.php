@@ -42,6 +42,9 @@ Route::post('/set-timer', [PcController::class, 'setLockTimer']);
 Route::post('/add-pc', [PcController::class, 'store']);
 Route::get('/next-port', [PCController::class, 'getNextPort']);
 
+// Add these routes if they're missing
+Route::post('/send-request', [PCController::class, 'sendFileRequest']);
+Route::post('/receive-file', [PCController::class, 'receiveFile']);
 
 Route::get('/pc-status', function () {
     return response()->json(SubPc::all(['id', 'ip_address', 'device_status']));

@@ -13,5 +13,8 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
+        // Add your file receiving endpoint
+        '/receive-file',
+        // '/upload',
     ];
 }

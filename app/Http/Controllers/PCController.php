@@ -286,8 +286,75 @@ public function getNextPort()
 }
 
 
+public function sendFileRequest(Request $request)
+{
+    $ips = $request->input('ips', []);
+    $message = $request->input('message');
+    $mainPcIp = config('app.url');
 
+    $responses = [];
 
+    foreach ($ips as $ip) {
+        $subPc = SubPc::where('ip_address', $ip)->first();
+
+        if (!$subPc) {
+            $responses[$ip] = 'PC not found';
+            continue;
+        }
+
+        $url = "http://$ip:5000/send-file-request";
+
+        try {
+            $response = Http::post($url, [
+                'message' => $message,
+                'main_pc_ip' => $mainPcIp
+            ]);
+            $status = $response->successful() ? 'Success' : 'Failed';
+        } catch (\Exception $e) {
+            $status = 'Failed';
+        }
+
+        Log::create([
+            'pc_name' => $ip,
+            'action' => 'File Request',
+            'status' => $status,
+            'timestamp' => now(),
+        ]);
+
+        $responses[$ip] = $status;
+    }
+
+    return response()->json([
+        'message' => 'Requests sent',
+        'details' => $responses
+    ]);
+}
+
+public function receiveFile(Request $request)
+{
+    if (!$request->hasFile('file')) {
+        return response()->json(['error' => 'No file received'], 400);
+    }
+
+    $file = $request->file('file');
+    $filename = $file->getClientOriginalName();
+    $destination = 'C:\\Uploads';
+
+    if (!file_exists($destination)) {
+        mkdir($destination, 0777, true);
+    }
+
+    $file->move($destination, $filename);
+
+    Log::create([
+        'pc_name' => $request->ip(),
+        'action' => 'File Received',
+        'status' => 'Success',
+        'timestamp' => now(),
+    ]);
+
+    return response()->json(['message' => "File $filename received successfully"]);
 }
 
 
+}

@@ -94,45 +94,6 @@
         </div>
     </div>
 
-    {{-- <script>
-        function fetchAlerts() {
-            fetch('/fetch-alerts')
-                .then(response => response.json())
-                .then(alerts => {
-                    const alertList = document.getElementById("alertList");
-                    alertList.innerHTML = ''; // Clear previous alerts
-
-                    alerts.forEach(alert => {
-                        let newAlert = document.createElement("li");
-                        newAlert.textContent = `${alert.pc_name}: ${alert.message} (${alert.severity})`;
-                        alertList.prepend(newAlert);
-                    });
-                })
-                .catch(error => console.error("Error fetching alerts:", error));
-        }
-
-        setInterval(fetchAlerts, 5000); // Fetch alerts every 5 seconds
-    </script> --}}
-
-
-
-    <script>
-        function fetchDeviceCounts() {
-            fetch('/pcs/device-counts')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('connectedDevices').innerText = data.connected_devices;
-                    document.getElementById('onlineDevices').innerText = data.online_devices;
-                    document.getElementById('totalDevices').innerText = data.total_devices;
-                })
-                .catch(error => console.error('Error fetching device counts:', error));
-        }
-
-        fetchDeviceCounts(); // Load counts on page load
-        setInterval(fetchDeviceCounts, 5000); // Refresh every 5 seconds
-    </script>
-
-
     <!-- Monitoring Section -->
     <div class="monitoring-container max-w-7xl mx-auto sm:px-6 lg:px-8 mt-10" id="monitoring-section">
         <div class="flex justify-between items-center mb-4">
@@ -158,32 +119,6 @@
             @endforeach
         </div>
     </div>
-
-    <script>
-        function updateDeviceStatuses() {
-            // Step 1: Ping devices and update DB
-            fetch('/pcs/update-status')
-                .then(() => {
-                    // Step 2: Fetch updated statuses
-                    return fetch('/pcs/get-status');
-                })
-                .then(res => res.json())
-                .then(data => {
-                    data.forEach(device => {
-                        const statusElement = document.querySelector(`.pc-status[data-ip="${device.ip_address}"]`);
-                        if (statusElement) {
-                            statusElement.textContent = `Status: ${device.device_status}`;
-                        }
-                    });
-                })
-                .catch(err => {
-                    console.error('Status update failed:', err);
-                });
-        }
-
-        // Run every 5 seconds
-        setInterval(updateDeviceStatuses, 10000);
-    </script>
 
     <!-- Modal for Adding PC -->
     <div class="modal fade" id="addPcModal" tabindex="-1" aria-labelledby="addPcModalLabel" aria-hidden="true">
@@ -246,6 +181,11 @@
     <button id="multiLockTimer" title="Set Timer for Selected" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded">
     <i class="fas fa-clock"></i>
 </button>
+ <button id="multiFileRequest" title="Multi File Request" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+        <i class="fas fa-file-arrow-down"></i>
+    </button>
+
+
 
 </div>
 
@@ -274,6 +214,13 @@
                             class="fa-solid fa-lock"></i></button>
                     <button class="lock-timer-btn" data-ip="{{ $subPc->ip_address }}" title="Start Timer">
                          <i class="fas fa-clock"></i>
+                    </button>
+                    <button 
+                        class="send-request"
+                        title="File Request"
+                        data-ip="{{ $subPc->ip_address }}"
+                        data-name="{{ $subPc->pc_name }}">  
+                        <i class="fas fa-file-arrow-down"></i>
                     </button>
 
                     <form action="{{ url('/upload') }}" method="POST" enctype="multipart/form-data"
@@ -342,245 +289,39 @@
     </div>
 </div>
 
+<!-- Send Request Modal -->
+<div class="modal fade" id="requestModal" tabindex="-1" aria-labelledby="requestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg rounded-3">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="requestModalLabel">Send Request</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-sm text-muted mb-2">
+                    PC: <span id="modalPcName" class="fw-semibold"></span>
+                </p>
+
+                <div class="mb-3">
+                    <label for="requestMessage" class="form-label">Message</label>
+                    <textarea 
+                        id="requestMessage" 
+                        class="form-control"
+                        rows="4"
+                        placeholder="Type your message here..."></textarea>
+                </div>
+
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="sendRequestBtn" class="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <meta name="csrf-token" content="{{ csrf_token() }}">
-{{-- lock timer individual + select all --}}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const lockTimerForm = document.getElementById('lockTimerForm');
-        const modal = new bootstrap.Modal(document.getElementById('lockTimerModal'));
-        const modalPcIp = document.getElementById('lockTimerPcIp');
-        const hoursInput = document.getElementById('lockTimerHours');
-        const minutesInput = document.getElementById('lockTimerMinutes');
-        const secondsInput = document.getElementById('lockTimerSeconds');
-
-        const timers = {}; // Store countdown intervals per IP
-
-function startCountdown(ip, duration) {
-    const displayId = `countdown-${ip.replace(/\./g, '-')}`;
-    const display = document.getElementById(displayId);
-    if (!display) return;
-
-    if (timers[ip]) clearInterval(timers[ip]); // Clear existing timer if any
-
-    let remaining = duration;
-
-    function updateDisplay() {
-    const h = String(Math.floor(remaining / 3600)).padStart(2, '0');
-    const m = String(Math.floor((remaining % 3600) / 60)).padStart(2, '0');
-    const s = String(remaining % 60).padStart(2, '0');
-    display.textContent = `${h}:${m}:${s}`;
-
-    if (--remaining < 0) {
-        clearInterval(timers[ip]);
-        display.textContent = "Locked";
-
-        // Set a timeout to remove "Locked" text after 5 seconds
-        setTimeout(() => {
-            display.textContent = "";
-        }, 5000); // 5000ms = 5 seconds
-    }
-}
-
-
-    updateDisplay(); // First display immediately
-    timers[ip] = setInterval(updateDisplay, 1000);
-}
-
-        document.querySelectorAll('.lock-timer-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                const ip = button.getAttribute('data-ip');
-                modalPcIp.value = ip;
-
-                hoursInput.value = '';
-                minutesInput.value = '';
-                secondsInput.value = '';
-
-                modal.show();
-            });
-        });
-
-        let multiMode = false;
-let selectedIps = [];
-
-document.getElementById('multiLockTimer').addEventListener('click', () => {
-    selectedIps = Array.from(document.querySelectorAll('.pc-checkbox:checked'))
-        .map(checkbox => checkbox.dataset.ip);
-
-    if (selectedIps.length === 0) {
-        Swal.fire('No PCs Selected', 'Please select at least one PC.', 'info');
-        return;
-    }
-
-    multiMode = true;
-    modalPcIp.value = selectedIps[0]; // Just for form validation
-    hoursInput.value = '';
-    minutesInput.value = '';
-    secondsInput.value = '';
-    modal.show();
-});
-
-
-        lockTimerForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const ip = modalPcIp.value;
-            const targetIps = multiMode ? selectedIps : [ip];
-            const hours = parseInt(hoursInput.value) || 0;
-            const minutes = parseInt(minutesInput.value) || 0;
-            const seconds = parseInt(secondsInput.value) || 0;
-
-            if (hours < 0 || minutes < 0 || seconds < 0) {
-                Swal.fire('Invalid Time', 'Time values cannot be negative.', 'warning');
-                return;
-            }
-
-            if (minutes > 59 || seconds > 59) {
-                Swal.fire('Invalid Time', 'Minutes and seconds must be less than 60.', 'warning');
-                return;
-            }
-
-            const totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
-
-            if (totalSeconds <= 0) {
-                Swal.fire('Invalid Timer', 'Please set a time greater than zero.', 'warning');
-                return;
-            }
-
-            const submitBtn = lockTimerForm.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Setting...';
-            submitBtn.disabled = true;
-
-
-            console.log('Sending timer set request with:', {
-                ip: ip,
-                hours: hours,
-                minutes: minutes,
-                seconds: seconds,
-                action: 'set_timer'
-            });
-
-            Promise.all(targetIps.map(ipAddr => {
-    return fetch(`http://${ipAddr}:5000/set-timer`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            ip: ipAddr,
-            hours,
-            minutes,
-            seconds,
-            action: 'lock'
-        })
-    });
-}))
-
-           .then(async responses => {
-                await Promise.all(responses.map(async (res, i) => {
-                let responseJson;
-                try {
-                    const text = await res.text();
-                    responseJson = text ? JSON.parse(text) : {};
-                } catch (e) {
-                    responseJson = {};
-                }
-
-                const ipAddr = targetIps[i]; // ✅ Corrected
-                if (!res.ok) {
-                    throw new Error(responseJson.message || `Failed to set timer for ${ipAddr}`);
-                }
-
-                // ✅ Start countdown after success
-                startCountdown(ipAddr, totalSeconds);
-            }));
-
-    modal.hide();
-    Swal.fire({
-        title: 'Timer Set!',
-        text: 'The lock timer has been started for all selected PCs.',
-        icon: 'success',
-        timer: 2000,
-        showConfirmButton: false
-    });
-})
-
-            .catch(err => {
-                console.error('Error:', err);
-                Swal.fire('Error', err.message || 'Something went wrong while setting the timer.', 'error');
-            })
-            .finally(() => {
-                submitBtn.innerHTML = originalBtnText;
-                submitBtn.disabled = false;
-                multiMode = false;
-                selectedIps = [];
-            });
-        });
-    });
-</script>
-
-
-    
-<!-- Move script outside the loop -->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".file-upload-form").forEach(form => {
-            const fileInput = form.querySelector("input[type='file']");
-            const progressContainer = form.querySelector(".progress-container");
-            const progressBar = form.querySelector(".progress-bar");
-            const pcControls = form.closest(".pc-controls");
-            const buttons = pcControls.querySelectorAll("button, input[type='file']");
-
-            fileInput.addEventListener("change", function () {
-                const file = fileInput.files[0];
-                if (!file) return;
-
-                const formData = new FormData(form);
-                const xhr = new XMLHttpRequest();
-
-                xhr.open("POST", "{{ url('/upload') }}", true);
-                xhr.setRequestHeader("X-CSRF-TOKEN", "{{ csrf_token() }}");
-
-                // Hide buttons completely to prevent flickering
-                buttons.forEach(btn => btn.style.display = "none");
-
-                // Show progress bar
-                progressContainer.style.display = "block";
-
-                xhr.upload.onprogress = function (event) {
-                    if (event.lengthComputable) {
-                        let percent = (event.loaded / event.total) * 100;
-                        progressBar.style.width = percent + "%";
-                        progressBar.textContent = Math.round(percent) + "%";
-                    }
-                };
-
-                xhr.onload = function () {
-                    if (xhr.status === 200) {
-                        progressBar.style.width = "100%";
-                        progressBar.textContent = "Upload Complete!";
-                        setTimeout(() => {
-                            progressContainer.style.display = "none";
-                            progressBar.style.width = "0%";
-                            buttons.forEach(btn => btn.style.display = "inline-block");
-                            fileInput.style.display = "none";
-                        }, 2000);
-                    } else {
-                        progressBar.style.width = "0%";
-                        progressBar.textContent = "Upload Failed!";
-                        setTimeout(() => {
-                            progressContainer.style.display = "none";
-                            buttons.forEach(btn => btn.style.display = "inline-block");
-                            fileInput.style.display = "none";
-                        }, 2000);
-                    }
-                };
-
-                xhr.send(formData);
-            });
-        });
-    });
-</script>
 
     <!-- Process Modal -->
     <div id="process-modal" style="display: none;"
@@ -593,225 +334,6 @@ document.getElementById('multiLockTimer').addEventListener('click', () => {
             </div>
         </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            let modal = document.getElementById('process-modal');
-            let modalContent = document.getElementById('process-modal-content');
-            let closeModalBtn = document.getElementById('close-modal');
-
-            document.querySelectorAll('.view-processes').forEach(button => {
-                button.addEventListener('click', function () {
-                    let ip = this.dataset.ip;
-                    modal.style.display = "flex";
-                    modalContent.innerHTML = "<p class='text-center'>Connecting...</p>";
-
-                    // Connect to Socket.IO server
-                    let socket = io(`http://${ip}:5000`, {
-                        transports: ["websocket", "polling"]
-                    });
-
-                    socket.on('update_processes', function (data) {
-                        if (data.processes.length > 0) {
-                            // Sort processes by CPU usage (highest to lowest)
-                            data.processes.sort((a, b) => b.cpu - a.cpu);
-
-                            modalContent.innerHTML = `
-           <div class="p-4 bg-gray-100 rounded-lg shadow-md mb-4" id="SysPerformance">
-            <div class="h3-container"><h3 class="text-lg font-bold mb-2">System Performance</h3></div>
-            <div class="performance-container">
-                    <p><strong>CPU Usage:</strong> <span class="${data.cpu_usage > 70 ? 'text-red-600' : 'text-green-600'}">${data.cpu_usage}%</span></p>
-                    <p><strong>Memory Usage:</strong> <span class="${data.memory_usage > 80 ? 'text-red-600' : 'text-blue-600'}">${data.memory_usage}%</span></p>
-                    <p><strong>Network Usage:</strong> ${data.network_usage}</p>
-                </div>
-            </div>
-            <table class="w-full text-sm border-collapse">
-                <thead class="sticky top-0 bg-gray-300">
-                    <tr>
-                        <th class="border p-2 text-left">Process Name</th>
-                        <th class="border p-2 text-left">PID</th>
-                        <th class="border p-2 text-left">CPU (%)</th>
-                        <th class="border p-2 text-left">Memory (MB)</th>
-                        <th class="border p-2 text-left">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    ${data.processes.map(proc => `
-                        <tr class="hover:bg-gray-100">
-                            <td class="border p-2">${proc.name}</td>
-                            <td class="border p-2">${proc.pid}</td>
-                            <td class="border p-2 font-bold ${proc.cpu > 50 ? 'text-red-600' : 'text-green-600'}">${proc.cpu}%</td>
-                            <td class="border p-2 ${proc.memory > 500 ? 'text-red-600' : 'text-blue-600'}">${proc.memory}MB</td>
-                            <td class="border p-2">
-                                <button class="bg-red-500 text-black px-3 py-1 rounded hover:bg-red-700 end-task" 
-                                    data-ip="${ip}" data-pid="${proc.pid}">
-                                    End Task
-                                </button>
-                            </td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>
-        `;
-
-                            // Add event listeners to End Task buttons
-                            document.querySelectorAll('.end-task').forEach(btn => {
-                                btn.addEventListener('click', function () {
-                                    let pid = this.dataset.pid;
-                                    let ip = this.dataset.ip;
-                                    endTask(ip, pid);
-                                });
-                            });
-
-                        } else {
-                            modalContent.innerHTML = "<p class='text-center'><strong>No active processes found</strong></p>";
-                        }
-                    });
-
-                    // Handle errors
-                    socket.on("connect_error", () => {
-                        modalContent.innerHTML = "<p class='text-center text-red-500'><strong>Failed to connect</strong></p>";
-                    });
-                });
-            });
-
-            // Function to send a kill request
-            function endTask(ip, pid) {
-                if (confirm(`Are you sure you want to end process ${pid}?`)) {
-                    fetch(`http://${ip}:5000/kill-process`, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            pid: pid
-                        })
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            alert(data.message || data.error);
-                        })
-                        .catch(error => {
-                            console.error("Error:", error);
-                            alert("Failed to terminate process.");
-                        });
-                }
-            }
-
-            // Close the modal
-            closeModalBtn.addEventListener('click', function () {
-                modal.style.display = "none";
-            });
-
-            // Close when clicking outside the modal
-            modal.addEventListener('click', function (event) {
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                }
-            });
-        });
-    </script>
-
-
-
-    <script>
-          function sendPcAction(ip, action) {
-        fetch('/pcs/control', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({ ip, action })
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(`${ip} - ${data.message}`);
-            alert(`${ip} - ${data.message}`);
-        })
-        .catch(error => console.error('Error:', error));
-    }
-
-    // Attach click event to shutdown, restart, and lock buttons
-document.querySelectorAll('.shutdown, .restart, .lock').forEach(button => {
-    button.addEventListener('click', function () {
-        const action = this.classList.contains('shutdown') ? 'shutdown' :
-                       this.classList.contains('restart') ? 'restart' : 'lock';
-
-        // 🔥 Re-query selected checkboxes inside the handler!
-        const selectedCheckboxes = document.querySelectorAll('.pc-checkbox:checked');
-
-        if (selectedCheckboxes.length > 0) {
-            selectedCheckboxes.forEach(cb => {
-                const ip = cb.dataset.ip;
-                sendPcAction(ip, action);
-            });
-        } else {
-            const ip = this.dataset.ip;
-            sendPcAction(ip, action);
-        }
-    });
-});
-
-
-        document.querySelectorAll('.view-processes').forEach(button => {
-            button.addEventListener('click', function () {
-                let ip = this.dataset.ip;
-                let processListDiv = document.getElementById('process-list-' + ip);
-                processListDiv.style.display = 'block';
-
-                fetch('/pcs/processes', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        ip
-                    })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.processes) {
-                            processListDiv.innerHTML = '<ul>' + data.processes.map(proc => `<li>${proc}</li>`).join('') + '</ul>';
-                        } else {
-                            processListDiv.innerHTML = '<p>No processes found.</p>';
-                        }
-                    })
-                    .catch(error => {
-                        processListDiv.innerHTML = '<p>Error fetching processes.</p>';
-                        console.error('Error:', error);
-                    });
-            });
-        });
-    </script>
-
-    
-    <script>
-        document.querySelectorAll('.show-processes').forEach(button => {
-            button.addEventListener('click', function () {
-                let ip = this.dataset.ip; // Get Sub-PC IP
-                let processListDiv = document.getElementById('process-list-' + ip);
-
-                fetch(`http://${ip}:5000/get-processes`) // Flask API on Sub-PC
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.length > 0) {
-                            processListDiv.innerHTML = "<strong>Running Processes:</strong><br>" +
-                                data.map(proc => `PID: ${proc.pid}, Name: ${proc.name}, CPU: ${proc.cpu}%, Memory: ${proc.memory}MB`).join('<br>');
-                            processListDiv.style.display = 'block';
-                        } else {
-                            processListDiv.innerHTML = "<strong>No active processes found</strong>";
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        processListDiv.innerHTML = "<strong>Failed to fetch processes</strong>";
-                    });
-            });
-        });
-    </script>
 
     </div>
 
@@ -885,60 +407,7 @@ document.querySelectorAll('.shutdown, .restart, .lock').forEach(button => {
         </div>
     </div>
 
-    <!-- JavaScript to Ensure Descending Order -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let table = document.getElementById("logsTable");
-            let rows = Array.from(table.getElementsByTagName("tr"));
-
-            // Skip the first row if it contains the "No logs found" message
-            if (rows.length > 1) {
-                rows.sort((a, b) => {
-                    let dateA = new Date(a.cells[0].textContent);
-                    let dateB = new Date(b.cells[0].textContent);
-                    return dateB - dateA; // Sort descending
-                });
-
-                // Append sorted rows back to the table
-                rows.forEach(row => table.appendChild(row));
-            }
-        });
-    </script>
-
-
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const connectedDevicesEl = document.getElementById("connectedDevices");
-            const onlineDevicesEl = document.getElementById("onlineDevices");
-            const totalDevicesEl = document.getElementById("totalDevices");
-            const notifList = document.getElementById("notifList");
-            const notifBadge = document.getElementById("notifBadge");
-
-            let notifications = [];
-            let previousStatus = {};
-
-            function fetchDeviceStats() {
-                fetch("http://127.0.0.1:8000/api/device-stats")
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        document.getElementById("connectedDevices").textContent = data.connected;
-                        document.getElementById("onlineDevices").textContent = data.online;
-                        document.getElementById("totalDevices").textContent = data.total;
-                    })
-                    .catch(error => {
-                        console.error("Error fetching device stats:", error);
-                        document.getElementById("connectedDevices").textContent = "Failed to Load";
-                        document.getElementById("onlineDevices").textContent = "Failed to Load";
-                        document.getElementById("totalDevices").textContent = "Failed to Load";
-                    });
-            });
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
     <script src="{{ asset('js/dashboard.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

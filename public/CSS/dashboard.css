@@ -1,9 +1,42 @@
+#requestModal > div{
+    top: 0px;
+}
+
+#requestModal > div > div > div.modal-body{
+    display: block;
+}
+
+#multiFileRequest{
+    left: 336px;
+}
+
+#lockTimerModal{
+    overflow-y: hidden !important;
+}
+
 #process-modal > div > h2 {
     color: black;
 }
 
 #logs-section > div.bg-transparent.dark\:bg-gray-800.sm\:rounded-lg.pt-6.pb-6 > div {
     border: none !important;
+}
+
+#chatModal > div > h2{
+    color: black !important;
+}
+
+#navtop > div:nth-child(3) > ul > li:nth-child(1) > a {
+    font-size: 18px;
+    position: relative;
+    left: -15px;
+    border: none !important;
+    box-shadow: none !important;
+    color: #1c1c1c !important;
+}
+#navtop > div:nth-child(3) > ul > li:nth-child(1) > a:hover {
+    transform: none !important;
+    background-color: transparent !important;
 }
 
 svg {
@@ -328,7 +361,7 @@ li::marker {
     box-shadow: var(--shadow-md) !important;
     background: var(--green-500) !important;
     color: var(--white);
-    border-radius: 10px;
+    /* border-radius: 10px; */
     font-family: var(--font-body);
     font-weight: 600;
     transition: background 0.2s ease, transform 0.15s ease;
@@ -581,6 +614,7 @@ li::marker {
 #pcTitle {
     font-size: 2em;
     font-family: var(--font-display);
+    color: black;
 }
 
 /* ── PC ITEMS ───────────────────────────────────────────────── */
@@ -1437,9 +1471,11 @@ body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.-me-
 
 #navtop > div:nth-child(3) > ul > li:nth-child(2) > form > button {
     position: relative;
-    left: 5px;
+    left: 0px;
     border: none !important;
     box-shadow: none !important;
+    color: var(--gray-700) !important;
+    background: white !important
 }
 
 body > div > nav > div.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8 > div > div.hidden.sm\:flex.sm\:items-center.sm\:ms-6 > div > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.origin-top-right.right-0 > div {
